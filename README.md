@@ -53,7 +53,6 @@ mano e adegua il guadagno.
 Non servono chiavi, account o servizi esterni.
 
 ```bash
-cd airscroll
 ./gradlew :app:assembleRelease
 # APK in app/build/outputs/apk/release/
 ```
@@ -79,8 +78,8 @@ export AIRSCROLL_KEY_PASSWORD=...
 
 ### Senza installare niente
 
-Il workflow `.github/workflows/airscroll.yml` compila l'APK a ogni push e lo
-allega come artifact della run. Da GitHub: **Actions → AirScroll Android → l'ultima
+Il workflow `.github/workflows/android.yml` compila l'APK a ogni push e lo
+allega come artifact della run. Da GitHub: **Actions → Android → l'ultima
 run → Artifacts → `airscroll-release-apk`**.
 
 ### Installare
@@ -103,7 +102,6 @@ Modulare per davvero: il motore non sa quali app esistono, e i moduli app non
 sanno come funziona il motore.
 
 ```
-airscroll/
 ├── app/                    UI Compose, servizi Android, cablaggio dei moduli
 ├── core/
 │   ├── common/             modelli, filtro One Euro, bus in-process
