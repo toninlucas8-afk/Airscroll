@@ -7,11 +7,18 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.border
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -25,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -46,6 +54,8 @@ import kotlin.math.roundToInt
 fun SettingsScreen(
     viewModel: MainViewModel,
     onBack: () -> Unit,
+    onOpenPractice: () -> Unit,
+    onOpenSetup: () -> Unit,
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     var newPackage by remember { mutableStateOf("") }
@@ -69,17 +79,14 @@ fun SettingsScreen(
                 text = stringResource(R.string.settings_distance),
                 style = MaterialTheme.typography.bodyLarge,
             )
-            ChoiceChips(
-                options = DistanceProfile.entries.toList(),
-                selected = settings.distanceProfile,
-                label = { profile -> stringResource(distanceLabel(profile)) },
-                onSelect = viewModel::setDistanceProfile,
-            )
-            Text(
-                text = stringResource(R.string.settings_distance_hint),
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-            )
+            DistanceProfile.entries.forEach { profile ->
+                DistanceOption(
+                    title = stringResource(distanceLabel(profile)),
+                    body = stringResource(distanceDescription(profile)),
+                    selected = settings.distanceProfile == profile,
+                    onSelect = { viewModel.setDistanceProfile(profile) },
+                )
+            }
 
             LabeledSlider(
                 title = stringResource(R.string.settings_sensitivity),
@@ -101,6 +108,12 @@ fun SettingsScreen(
                 value = settings.neutralZoneScale,
                 range = 0.5f..3.0f,
                 onValueChange = viewModel::setNeutralZoneScale,
+            )
+            SwitchRow(
+                title = stringResource(R.string.kitchen_mode_title),
+                subtitle = stringResource(R.string.kitchen_mode_body),
+                checked = settings.kitchenMode,
+                onCheckedChange = viewModel::setKitchenMode,
             )
             SwitchRow(
                 title = stringResource(R.string.settings_invert),
@@ -258,9 +271,71 @@ fun SettingsScreen(
             }
         }
 
+        SectionCard(title = stringResource(R.string.settings_guide)) {
+            OutlinedButton(onClick = onOpenPractice, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.action_open_practice))
+            }
+            OutlinedButton(onClick = onOpenSetup, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.action_replay_setup))
+            }
+        }
+
         TextButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }
         Spacer(Modifier.height(24.dp))
     }
+}
+
+/** Riga selezionabile con la distanza fisica scritta per esteso. */
+@Composable
+private fun DistanceOption(
+    title: String,
+    body: String,
+    selected: Boolean,
+    onSelect: () -> Unit,
+) {
+    val border = if (selected) {
+        MaterialTheme.colorScheme.primary
+    } else {
+        MaterialTheme.colorScheme.outline
+    }
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(14.dp))
+            .border(1.dp, border, RoundedCornerShape(14.dp))
+            .selectable(selected = selected, onClick = onSelect)
+            .padding(14.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+            )
+            Text(
+                text = body,
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+        if (selected) {
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(20.dp),
+            )
+        }
+    }
+}
+
+@androidx.annotation.StringRes
+private fun distanceDescription(profile: DistanceProfile): Int = when (profile) {
+    DistanceProfile.NEAR -> R.string.distance_near_body
+    DistanceProfile.MEDIUM -> R.string.distance_medium_body
+    DistanceProfile.FAR -> R.string.distance_far_body
+    DistanceProfile.AUTO -> R.string.distance_auto_body
 }
 
 @androidx.annotation.StringRes

@@ -18,7 +18,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.airscroll.app.ui.calibration.CalibrationScreen
 import dev.airscroll.app.ui.home.HomeScreen
-import dev.airscroll.app.ui.onboarding.OnboardingScreen
+import dev.airscroll.app.ui.onboarding.GuidedSetupScreen
+import dev.airscroll.app.ui.practice.PracticeScreen
 import dev.airscroll.app.ui.settings.SettingsScreen
 
 object Routes {
@@ -26,6 +27,7 @@ object Routes {
     const val HOME = "home"
     const val CALIBRATION = "calibration"
     const val SETTINGS = "settings"
+    const val PRACTICE = "practice"
 }
 
 @Composable
@@ -53,11 +55,13 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
     ) {
         NavHost(navController = navController, startDestination = startDestination) {
             composable(Routes.ONBOARDING) {
-                OnboardingScreen(
+                GuidedSetupScreen(
                     viewModel = viewModel,
+                    onOpenCalibration = { navController.navigate(Routes.CALIBRATION) },
+                    onOpenPractice = { navController.navigate(Routes.PRACTICE) },
                     onFinished = {
                         viewModel.completeOnboarding()
-                        navController.navigate(Routes.CALIBRATION) {
+                        navController.navigate(Routes.HOME) {
                             popUpTo(Routes.ONBOARDING) { inclusive = true }
                         }
                     },
@@ -68,6 +72,8 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
                     viewModel = viewModel,
                     onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                     onOpenCalibration = { navController.navigate(Routes.CALIBRATION) },
+                    onOpenPractice = { navController.navigate(Routes.PRACTICE) },
+                    onOpenSetup = { navController.navigate(Routes.ONBOARDING) },
                 )
             }
             composable(Routes.CALIBRATION) {
@@ -81,7 +87,15 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
                 )
             }
             composable(Routes.SETTINGS) {
-                SettingsScreen(viewModel = viewModel, onBack = { navController.popBackStack() })
+                SettingsScreen(
+                    viewModel = viewModel,
+                    onBack = { navController.popBackStack() },
+                    onOpenPractice = { navController.navigate(Routes.PRACTICE) },
+                    onOpenSetup = { navController.navigate(Routes.ONBOARDING) },
+                )
+            }
+            composable(Routes.PRACTICE) {
+                PracticeScreen(onBack = { navController.popBackStack() })
             }
         }
     }

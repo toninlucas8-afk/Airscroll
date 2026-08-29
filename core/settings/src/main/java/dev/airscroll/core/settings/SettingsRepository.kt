@@ -59,6 +59,8 @@ class SettingsRepository(context: Context) {
 
     suspend fun setInvertScroll(value: Boolean) = edit { it[Keys.INVERT_SCROLL] = value }
 
+    suspend fun setKitchenMode(value: Boolean) = edit { it[Keys.KITCHEN_MODE] = value }
+
     suspend fun setHorizontalAction(action: HorizontalAction) =
         edit { it[Keys.HORIZONTAL_ACTION] = action.name }
 
@@ -122,6 +124,7 @@ class SettingsRepository(context: Context) {
             maxScrollSpeedPxPerSec = this[Keys.MAX_SCROLL_SPEED] ?: defaults.maxScrollSpeedPxPerSec,
             neutralZoneScale = this[Keys.NEUTRAL_ZONE_SCALE] ?: defaults.neutralZoneScale,
             invertScroll = this[Keys.INVERT_SCROLL] ?: defaults.invertScroll,
+            kitchenMode = this[Keys.KITCHEN_MODE] ?: defaults.kitchenMode,
             horizontalAction = enumOrDefault(this[Keys.HORIZONTAL_ACTION], defaults.horizontalAction),
             maxVolumeStepsPerSec = this[Keys.MAX_VOLUME_STEPS] ?: defaults.maxVolumeStepsPerSec,
             indicatorEnabled = this[Keys.INDICATOR_ENABLED] ?: defaults.indicatorEnabled,
@@ -155,6 +158,7 @@ class SettingsRepository(context: Context) {
         val MAX_SCROLL_SPEED = floatPreferencesKey("max_scroll_speed")
         val NEUTRAL_ZONE_SCALE = floatPreferencesKey("neutral_zone_scale")
         val INVERT_SCROLL = booleanPreferencesKey("invert_scroll")
+        val KITCHEN_MODE = booleanPreferencesKey("kitchen_mode")
         val HORIZONTAL_ACTION = stringPreferencesKey("horizontal_action")
         val MAX_VOLUME_STEPS = floatPreferencesKey("max_volume_steps")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")

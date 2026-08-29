@@ -34,6 +34,7 @@ import dev.airscroll.core.common.runtime.AirScrollBus
 import dev.airscroll.core.gesture.GestureEngine
 import dev.airscroll.core.overlay.StatusOverlayController
 import dev.airscroll.core.settings.AirScrollSettings
+import dev.airscroll.core.settings.effective
 import dev.airscroll.core.vision.MediaPipeHandTracker
 import dev.airscroll.core.vision.VisionConfig
 import kotlinx.coroutines.Dispatchers
@@ -128,7 +129,9 @@ class VisionForegroundService : LifecycleService() {
                     restartTracker(updated)
                 }
 
-                engine.updateSettings(updated)
+                // `.effective` applica i preset (per esempio Modalita' Cucina)
+                // senza toccare i valori scelti a mano dall'utente.
+                engine.updateSettings(updated.effective)
                 if (previous.disabledProfileIds != updated.disabledProfileIds ||
                     previous.customPackages != updated.customPackages
                 ) {

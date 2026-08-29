@@ -37,19 +37,13 @@
     <string name="permission_camera">Camera</string>
     <string name="permission_camera_why">Reads your hand. Images never leave the device and are never stored.</string>
     <string name="permission_camera_grant">Allow camera</string>
-    <string name="permission_camera_ok">Camera allowed</string>
     <string name="permission_accessibility">Accessibility service</string>
     <string name="permission_accessibility_why">The only way an app can scroll another app. AirScroll does not read screen content.</string>
     <string name="permission_accessibility_grant">Enable the service</string>
-    <string name="permission_accessibility_ok">Service enabled</string>
     <string name="permission_overlay">Draw over other apps</string>
     <string name="permission_overlay_why">Draws the small status dot: red off, amber waiting, green active.</string>
-    <string name="permission_overlay_grant">Allow the indicator</string>
-    <string name="permission_overlay_ok">Indicator allowed</string>
     <string name="permission_notifications">Notifications</string>
     <string name="permission_notifications_why">Android requires a visible notification while the camera can be used in the background.</string>
-    <string name="permission_notifications_grant">Allow notifications</string>
-    <string name="permission_notifications_ok">Notifications allowed</string>
     <string name="permission_battery">Unrestricted battery</string>
     <string name="permission_battery_why">Without this, some phones kill the service after a few minutes in the background.</string>
     <string name="status_granted">Granted</string>
@@ -70,9 +64,6 @@
     <string name="onboarding_privacy_camera_off">The camera stays closed unless a supported app is in the foreground.</string>
     <string name="onboarding_privacy_no_content">The accessibility service does not read the content of your screen, only which app is open.</string>
 
-    <string name="onboarding_permissions_title">Permissions</string>
-    <string name="onboarding_permissions_body">Four permissions, each with one job.</string>
-    <string name="onboarding_permissions_note">You can grant them later, but the engine will not start until camera and accessibility are on.</string>
 
     <!-- Calibration -->
     <string name="calibration_title">Calibration</string>
@@ -99,7 +90,6 @@
     <string name="settings_title">Settings</string>
     <string name="settings_movement">Movement</string>
     <string name="settings_distance">Distance profile</string>
-    <string name="settings_distance_hint">Automatic adapts to how big your hand looks, so the same movement scrolls the same amount whether you are close or far.</string>
     <string name="settings_sensitivity">Sensitivity</string>
     <string name="settings_max_speed">Maximum scroll speed</string>
     <string name="settings_neutral_zone">Neutral zone</string>
@@ -186,4 +176,68 @@
     <string name="restricted_step_2">Tap the three dots in the top right corner.</string>
     <string name="restricted_step_3">Tap \"Allow restricted settings\", then come back here.</string>
     <string name="restricted_play_protect">Play Protect may also call AirScroll harmful. It flags any sideloaded app that asks for the camera together with the accessibility service — the combination stalkerware uses. AirScroll has no internet permission at all and the code is public, so you can check for yourself. Choose \"Install anyway\" to continue.</string>
+
+    <!-- Guided setup -->
+    <string name="setup_progress">Step %1$d of %2$d</string>
+    <string name="setup_finish">Done</string>
+    <string name="setup_camera_title">The camera</string>
+    <string name="setup_camera_body">It is what sees your hand. The images stay inside this app for the time of one frame: nothing is saved, nothing is sent.</string>
+    <string name="setup_camera_done">Camera allowed.</string>
+    <string name="setup_accessibility_title">The accessibility service</string>
+    <string name="setup_accessibility_body">It is the only way an app can scroll inside another app. AirScroll asks for the smallest version of it: it can send gestures, it cannot read your screen.</string>
+    <string name="setup_accessibility_done">Service turned on.</string>
+    <string name="setup_extras_title">Three details that make it work well</string>
+    <string name="setup_extras_body">None of them is mandatory, but without them something will feel broken.</string>
+    <string name="setup_calibration_title">Calibration</string>
+    <string name="setup_calibration_headline">Fifteen seconds, four movements</string>
+    <string name="setup_calibration_body">Instead of asking you to guess numbers, AirScroll measures your real hand: how far you hold it, how much it shakes, how wide your comfortable movement is.</string>
+    <string name="setup_practice_title">Try it now</string>
+    <string name="setup_practice_headline">The gesture gym</string>
+    <string name="setup_practice_body">Fake content that really scrolls with your hand, right inside the app. No accessibility service needed, so you can check that the gestures work before anything else.</string>
+
+    <!-- Practice -->
+    <string name="practice_title">Gesture gym</string>
+    <string name="practice_card_title">Practice</string>
+    <string name="practice_card_headline">Try the gestures without leaving the app</string>
+    <string name="practice_card_body">Same engine as the real thing, on fake content. The best place to tune sensitivity and dead zone.</string>
+    <string name="action_open_practice">Open the gym</string>
+    <string name="practice_state_idle">Camera off</string>
+    <string name="practice_state_waiting">Waiting for a thumbs up</string>
+    <string name="practice_state_active">Your hand is in control</string>
+    <string name="practice_rearm">Look for my hand again</string>
+    <string name="practice_tuning_hint">Move these while you scroll: the effect is immediate, and what you set here is what the real thing will do.</string>
+    <string name="practice_article_title">How the invisible finger works</string>
+    <string name="practice_p1">Scroll your hand up and down. The text follows you, exactly as if a finger were resting on the screen and dragging it.</string>
+    <string name="practice_p2">There are no jumps and no commands. What the camera sees is a position, and that position becomes a speed: the further your hand goes from the resting point, the faster the page moves.</string>
+    <string name="practice_p3">Around the resting point there is a dead zone, shaped on the tremor measured during calibration. Inside it nothing happens, which is why holding still keeps the page still.</string>
+    <string name="practice_p4">Only one axis moves at a time. Once the vertical takes over, sideways drift is ignored until you come back to the middle — otherwise scrolling would keep changing the volume by accident.</string>
+    <string name="practice_p5">If your hand slowly drifts while you read, the resting point drifts with it. It is a small thing that avoids the most annoying failure: a page that scrolls on its own because your arm got tired.</string>
+    <string name="practice_p6">Close your fist for about two seconds to stop. Out there, in a real app, leaving the app stops it too, and the camera closes with it.</string>
+    <string name="practice_gallery_title">And here is something to scroll past</string>
+
+    <!-- Detected gesture -->
+    <string name="signal_none">No gesture</string>
+    <string name="signal_thumb_up">Thumbs up</string>
+    <string name="signal_thumb_down">Thumbs down</string>
+    <string name="signal_fist">Closed fist</string>
+    <string name="signal_open_palm">Open palm</string>
+    <string name="signal_victory">Victory</string>
+    <string name="signal_pointing">Pointing up</string>
+    <string name="signal_love">I love you</string>
+
+    <!-- Kitchen mode and legend -->
+    <string name="kitchen_mode_title">Kitchen mode</string>
+    <string name="kitchen_mode_body">Busy hands? Wider dead zone and calmer scrolling, for recipes.</string>
+    <string name="home_legend_title">How to read the dot</string>
+    <string name="legend_red">Red · camera closed, nothing running</string>
+    <string name="legend_yellow">Yellow · waiting for a thumbs up</string>
+    <string name="legend_green">Green · scrolling, following your hand</string>
+    <string name="action_replay_setup">Run the guided setup again</string>
+    <string name="settings_guide">Guide</string>
+
+    <!-- Distance profiles -->
+    <string name="distance_near_body">Hand at 20-30 cm. Wide movements, gentler response.</string>
+    <string name="distance_medium_body">Hand at 40-60 cm. The balanced choice.</string>
+    <string name="distance_far_body">Hand beyond 70 cm. Small movements, stronger response.</string>
+    <string name="distance_auto_body">Follows the hand size seen by the camera, using your calibration.</string>
 </resources>

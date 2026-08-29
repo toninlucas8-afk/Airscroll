@@ -29,6 +29,9 @@ import androidx.compose.material.icons.filled.Layers
 import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.PanTool
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.School
+import androidx.compose.material.icons.filled.SportsMartialArts
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Tune
@@ -72,6 +75,8 @@ fun HomeScreen(
     viewModel: MainViewModel,
     onOpenSettings: () -> Unit,
     onOpenCalibration: () -> Unit,
+    onOpenPractice: () -> Unit,
+    onOpenSetup: () -> Unit,
 ) {
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -111,6 +116,51 @@ fun HomeScreen(
             error = status.lastError,
             onToggle = viewModel::setServiceEnabled,
         )
+
+        SectionCard(title = stringResource(R.string.practice_card_title)) {
+            IconRow(
+                icon = Icons.Filled.SportsMartialArts,
+                title = stringResource(R.string.practice_card_headline),
+                body = stringResource(R.string.practice_card_body),
+            )
+            Button(
+                onClick = onOpenPractice,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
+            ) {
+                Text(stringResource(R.string.action_open_practice))
+            }
+        }
+
+        SectionCard {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(38.dp)
+                        .background(
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            RoundedCornerShape(12.dp),
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Restaurant,
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                }
+                Spacer(Modifier.width(14.dp))
+                Box(Modifier.weight(1f)) {
+                    SwitchRow(
+                        title = stringResource(R.string.kitchen_mode_title),
+                        subtitle = stringResource(R.string.kitchen_mode_body),
+                        checked = settings.kitchenMode,
+                        onCheckedChange = viewModel::setKitchenMode,
+                    )
+                }
+            }
+        }
 
         // Da Android 13 i permessi "sensibili" delle app installate a mano sono
         // bloccati finche' non si sbloccano esplicitamente. E' la causa numero
@@ -161,12 +211,28 @@ fun HomeScreen(
             }
         }
 
+        SectionCard(title = stringResource(R.string.home_legend_title)) {
+            LegendRow(EngineState.IDLE, stringResource(R.string.legend_red))
+            LegendRow(EngineState.WAITING, stringResource(R.string.legend_yellow))
+            LegendRow(EngineState.ACTIVE, stringResource(R.string.legend_green))
+        }
+
         SectionCard(title = stringResource(R.string.home_gestures_title)) {
             IconRow(Icons.Filled.ThumbUp, stringResource(R.string.gesture_thumb_up_title), stringResource(R.string.gesture_thumb_up))
             IconRow(Icons.Filled.UnfoldMore, stringResource(R.string.gesture_move_title), stringResource(R.string.gesture_move))
             IconRow(Icons.Filled.VolumeUp, stringResource(R.string.gesture_sides_title), stringResource(R.string.gesture_sides))
             IconRow(Icons.Filled.PanTool, stringResource(R.string.gesture_fist_title), stringResource(R.string.gesture_fist))
             IconRow(Icons.Filled.Logout, stringResource(R.string.gesture_leave_title), stringResource(R.string.gesture_leave))
+        }
+
+        OutlinedButton(
+            onClick = onOpenSetup,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+        ) {
+            Icon(Icons.Filled.School, contentDescription = null, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(10.dp))
+            Text(stringResource(R.string.action_replay_setup))
         }
 
         OutlinedButton(
@@ -454,6 +520,19 @@ private fun NumberedStep(number: Int, text: String) {
             text = text,
             style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurface,
+        )
+    }
+}
+
+@Composable
+private fun LegendRow(state: EngineState, text: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        StatusDot(state = state, size = 12.dp)
+        Spacer(Modifier.width(14.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
     }
 }

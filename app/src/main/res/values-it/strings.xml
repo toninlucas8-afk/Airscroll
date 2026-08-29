@@ -32,19 +32,13 @@
     <string name="permission_camera">Fotocamera</string>
     <string name="permission_camera_why">Serve a vedere la mano. Le immagini non escono dal dispositivo e non vengono salvate.</string>
     <string name="permission_camera_grant">Consenti la fotocamera</string>
-    <string name="permission_camera_ok">Fotocamera consentita</string>
     <string name="permission_accessibility">Servizio di accessibilità</string>
     <string name="permission_accessibility_why">È l\'unico modo che ha un\'app di scorrere dentro un\'altra app. AirScroll non legge i contenuti dello schermo.</string>
     <string name="permission_accessibility_grant">Attiva il servizio</string>
-    <string name="permission_accessibility_ok">Servizio attivo</string>
     <string name="permission_overlay">Mostra sopra le altre app</string>
     <string name="permission_overlay_why">Serve a disegnare il pallino di stato: rosso spento, giallo in attesa, verde attivo.</string>
-    <string name="permission_overlay_grant">Consenti l\'indicatore</string>
-    <string name="permission_overlay_ok">Indicatore consentito</string>
     <string name="permission_notifications">Notifiche</string>
     <string name="permission_notifications_why">Android impone una notifica visibile finché la fotocamera può essere usata in background.</string>
-    <string name="permission_notifications_grant">Consenti le notifiche</string>
-    <string name="permission_notifications_ok">Notifiche consentite</string>
     <string name="permission_battery">Batteria senza restrizioni</string>
     <string name="permission_battery_why">Senza questo, alcuni telefoni chiudono il servizio dopo pochi minuti in background.</string>
     <string name="status_granted">Concesso</string>
@@ -64,9 +58,6 @@
     <string name="onboarding_privacy_camera_off">La fotocamera resta chiusa se non c\'è un\'app compatibile in primo piano.</string>
     <string name="onboarding_privacy_no_content">Il servizio di accessibilità non legge i contenuti dello schermo: vede solo quale app è aperta.</string>
 
-    <string name="onboarding_permissions_title">Permessi</string>
-    <string name="onboarding_permissions_body">Quattro permessi, ognuno con un compito preciso.</string>
-    <string name="onboarding_permissions_note">Puoi concederli anche dopo, ma senza fotocamera e accessibilità il motore non parte.</string>
 
     <string name="calibration_title">Calibrazione</string>
     <string name="calibration_needs_camera">La calibrazione ha bisogno della fotocamera. Concedi il permesso e torna qui.</string>
@@ -91,7 +82,6 @@
     <string name="settings_title">Impostazioni</string>
     <string name="settings_movement">Movimento</string>
     <string name="settings_distance">Profilo distanza</string>
-    <string name="settings_distance_hint">L\'automatico si adatta a quanto appare grande la mano: lo stesso gesto scorre uguale che tu sia vicino o lontano.</string>
     <string name="settings_sensitivity">Sensibilità</string>
     <string name="settings_max_speed">Velocità massima di scorrimento</string>
     <string name="settings_neutral_zone">Zona neutra</string>
@@ -172,4 +162,63 @@
     <string name="restricted_step_2">Tocca i tre puntini in alto a destra.</string>
     <string name="restricted_step_3">Tocca \"Consenti impostazioni con restrizioni\", poi torna qui.</string>
     <string name="restricted_play_protect">Play Protect potrebbe anche definire AirScroll dannosa. Segnala qualunque app installata a mano che chieda la fotocamera insieme al servizio di accessibilità: è la combinazione usata dagli stalkerware. AirScroll non ha alcun permesso di rete e il codice è pubblico, quindi puoi verificare di persona. Scegli \"Installa comunque\" per proseguire.</string>
+
+    <string name="setup_progress">Passo %1$d di %2$d</string>
+    <string name="setup_finish">Finito</string>
+    <string name="setup_camera_title">La fotocamera</string>
+    <string name="setup_camera_body">È quella che vede la mano. Le immagini restano dentro l\'app per il tempo di un fotogramma: niente viene salvato, niente viene spedito.</string>
+    <string name="setup_camera_done">Fotocamera consentita.</string>
+    <string name="setup_accessibility_title">Il servizio di accessibilità</string>
+    <string name="setup_accessibility_body">È l\'unico modo che ha un\'app di scorrere dentro un\'altra app. AirScroll ne chiede la versione minima: può inviare gesti, non può leggere il tuo schermo.</string>
+    <string name="setup_accessibility_done">Servizio attivo.</string>
+    <string name="setup_extras_title">Tre dettagli che fanno la differenza</string>
+    <string name="setup_extras_body">Nessuno è obbligatorio, ma senza qualcosa sembrerà rotto.</string>
+    <string name="setup_calibration_title">Calibrazione</string>
+    <string name="setup_calibration_headline">Quindici secondi, quattro movimenti</string>
+    <string name="setup_calibration_body">Invece di chiederti di indovinare dei numeri, AirScroll misura la tua mano vera: quanto la tieni lontana, quanto trema, quanto è ampio il movimento che ti viene comodo.</string>
+    <string name="setup_practice_title">Provalo subito</string>
+    <string name="setup_practice_headline">La palestra dei gesti</string>
+    <string name="setup_practice_body">Contenuto finto che scorre davvero con la mano, dentro l\'app. Non serve il servizio di accessibilità, quindi puoi verificare che i gesti funzionino prima di ogni altra cosa.</string>
+
+    <string name="practice_title">Palestra dei gesti</string>
+    <string name="practice_card_title">Prova</string>
+    <string name="practice_card_headline">Prova i gesti senza uscire dall\'app</string>
+    <string name="practice_card_body">Stesso motore di quello vero, su contenuto finto. È il posto migliore per tarare sensibilità e zona neutra.</string>
+    <string name="action_open_practice">Apri la palestra</string>
+    <string name="practice_state_idle">Fotocamera spenta</string>
+    <string name="practice_state_waiting">In attesa del pollice in su</string>
+    <string name="practice_state_active">Comandi tu</string>
+    <string name="practice_rearm">Cerca di nuovo la mano</string>
+    <string name="practice_tuning_hint">Muovi questi mentre scorri: l\'effetto è immediato, e quello che regoli qui vale anche fuori.</string>
+    <string name="practice_article_title">Come funziona il dito invisibile</string>
+    <string name="practice_p1">Muovi la mano su e giù. Il testo ti segue, esattamente come se un dito fosse appoggiato allo schermo e lo stesse trascinando.</string>
+    <string name="practice_p2">Non ci sono scatti e non ci sono comandi. Quello che la fotocamera vede è una posizione, e quella posizione diventa una velocità: più la mano si allontana dal punto di riposo, più la pagina accelera.</string>
+    <string name="practice_p3">Attorno al punto di riposo c\'è una zona neutra, tagliata sul tremolio misurato in calibrazione. Lì dentro non succede niente, ed è il motivo per cui stare fermi tiene ferma la pagina.</string>
+    <string name="practice_p4">Si muove un asse alla volta. Quando il verticale prende il comando, lo spostamento laterale viene ignorato finché non torni al centro: altrimenti scorrendo cambieresti il volume per sbaglio.</string>
+    <string name="practice_p5">Se mentre leggi la mano scivola lentamente, il punto di riposo scivola con lei. È una piccola cosa che evita il difetto più fastidioso: una pagina che scorre da sola perché il braccio si è stancato.</string>
+    <string name="practice_p6">Chiudi il pugno per circa due secondi per fermare tutto. Là fuori, in un\'app vera, anche uscire dall\'app ferma tutto, e la fotocamera si chiude con lei.</string>
+    <string name="practice_gallery_title">E qui qualcosa da scorrere</string>
+
+    <string name="signal_none">Nessun gesto</string>
+    <string name="signal_thumb_up">Pollice in su</string>
+    <string name="signal_thumb_down">Pollice in giù</string>
+    <string name="signal_fist">Pugno chiuso</string>
+    <string name="signal_open_palm">Mano aperta</string>
+    <string name="signal_victory">Vittoria</string>
+    <string name="signal_pointing">Indice in su</string>
+    <string name="signal_love">Ti amo</string>
+
+    <string name="kitchen_mode_title">Modalità Cucina</string>
+    <string name="kitchen_mode_body">Mani occupate? Zona neutra più ampia e scorrimento più calmo, per le ricette.</string>
+    <string name="home_legend_title">Come leggere il pallino</string>
+    <string name="legend_red">Rosso · fotocamera chiusa, non gira niente</string>
+    <string name="legend_yellow">Giallo · in attesa del pollice in su</string>
+    <string name="legend_green">Verde · scorre, segue la mano</string>
+    <string name="action_replay_setup">Rifai la configurazione guidata</string>
+    <string name="settings_guide">Guida</string>
+
+    <string name="distance_near_body">Mano a 20-30 cm. Movimenti ampi, risposta più dolce.</string>
+    <string name="distance_medium_body">Mano a 40-60 cm. La scelta bilanciata.</string>
+    <string name="distance_far_body">Mano oltre i 70 cm. Movimenti piccoli, risposta più decisa.</string>
+    <string name="distance_auto_body">Segue la dimensione della mano vista dalla fotocamera, usando la tua calibrazione.</string>
 </resources>

@@ -49,6 +49,15 @@ data class AirScrollSettings(
     val neutralZoneScale: Float = 1.0f,
     val invertScroll: Boolean = false,
 
+    /**
+     * Preset "mani occupate": allarga la zona neutra e rallenta lo scorrimento.
+     *
+     * E' un interruttore solo perche' chiedere a qualcuno con le mani nell'impasto
+     * di ragionare su "guadagno" e "zona neutra" non ha senso. Sotto, muove i
+     * parametri veri (vedi `effective`).
+     */
+    val kitchenMode: Boolean = false,
+
     val horizontalAction: HorizontalAction = HorizontalAction.VOLUME,
     /** Gradini di volume al secondo alla massima escursione laterale. */
     val maxVolumeStepsPerSec: Float = 6f,
@@ -75,3 +84,18 @@ data class AirScrollSettings(
         val Default = AirScrollSettings()
     }
 }
+
+/**
+ * Impostazioni con i preset applicati.
+ *
+ * Il motore consuma sempre questa versione, mai quella grezza: cosi' i preset
+ * non sovrascrivono i cursori dell'utente, li piegano soltanto finche' sono
+ * attivi.
+ */
+val AirScrollSettings.effective: AirScrollSettings
+    get() = if (!kitchenMode) this else copy(
+        neutralZoneScale = (neutralZoneScale * 1.7f).coerceAtMost(3f),
+        maxScrollSpeedPxPerSec = maxScrollSpeedPxPerSec * 0.6f,
+        sensitivity = (sensitivity * 0.85f).coerceAtLeast(0.4f),
+        stopHoldMs = stopHoldMs + 300L,
+    )

@@ -69,6 +69,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setMaxScrollSpeed(value: Float) = launchEdit { repository.setMaxScrollSpeed(value) }
     fun setNeutralZoneScale(value: Float) = launchEdit { repository.setNeutralZoneScale(value) }
     fun setInvertScroll(value: Boolean) = launchEdit { repository.setInvertScroll(value) }
+    fun setKitchenMode(value: Boolean) = launchEdit { repository.setKitchenMode(value) }
     fun setHorizontalAction(action: HorizontalAction) = launchEdit { repository.setHorizontalAction(action) }
     fun setMaxVolumeSteps(value: Float) = launchEdit { repository.setMaxVolumeStepsPerSec(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
