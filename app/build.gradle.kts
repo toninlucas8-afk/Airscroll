@@ -22,6 +22,7 @@ android {
     // firmata con la chiave di debug. Serve solo a poter installare l'APK preso
     // dalle GitHub Actions senza dover configurare un keystore.
     val keystorePath = providers.environmentVariable("AIRSCROLL_KEYSTORE").orNull
+        ?.takeIf { it.isNotBlank() }
     signingConfigs {
         if (keystorePath != null) {
             create("release") {

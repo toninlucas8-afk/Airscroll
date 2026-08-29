@@ -99,7 +99,7 @@ release e' molto piu' comoda.
 ### Installare
 
 1. Apri l'APK sul telefono e installalo (va concessa l'installazione da fonti
-   sconosciute: e' normale per un'app fuori dal Play Store).
+   sconosciute).
 2. Apri AirScroll e segui l'introduzione: fotocamera, servizio di accessibilità,
    sovrapposizione, notifiche.
 3. Fai la calibrazione.
@@ -107,6 +107,48 @@ release e' molto piu' comoda.
    partire mentre l'app è aperta).
 5. Su Xiaomi, Huawei, Samsung e simili: togli AirScroll dalle ottimizzazioni
    batteria, altrimenti il servizio viene chiuso dopo pochi minuti.
+
+### Android dirà che l'app è pericolosa
+
+Succede, ed è previsto. AirScroll chiede la fotocamera **insieme** al servizio
+di accessibilità: è la stessa combinazione che usano gli stalkerware, quindi
+Android la tratta con sospetto a prescindere da cosa faccia davvero l'app. Le
+manifestazioni sono due, distinte.
+
+**Play Protect: "app dannosa".** Compare durante l'installazione. È un giudizio
+automatico basato sui permessi richiesti e sul fatto che l'app non arriva da uno
+store, non su un'analisi del codice. Scegli *Installa comunque*.
+
+**"Impostazione bloccata" sull'accessibilità (Android 13+).** Il servizio
+risulta grigio e non attivabile. Android blocca i permessi sensibili per tutto
+ciò che non arriva da uno store. Si sblocca una volta sola: Impostazioni → App →
+AirScroll → **tre puntini** in alto a destra → *Consenti impostazioni con
+restrizioni*. L'app te lo spiega al primo avvio, con un pulsante che porta
+dritto a quella schermata.
+
+**Perché puoi verificare invece di fidarti.** AirScroll non dichiara il permesso
+`INTERNET`: non è una promessa, è un fatto controllabile in
+[`AndroidManifest.xml`](app/src/main/AndroidManifest.xml), dove l'elenco dei
+permessi è di dodici righe. Il servizio di accessibilità è configurato con
+`canRetrieveWindowContent="false"` in
+[`accessibility_service_config.xml`](app/src/main/res/xml/accessibility_service_config.xml),
+cioè non può leggere i contenuti dello schermo nemmeno volendo. E l'APK delle
+release lo compila GitHub Actions da questo codice, non una macchina privata.
+
+Firmare l'APK con una chiave stabile riduce un po' gli allarmi e permette gli
+aggiornamenti in place. Se vuoi farlo, crea un keystore e mettilo nei secret del
+repository come `AIRSCROLL_KEYSTORE_BASE64` (più `AIRSCROLL_KEYSTORE_PASSWORD`,
+`AIRSCROLL_KEY_ALIAS`, `AIRSCROLL_KEY_PASSWORD`): il workflow di release lo usa
+da solo.
+
+```bash
+keytool -genkeypair -v -keystore airscroll.jks -alias airscroll \
+  -keyalg RSA -keysize 4096 -validity 10000
+base64 -w0 airscroll.jks   # il valore da incollare nel secret
+```
+
+Non aspettarti che l'avviso sparisca del tutto: senza una distribuzione via
+store, per un'app con questi permessi, non c'è modo di evitarlo.
 
 ---
 

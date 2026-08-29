@@ -28,6 +28,9 @@ jobs:
     env:
       # Su workflow_dispatch prende l'input; su push di un tag, il nome del tag.
       TAG: ${{ inputs.version || github.ref_name }}
+      # Se il repository ha i secret della firma li usiamo, altrimenti si resta
+      # sulla chiave di debug: l'APK e' comunque installabile.
+      HAS_KEYSTORE: ${{ secrets.AIRSCROLL_KEYSTORE_BASE64 != '' }}
 
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +46,23 @@ jobs:
 
       - name: Unit tests
         run: ./gradlew --no-daemon test
+
+      - name: Prepare signing key
+        if: env.HAS_KEYSTORE == 'true'
+        env:
+          KEYSTORE_BASE64: ${{ secrets.AIRSCROLL_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.AIRSCROLL_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.AIRSCROLL_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.AIRSCROLL_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/airscroll.jks"
+          {
+            echo "AIRSCROLL_KEYSTORE=$RUNNER_TEMP/airscroll.jks"
+            echo "AIRSCROLL_KEYSTORE_PASSWORD=$KEYSTORE_PASSWORD"
+            echo "AIRSCROLL_KEY_ALIAS=$KEY_ALIAS"
+            echo "AIRSCROLL_KEY_PASSWORD=$KEY_PASSWORD"
+          } >> "$GITHUB_ENV"
 
       - name: Build release APK
         run: ./gradlew --no-daemon :app:assembleRelease
@@ -61,22 +81,38 @@ jobs:
         run: |
           set -euo pipefail
           cat > notes.md <<'NOTES'
-          Scarica il file `.apk` qui sotto e aprilo sul telefono.
+          Scarica **`AirScroll-VERSION.apk`** qui sotto e aprilo sul telefono.
 
-          **Prima installazione**
-          1. Android chiedera' di consentire l'installazione da fonti sconosciute: e' normale per un'app fuori dal Play Store.
-          2. Apri AirScroll e concedi i permessi: fotocamera, servizio di accessibilita', sovrapposizione, notifiche.
-          3. Fai la calibrazione (una quindicina di secondi).
-          4. Accendi l'interruttore **dalla schermata dell'app**: Android lascia usare la fotocamera in background solo se il servizio parte mentre l'app e' visibile.
+          ## Android dira' che l'app e' pericolosa. Ecco perche'.
+
+          AirScroll chiede la fotocamera **insieme** al servizio di accessibilita'. E' esattamente la combinazione che usano gli stalkerware, quindi Android la tratta con sospetto a prescindere da cosa faccia davvero l'app. Succedono due cose distinte:
+
+          **1. Play Protect: "app dannosa"**
+          Compare all'installazione. E' un giudizio automatico basato sui permessi richiesti e sul fatto che l'app non arriva da uno store, non su un'analisi del codice. Scegli **"Installa comunque"** / *Install anyway*.
+
+          **2. "Impostazione bloccata" sull'accessibilita' (Android 13+)**
+          Il servizio di accessibilita' risultera' grigio e non attivabile. Non e' un errore dell'app: Android blocca i permessi sensibili per tutto cio' che non arriva da uno store. Si sblocca una volta sola:
+          1. Impostazioni -> App -> AirScroll
+          2. tocca i **tre puntini** in alto a destra
+          3. **"Consenti impostazioni con restrizioni"**
+
+          L'app te lo spiega anche al primo avvio, con un pulsante che ti porta dritto a quella schermata.
+
+          **Perche' puoi verificare invece di fidarti:** AirScroll non dichiara il permesso `INTERNET`. Non e' una promessa, e' un fatto controllabile: apri `app/src/main/AndroidManifest.xml`, l'elenco dei permessi e' di dodici righe. Il servizio di accessibilita' e' configurato con `canRetrieveWindowContent="false"`, cioe' non puo' leggere i contenuti dello schermo nemmeno volendo. Tutto il codice e' qui.
+
+          ## Prima installazione
+          1. Consenti l'installazione da fonti sconosciute, poi installa.
+          2. Apri AirScroll e concedi i permessi: fotocamera, accessibilita' (vedi sopra), sovrapposizione, notifiche.
+          3. Fai la calibrazione, una quindicina di secondi.
+          4. Accendi l'interruttore **dalla schermata dell'app**: Android concede la fotocamera in background solo se il servizio parte con l'app aperta.
           5. Su Xiaomi, Huawei, Samsung e simili: togli AirScroll dalle ottimizzazioni batteria, altrimenti il servizio viene chiuso dopo pochi minuti.
 
-          **Da sapere**
-          - L'APK e' firmato con la chiave di debug. Si installa senza problemi, ma non e' una firma di distribuzione: per aggiornare da una versione firmata diversamente va disinstallata la precedente.
+          ## Da sapere
           - Requisito minimo: Android 8.0 (API 26).
-          - Tutto gira sul dispositivo. L'app non dichiara il permesso `INTERNET`.
-
-          Architettura, dettagli tecnici e la sezione **Limiti** (con i vincoli di Android che vale la pena conoscere prima di provarla) stanno nel [README](https://github.com/toninlucas8-afk/Airscroll#readme).
+          - Se non sono configurati i secret di firma, l'APK e' firmato con la chiave di debug: si installa lo stesso, ma per passare a una versione firmata diversamente va disinstallata la precedente.
+          - Architettura, dettagli tecnici e la sezione **Limiti** stanno nel [README](https://github.com/toninlucas8-afk/Airscroll#readme).
           NOTES
+          sed -i "s/AirScroll-VERSION.apk/AirScroll-${TAG}.apk/g" notes.md
           gh release create "${TAG}" \
             --target "${GITHUB_SHA}" \
             --title "AirScroll ${TAG}" \

@@ -23,26 +23,38 @@ private val DarkScheme = darkColorScheme(
     onSurface = Chalk,
     surfaceVariant = MidnightCard,
     onSurfaceVariant = ChalkMuted,
+    outline = MidnightBorder,
+    outlineVariant = MidnightBorder,
     error = StatusIdle,
+    onError = Chalk,
 )
 
 private val LightScheme = lightColorScheme(
     primary = ForestDeep,
-    onPrimary = Chalk,
+    onPrimary = PaperRaised,
+    primaryContainer = Paper,
+    onPrimaryContainer = ForestDeep,
     background = Paper,
     onBackground = Midnight,
     surface = PaperRaised,
     onSurface = Midnight,
+    surfaceVariant = PaperRaised,
+    onSurfaceVariant = SlateMuted,
+    outline = PaperBorder,
+    outlineVariant = PaperBorder,
     error = StatusIdle,
 )
 
 private val AirTypography = Typography(
-    headlineLarge = TextStyle(fontSize = 30.sp, fontWeight = FontWeight.SemiBold, lineHeight = 36.sp),
-    headlineMedium = TextStyle(fontSize = 24.sp, fontWeight = FontWeight.SemiBold, lineHeight = 30.sp),
-    titleMedium = TextStyle(fontSize = 17.sp, fontWeight = FontWeight.Medium, lineHeight = 24.sp),
-    bodyLarge = TextStyle(fontSize = 16.sp, lineHeight = 24.sp),
-    bodyMedium = TextStyle(fontSize = 14.sp, lineHeight = 20.sp),
-    labelLarge = TextStyle(fontSize = 14.sp, fontWeight = FontWeight.Medium),
+    displaySmall = TextStyle(fontSize = 34.sp, fontWeight = FontWeight.Bold, lineHeight = 40.sp, letterSpacing = (-0.5).sp),
+    headlineLarge = TextStyle(fontSize = 28.sp, fontWeight = FontWeight.SemiBold, lineHeight = 34.sp, letterSpacing = (-0.3).sp),
+    headlineMedium = TextStyle(fontSize = 23.sp, fontWeight = FontWeight.SemiBold, lineHeight = 29.sp),
+    titleLarge = TextStyle(fontSize = 19.sp, fontWeight = FontWeight.SemiBold, lineHeight = 25.sp),
+    titleMedium = TextStyle(fontSize = 16.sp, fontWeight = FontWeight.SemiBold, lineHeight = 22.sp),
+    bodyLarge = TextStyle(fontSize = 15.sp, lineHeight = 22.sp),
+    bodyMedium = TextStyle(fontSize = 13.5.sp, lineHeight = 19.sp),
+    labelLarge = TextStyle(fontSize = 13.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.2.sp),
+    labelMedium = TextStyle(fontSize = 11.5.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.6.sp),
 )
 
 @Composable

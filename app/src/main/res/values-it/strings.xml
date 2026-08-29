@@ -15,7 +15,7 @@
     <string name="action_stop">Spegni</string>
 
     <string name="home_master_switch">Controllo gestuale</string>
-    <string name="home_master_switch_subtitle">Avvialo da qui: Android permette alla fotocamera di lavorare anche dopo solo se il servizio parte mentre l\'app è aperta.</string>
+    <string name="home_master_switch_subtitle">Va acceso da qui: Android concede la fotocamera solo se il servizio parte con l\'app aperta.</string>
     <string name="home_missing_permissions">Mancano dei permessi necessari: il motore non può partire.</string>
     <string name="home_permissions_title">Permessi</string>
     <string name="home_calibration_title">Calibrazione</string>
@@ -152,4 +152,24 @@
 
     <string name="accessibility_service_description">AirScroll usa questo servizio per scorrere al posto tuo dentro le altre app. Non legge i contenuti dello schermo: vede solo quale app è in primo piano e invia i gesti di scorrimento che nascono dal movimento della tua mano.</string>
     <string name="accessibility_service_summary">Trasforma il movimento della mano in scorrimento, offline.</string>
+
+    <string name="gesture_thumb_up_title">Pollice in su</string>
+    <string name="gesture_move_title">Mano su e giù</string>
+    <string name="gesture_sides_title">Mano a destra e sinistra</string>
+    <string name="gesture_fist_title">Pugno chiuso</string>
+    <string name="gesture_leave_title">Uscire dall\'app</string>
+
+    <string name="home_calibration_done_title">Calibrato</string>
+    <string name="home_calibration_missing_title">Non ancora calibrato</string>
+    <string name="home_footer">Open source · Tutto gira offline sul telefono</string>
+
+    <string name="action_activate">Attiva</string>
+    <string name="action_open_app_info">Apri le info dell\'app</string>
+
+    <string name="restricted_title">Android sta bloccando i permessi</string>
+    <string name="restricted_body">Da Android 13, le app installate fuori dagli store non possono attivare il servizio di accessibilità finché non lo sblocchi una volta. Se l\'interruttore ti appare grigio, o leggi \"Impostazione bloccata\", fai così:</string>
+    <string name="restricted_step_1">Apri le informazioni dell\'app col pulsante qui sotto.</string>
+    <string name="restricted_step_2">Tocca i tre puntini in alto a destra.</string>
+    <string name="restricted_step_3">Tocca \"Consenti impostazioni con restrizioni\", poi torna qui.</string>
+    <string name="restricted_play_protect">Play Protect potrebbe anche definire AirScroll dannosa. Segnala qualunque app installata a mano che chieda la fotocamera insieme al servizio di accessibilità: è la combinazione usata dagli stalkerware. AirScroll non ha alcun permesso di rete e il codice è pubblico, quindi puoi verificare di persona. Scegli \"Installa comunque\" per proseguire.</string>
 </resources>

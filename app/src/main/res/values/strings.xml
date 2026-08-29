@@ -19,7 +19,7 @@
 
     <!-- Home -->
     <string name="home_master_switch">Gesture control</string>
-    <string name="home_master_switch_subtitle">Start it here: Android only lets the camera keep working later if the service starts while the app is open.</string>
+    <string name="home_master_switch_subtitle">It has to start here: Android grants the camera only if the service starts while the app is open.</string>
     <string name="home_missing_permissions">Some required permissions are missing, so the engine cannot run.</string>
     <string name="home_permissions_title">Permissions</string>
     <string name="home_calibration_title">Calibration</string>
@@ -164,4 +164,26 @@
     <!-- Accessibility service -->
     <string name="accessibility_service_description">AirScroll needs this service to scroll on your behalf inside other apps. It does not read the content of your screen: it only sees which app is in the foreground, and sends the swipe gestures that your hand movement produces.</string>
     <string name="accessibility_service_summary">Turns hand movement into scrolling, offline.</string>
+
+    <!-- Gesture titles -->
+    <string name="gesture_thumb_up_title">Thumbs up</string>
+    <string name="gesture_move_title">Hand up and down</string>
+    <string name="gesture_sides_title">Hand left and right</string>
+    <string name="gesture_fist_title">Closed fist</string>
+    <string name="gesture_leave_title">Leaving the app</string>
+
+    <string name="home_calibration_done_title">Calibrated</string>
+    <string name="home_calibration_missing_title">Not calibrated yet</string>
+    <string name="home_footer">Open source · Everything runs offline on your phone</string>
+
+    <string name="action_activate">Turn on</string>
+    <string name="action_open_app_info">Open app info</string>
+
+    <!-- Android 13+ blocks sensitive permissions for sideloaded apps -->
+    <string name="restricted_title">Android is blocking the permissions</string>
+    <string name="restricted_body">Since Android 13, apps installed outside an app store cannot turn on the accessibility service until you unlock it once. If the switch looks greyed out, or you see \"Restricted setting\", do this:</string>
+    <string name="restricted_step_1">Open the app info with the button below.</string>
+    <string name="restricted_step_2">Tap the three dots in the top right corner.</string>
+    <string name="restricted_step_3">Tap \"Allow restricted settings\", then come back here.</string>
+    <string name="restricted_play_protect">Play Protect may also call AirScroll harmful. It flags any sideloaded app that asks for the camera together with the accessibility service — the combination stalkerware uses. AirScroll has no internet permission at all and the code is public, so you can check for yourself. Choose \"Install anyway\" to continue.</string>
 </resources>

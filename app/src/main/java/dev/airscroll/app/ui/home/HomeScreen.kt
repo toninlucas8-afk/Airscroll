@@ -5,17 +5,38 @@ import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Accessibility
+import androidx.compose.material.icons.filled.BatteryFull
+import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Layers
+import androidx.compose.material.icons.filled.Logout
+import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.PanTool
+import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.ThumbUp
+import androidx.compose.material.icons.filled.Tune
+import androidx.compose.material.icons.filled.UnfoldMore
+import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.Button
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -24,18 +45,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.airscroll.app.R
 import dev.airscroll.app.ui.MainViewModel
-import dev.airscroll.app.ui.components.Bullet
+import dev.airscroll.app.ui.components.IconRow
+import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.StatusDot
 import dev.airscroll.app.ui.components.SwitchRow
+import dev.airscroll.app.ui.components.Wordmark
+import dev.airscroll.app.ui.components.colorForState
 import dev.airscroll.app.util.AirScrollPermissions
+import dev.airscroll.app.util.PermissionSnapshot
 import dev.airscroll.core.common.model.EngineState
 
 @Composable
@@ -52,7 +80,6 @@ fun HomeScreen(
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { viewModel.refreshPermissions() }
-
     val notificationLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { viewModel.refreshPermissions() }
@@ -60,170 +87,373 @@ fun HomeScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
+            // Senza questo il logotipo finisce sotto l'orologio della status bar.
+            .safeDrawingPadding()
             .verticalScroll(rememberScrollState())
             .padding(ScreenPadding),
-        verticalArrangement = Arrangement.spacedBy(16.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        Text(
-            text = stringResource(R.string.app_name),
-            style = MaterialTheme.typography.headlineLarge,
-        )
+        Spacer(Modifier.height(4.dp))
+        Wordmark()
         Text(
             text = stringResource(R.string.home_tagline),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyLarge,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
+        Spacer(Modifier.height(2.dp))
 
-        SectionCard {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                StatusDot(status.state, size = 18)
-                Spacer(Modifier.width(12.dp))
-                Column {
-                    Text(
-                        text = stringResource(stateLabel(status.state)),
-                        style = MaterialTheme.typography.titleMedium,
-                    )
-                    Text(
-                        text = status.activeProfileName
-                            ?: stringResource(R.string.state_no_app),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                }
-            }
+        StatusCard(
+            state = status.state,
+            detail = status.activeProfileName ?: stringResource(R.string.state_no_app),
+            serviceEnabled = settings.serviceEnabled,
+            permissions = permissions,
+            error = status.lastError,
+            onToggle = viewModel::setServiceEnabled,
+        )
 
-            SwitchRow(
-                title = stringResource(R.string.home_master_switch),
-                subtitle = stringResource(R.string.home_master_switch_subtitle),
-                checked = settings.serviceEnabled,
-                onCheckedChange = { enabled -> viewModel.setServiceEnabled(enabled) },
+        // Da Android 13 i permessi "sensibili" delle app installate a mano sono
+        // bloccati finche' non si sbloccano esplicitamente. E' la causa numero
+        // uno di "ho installato l'app e non funziona niente".
+        if (!permissions.accessibility && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            RestrictedSettingsCard(
+                onOpenAppInfo = { context.startActivity(AirScrollPermissions.appSettingsIntent(context)) }
             )
-
-            if (!permissions.essentialsGranted && settings.serviceEnabled) {
-                Text(
-                    text = stringResource(R.string.home_missing_permissions),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
-            status.lastError?.let { error ->
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
         }
 
-        SectionCard(title = stringResource(R.string.home_permissions_title)) {
-            PermissionRow(
-                label = stringResource(R.string.permission_camera),
-                description = stringResource(R.string.permission_camera_why),
-                granted = permissions.camera,
-                actionLabel = stringResource(R.string.action_grant),
-                onAction = { cameraLauncher.launch(Manifest.permission.CAMERA) },
-            )
-            PermissionRow(
-                label = stringResource(R.string.permission_accessibility),
-                description = stringResource(R.string.permission_accessibility_why),
-                granted = permissions.accessibility,
-                actionLabel = stringResource(R.string.action_open_settings),
-                onAction = { context.startActivity(AirScrollPermissions.accessibilitySettingsIntent()) },
-            )
-            PermissionRow(
-                label = stringResource(R.string.permission_overlay),
-                description = stringResource(R.string.permission_overlay_why),
-                granted = permissions.overlay,
-                actionLabel = stringResource(R.string.action_open_settings),
-                onAction = { context.startActivity(AirScrollPermissions.overlaySettingsIntent(context)) },
-            )
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                PermissionRow(
-                    label = stringResource(R.string.permission_notifications),
-                    description = stringResource(R.string.permission_notifications_why),
-                    granted = permissions.notifications,
-                    actionLabel = stringResource(R.string.action_grant),
-                    onAction = { notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS) },
-                )
-            }
-            PermissionRow(
-                label = stringResource(R.string.permission_battery),
-                description = stringResource(R.string.permission_battery_why),
-                granted = permissions.batteryUnrestricted,
-                actionLabel = stringResource(R.string.action_open_settings),
-                onAction = { context.startActivity(AirScrollPermissions.batteryOptimizationIntent(context)) },
-            )
-        }
+        PermissionsCard(
+            permissions = permissions,
+            onGrantCamera = { cameraLauncher.launch(Manifest.permission.CAMERA) },
+            onGrantNotifications = { notificationLauncher.launch(Manifest.permission.POST_NOTIFICATIONS) },
+            onOpenAccessibility = { context.startActivity(AirScrollPermissions.accessibilitySettingsIntent()) },
+            onOpenOverlay = { context.startActivity(AirScrollPermissions.overlaySettingsIntent(context)) },
+            onOpenBattery = { context.startActivity(AirScrollPermissions.batteryOptimizationIntent(context)) },
+        )
 
         SectionCard(title = stringResource(R.string.home_calibration_title)) {
-            Text(
-                text = if (settings.calibration.completed) {
+            IconRow(
+                icon = Icons.Filled.Straighten,
+                title = if (settings.calibration.completed) {
+                    stringResource(R.string.home_calibration_done_title)
+                } else {
+                    stringResource(R.string.home_calibration_missing_title)
+                },
+                body = if (settings.calibration.completed) {
                     stringResource(R.string.home_calibration_done)
                 } else {
                     stringResource(R.string.home_calibration_missing)
                 },
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                tint = if (settings.calibration.completed) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.error
+                },
             )
-            Button(onClick = onOpenCalibration) {
+            Button(
+                onClick = onOpenCalibration,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
+            ) {
                 Text(
-                    text = if (settings.calibration.completed) {
-                        stringResource(R.string.action_recalibrate)
-                    } else {
-                        stringResource(R.string.action_calibrate)
-                    }
+                    if (settings.calibration.completed) stringResource(R.string.action_recalibrate)
+                    else stringResource(R.string.action_calibrate)
                 )
             }
         }
 
         SectionCard(title = stringResource(R.string.home_gestures_title)) {
-            Bullet(stringResource(R.string.gesture_thumb_up))
-            Bullet(stringResource(R.string.gesture_move))
-            Bullet(stringResource(R.string.gesture_sides))
-            Bullet(stringResource(R.string.gesture_fist))
-            Bullet(stringResource(R.string.gesture_leave))
+            IconRow(Icons.Filled.ThumbUp, stringResource(R.string.gesture_thumb_up_title), stringResource(R.string.gesture_thumb_up))
+            IconRow(Icons.Filled.UnfoldMore, stringResource(R.string.gesture_move_title), stringResource(R.string.gesture_move))
+            IconRow(Icons.Filled.VolumeUp, stringResource(R.string.gesture_sides_title), stringResource(R.string.gesture_sides))
+            IconRow(Icons.Filled.PanTool, stringResource(R.string.gesture_fist_title), stringResource(R.string.gesture_fist))
+            IconRow(Icons.Filled.Logout, stringResource(R.string.gesture_leave_title), stringResource(R.string.gesture_leave))
         }
 
         OutlinedButton(
             onClick = onOpenSettings,
             modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
         ) {
+            Icon(Icons.Filled.Tune, contentDescription = null, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(10.dp))
             Text(stringResource(R.string.action_settings))
         }
-        Spacer(Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(R.string.home_footer),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(28.dp))
+    }
+}
+
+@Composable
+private fun StatusCard(
+    state: EngineState,
+    detail: String,
+    serviceEnabled: Boolean,
+    permissions: PermissionSnapshot,
+    error: String?,
+    onToggle: (Boolean) -> Unit,
+) {
+    val accent = colorForState(state)
+    SectionCard(accent = accent.copy(alpha = 0.35f)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            StatusDot(state = state, size = 16.dp, withPulse = true)
+            Spacer(Modifier.width(14.dp))
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    text = stringResource(stateLabel(state)),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = accent,
+                )
+                Text(
+                    text = detail,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
+        }
+
+        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+
+        SwitchRow(
+            title = stringResource(R.string.home_master_switch),
+            subtitle = stringResource(R.string.home_master_switch_subtitle),
+            checked = serviceEnabled,
+            enabled = permissions.camera,
+            onCheckedChange = onToggle,
+        )
+
+        if (!permissions.essentialsGranted) {
+            NoticeRow(
+                text = stringResource(R.string.home_missing_permissions),
+                tone = MaterialTheme.colorScheme.error,
+            )
+        }
+        error?.let { NoticeRow(text = it, tone = MaterialTheme.colorScheme.error) }
+    }
+}
+
+@Composable
+private fun NoticeRow(text: String, tone: Color) {
+    Row(verticalAlignment = Alignment.Top) {
+        Icon(
+            imageVector = Icons.Filled.WarningAmber,
+            contentDescription = null,
+            tint = tone,
+            modifier = Modifier
+                .padding(top = 1.dp, end = 10.dp)
+                .size(17.dp),
+        )
+        Text(text = text, style = MaterialTheme.typography.bodyMedium, color = tone)
+    }
+}
+
+@Composable
+private fun PermissionsCard(
+    permissions: PermissionSnapshot,
+    onGrantCamera: () -> Unit,
+    onGrantNotifications: () -> Unit,
+    onOpenAccessibility: () -> Unit,
+    onOpenOverlay: () -> Unit,
+    onOpenBattery: () -> Unit,
+) {
+    val showNotifications = Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+    val total = if (showNotifications) 5 else 4
+    val granted = listOf(
+        permissions.camera,
+        permissions.accessibility,
+        permissions.overlay,
+        permissions.batteryUnrestricted,
+    ).count { it } + if (showNotifications && permissions.notifications) 1 else 0
+
+    SectionCard {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            Text(
+                text = stringResource(R.string.home_permissions_title).uppercase(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Pill(
+                text = "$granted/$total",
+                tone = if (granted == total) {
+                    MaterialTheme.colorScheme.primary
+                } else {
+                    MaterialTheme.colorScheme.error
+                },
+            )
+        }
+
+        PermissionRow(
+            icon = Icons.Filled.CameraAlt,
+            label = stringResource(R.string.permission_camera),
+            description = stringResource(R.string.permission_camera_why),
+            granted = permissions.camera,
+            actionLabel = stringResource(R.string.action_grant),
+            onAction = onGrantCamera,
+        )
+        PermissionRow(
+            icon = Icons.Filled.Accessibility,
+            label = stringResource(R.string.permission_accessibility),
+            description = stringResource(R.string.permission_accessibility_why),
+            granted = permissions.accessibility,
+            actionLabel = stringResource(R.string.action_activate),
+            onAction = onOpenAccessibility,
+        )
+        PermissionRow(
+            icon = Icons.Filled.Layers,
+            label = stringResource(R.string.permission_overlay),
+            description = stringResource(R.string.permission_overlay_why),
+            granted = permissions.overlay,
+            actionLabel = stringResource(R.string.action_activate),
+            onAction = onOpenOverlay,
+        )
+        if (showNotifications) {
+            PermissionRow(
+                icon = Icons.Filled.Notifications,
+                label = stringResource(R.string.permission_notifications),
+                description = stringResource(R.string.permission_notifications_why),
+                granted = permissions.notifications,
+                actionLabel = stringResource(R.string.action_grant),
+                onAction = onGrantNotifications,
+            )
+        }
+        PermissionRow(
+            icon = Icons.Filled.BatteryFull,
+            label = stringResource(R.string.permission_battery),
+            description = stringResource(R.string.permission_battery_why),
+            granted = permissions.batteryUnrestricted,
+            actionLabel = stringResource(R.string.action_activate),
+            onAction = onOpenBattery,
+        )
     }
 }
 
 @Composable
 private fun PermissionRow(
+    icon: ImageVector,
     label: String,
     description: String,
     granted: Boolean,
     actionLabel: String,
     onAction: () -> Unit,
 ) {
-    Row(
-        modifier = Modifier.fillMaxWidth(),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween,
-    ) {
-        Column(modifier = Modifier.fillMaxWidth(0.66f)) {
-            Text(text = label, style = MaterialTheme.typography.bodyLarge)
+    val tint = if (granted) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+    Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+        Box(
+            modifier = Modifier
+                .size(36.dp)
+                .padding(end = 2.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(20.dp))
+        }
+        Spacer(Modifier.width(10.dp))
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            Text(
+                text = label,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
             Text(
                 text = description,
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
+        Spacer(Modifier.width(8.dp))
         if (granted) {
-            Text(
-                text = stringResource(R.string.status_granted),
-                style = MaterialTheme.typography.labelLarge,
-                color = MaterialTheme.colorScheme.primary,
+            Icon(
+                imageVector = Icons.Filled.CheckCircle,
+                contentDescription = stringResource(R.string.status_granted),
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.size(22.dp),
             )
         } else {
             TextButton(onClick = onAction) { Text(actionLabel) }
         }
+    }
+}
+
+/**
+ * Spiega il blocco che Android 13+ mette ai permessi sensibili delle app
+ * installate fuori dagli store, e come toglierlo.
+ */
+@Composable
+private fun RestrictedSettingsCard(onOpenAppInfo: () -> Unit) {
+    val tone = MaterialTheme.colorScheme.error
+    SectionCard(accent = tone.copy(alpha = 0.4f)) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.WarningAmber,
+                contentDescription = null,
+                tint = tone,
+                modifier = Modifier.size(20.dp),
+            )
+            Spacer(Modifier.width(10.dp))
+            Text(
+                text = stringResource(R.string.restricted_title),
+                style = MaterialTheme.typography.titleMedium,
+                color = tone,
+            )
+        }
+        Text(
+            text = stringResource(R.string.restricted_body),
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        NumberedStep(1, stringResource(R.string.restricted_step_1))
+        NumberedStep(2, stringResource(R.string.restricted_step_2))
+        NumberedStep(3, stringResource(R.string.restricted_step_3))
+        Button(
+            onClick = onOpenAppInfo,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+        ) {
+            Text(stringResource(R.string.action_open_app_info))
+        }
+        Text(
+            text = stringResource(R.string.restricted_play_protect),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+    }
+}
+
+@Composable
+private fun NumberedStep(number: Int, text: String) {
+    Row(verticalAlignment = Alignment.Top) {
+        Box(
+            modifier = Modifier
+                .size(22.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary.copy(alpha = 0.15f),
+                    RoundedCornerShape(999.dp),
+                ),
+            contentAlignment = Alignment.Center,
+        ) {
+            Text(
+                text = number.toString(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.primary,
+            )
+        }
+        Spacer(Modifier.width(12.dp))
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyLarge,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
     }
 }
 
