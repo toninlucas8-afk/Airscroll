@@ -78,14 +78,22 @@ export AIRSCROLL_KEY_PASSWORD=...
 
 ### Senza installare niente
 
-Il workflow `.github/workflows/android.yml` compila l'APK a ogni push e lo
-allega come artifact della run. Da GitHub: **Actions → Android → l'ultima
-run → Artifacts → `airscroll-release-apk`**.
+**[Scarica l'ultima release](https://github.com/toninlucas8-afk/Airscroll/releases/latest)**
+e apri il file `.apk` sul telefono. E' la via piu' semplice: link diretto,
+niente zip, niente login.
+
+Ogni tag `vX.Y.Z` fa partire `.github/workflows/release.yml`, che compila e
+pubblica l'APK con il suo checksum SHA-256.
+
+In alternativa, `.github/workflows/android.yml` compila a ogni push e allega
+l'APK come artifact della run (**Actions → Android → l'ultima run → Artifacts**).
+Gli artifact pero' sono zip e richiedono di essere loggati: da telefono la
+release e' molto piu' comoda.
 
 ### Installare
 
-1. Copia l'APK sul telefono e installalo (va concessa l'installazione da fonti
-   sconosciute).
+1. Apri l'APK sul telefono e installalo (va concessa l'installazione da fonti
+   sconosciute: e' normale per un'app fuori dal Play Store).
 2. Apri AirScroll e segui l'introduzione: fotocamera, servizio di accessibilità,
    sovrapposizione, notifiche.
 3. Fai la calibrazione.
