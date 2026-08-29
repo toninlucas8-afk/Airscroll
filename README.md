@@ -82,8 +82,14 @@ export AIRSCROLL_KEY_PASSWORD=...
 e apri il file `.apk` sul telefono. E' la via piu' semplice: link diretto,
 niente zip, niente login.
 
-Ogni tag `vX.Y.Z` fa partire `.github/workflows/release.yml`, che compila e
-pubblica l'APK con il suo checksum SHA-256.
+Per pubblicarne una nuova ci sono due strade, entrambe gestite da
+`.github/workflows/release.yml`, che esegue i test, compila e allega l'APK con
+il suo checksum SHA-256:
+
+- **dal browser, anche da telefono**: Actions -> Release -> *Run workflow*,
+  scrivi la versione (es. `v0.2.0`) e conferma. Il tag lo crea la
+  pubblicazione stessa.
+- **da terminale**: `git tag v0.2.0 && git push origin v0.2.0`.
 
 In alternativa, `.github/workflows/android.yml` compila a ogni push e allega
 l'APK come artifact della run (**Actions → Android → l'ultima run → Artifacts**).
