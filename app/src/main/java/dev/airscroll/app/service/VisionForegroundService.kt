@@ -39,7 +39,6 @@ import dev.airscroll.core.vision.VisionConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -143,7 +142,9 @@ class VisionForegroundService : LifecycleService() {
 
     private fun observeForegroundApp() {
         lifecycleScope.launch {
-            AirScrollBus.foregroundPackage.distinctUntilChanged().collect { packageName ->
+            // Niente distinctUntilChanged: uno StateFlow gia' non riemette due
+            // volte lo stesso valore.
+            AirScrollBus.foregroundPackage.collect { packageName ->
                 engine.onForegroundApp(packageName, ProfileResolver.resolve(packageName, settings))
             }
         }
