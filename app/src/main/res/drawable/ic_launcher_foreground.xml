@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Due frecce e un punto: il movimento su e giu' attorno a una mano ferma. -->
+    <path
+        android:fillColor="#2DE39A"
+        android:pathData="M54,24L66,40H42L54,24Z" />
+    <path
+        android:fillColor="#2DE39A"
+        android:pathData="M54,84L42,68H66L54,84Z" />
+    <path
+        android:fillColor="#4ADE80"
+        android:pathData="M54,46A8,8 0 1,1 54,62A8,8 0 1,1 54,46Z" />
+    <path
+        android:fillColor="#4ADE80"
+        android:pathData="M34,50h6v8h-6z" />
+    <path
+        android:fillColor="#4ADE80"
+        android:pathData="M68,50h6v8h-6z" />
+</vector>

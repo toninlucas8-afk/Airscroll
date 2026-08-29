@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AirScroll</string>
+    <string name="home_tagline">Hands-free control. Everything runs on your phone, offline.</string>
+
+    <!-- Engine states -->
+    <string name="state_disabled">Off</string>
+    <string name="state_idle">Idle — camera closed</string>
+    <string name="state_waiting">Waiting — show a thumbs up</string>
+    <string name="state_active">Active — your hand is in control</string>
+    <string name="state_no_app">No supported app in the foreground</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_name">AirScroll status</string>
+    <string name="notification_channel_description">Shows whether gesture control is idle, waiting or active.</string>
+    <string name="notification_title">AirScroll · %1$s</string>
+    <string name="action_rearm">Look for my hand</string>
+    <string name="action_stop">Turn off</string>
+
+    <!-- Home -->
+    <string name="home_master_switch">Gesture control</string>
+    <string name="home_master_switch_subtitle">Start it here: Android only lets the camera keep working later if the service starts while the app is open.</string>
+    <string name="home_missing_permissions">Some required permissions are missing, so the engine cannot run.</string>
+    <string name="home_permissions_title">Permissions</string>
+    <string name="home_calibration_title">Calibration</string>
+    <string name="home_calibration_done">Calibrated. Redo it if you change your usual distance or posture.</string>
+    <string name="home_calibration_missing">Not calibrated yet. Default values are in use.</string>
+    <string name="home_gestures_title">The gestures</string>
+
+    <string name="gesture_thumb_up">Thumbs up: start scrolling.</string>
+    <string name="gesture_move">Move your hand up or down: the page follows, like an invisible finger. The further you go, the faster it scrolls.</string>
+    <string name="gesture_sides">Move it left or right: volume down or up, progressively.</string>
+    <string name="gesture_fist">Closed fist for about two seconds: stop.</string>
+    <string name="gesture_leave">Leaving the app also stops it, and closes the camera.</string>
+
+    <!-- Permissions -->
+    <string name="permission_camera">Camera</string>
+    <string name="permission_camera_why">Reads your hand. Images never leave the device and are never stored.</string>
+    <string name="permission_camera_grant">Allow camera</string>
+    <string name="permission_camera_ok">Camera allowed</string>
+    <string name="permission_accessibility">Accessibility service</string>
+    <string name="permission_accessibility_why">The only way an app can scroll another app. AirScroll does not read screen content.</string>
+    <string name="permission_accessibility_grant">Enable the service</string>
+    <string name="permission_accessibility_ok">Service enabled</string>
+    <string name="permission_overlay">Draw over other apps</string>
+    <string name="permission_overlay_why">Draws the small status dot: red off, amber waiting, green active.</string>
+    <string name="permission_overlay_grant">Allow the indicator</string>
+    <string name="permission_overlay_ok">Indicator allowed</string>
+    <string name="permission_notifications">Notifications</string>
+    <string name="permission_notifications_why">Android requires a visible notification while the camera can be used in the background.</string>
+    <string name="permission_notifications_grant">Allow notifications</string>
+    <string name="permission_notifications_ok">Notifications allowed</string>
+    <string name="permission_battery">Unrestricted battery</string>
+    <string name="permission_battery_why">Without this, some phones kill the service after a few minutes in the background.</string>
+    <string name="status_granted">Granted</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_what_title">What it does</string>
+    <string name="onboarding_what_body">AirScroll turns hand movement into scrolling and volume, so you can use your phone without touching it.</string>
+    <string name="onboarding_use_kitchen">In the kitchen, with a recipe open and your hands covered in flour.</string>
+    <string name="onboarding_use_work">At work, with gloves, tools or dirty hands.</string>
+    <string name="onboarding_use_gym">At the gym, between sets.</string>
+    <string name="onboarding_use_reading">Reading a long PDF or an article.</string>
+    <string name="onboarding_use_accessibility">When touching the screen is difficult or painful.</string>
+
+    <string name="onboarding_privacy_title">What it does not do</string>
+    <string name="onboarding_privacy_body">Gesture recognition runs entirely on your phone.</string>
+    <string name="onboarding_privacy_offline">No internet connection is used or required.</string>
+    <string name="onboarding_privacy_no_recording">No photo or video is saved anywhere.</string>
+    <string name="onboarding_privacy_camera_off">The camera stays closed unless a supported app is in the foreground.</string>
+    <string name="onboarding_privacy_no_content">The accessibility service does not read the content of your screen, only which app is open.</string>
+
+    <string name="onboarding_permissions_title">Permissions</string>
+    <string name="onboarding_permissions_body">Four permissions, each with one job.</string>
+    <string name="onboarding_permissions_note">You can grant them later, but the engine will not start until camera and accessibility are on.</string>
+
+    <!-- Calibration -->
+    <string name="calibration_title">Calibration</string>
+    <string name="calibration_needs_camera">Calibration needs the camera. Grant the permission and come back.</string>
+    <string name="calibration_show_hand">Show your hand to the camera.</string>
+    <string name="calibration_hand_visible">Hand detected, keep going.</string>
+    <string name="calibration_use_defaults">Skip, use defaults</string>
+    <string name="calibration_summary">Hand size %1$d · vertical range %2$d · tremor %3$d</string>
+
+    <string name="calibration_intro_title">Four short steps</string>
+    <string name="calibration_intro_body">Hold the phone the way you normally would and keep your hand in the camera view. It takes about fifteen seconds in total.</string>
+    <string name="calibration_distance_title">1. Your usual distance</string>
+    <string name="calibration_distance_body">Hold your open hand where it feels natural and keep it there. This is how AirScroll learns how far away you usually are.</string>
+    <string name="calibration_still_title">2. Hold still</string>
+    <string name="calibration_still_body">Try not to move. We measure your natural tremor so that it never turns into unwanted scrolling.</string>
+    <string name="calibration_vertical_title">3. Up and down</string>
+    <string name="calibration_vertical_body">Move your hand up and down a few times, as widely as feels comfortable — not more.</string>
+    <string name="calibration_horizontal_title">4. Left and right</string>
+    <string name="calibration_horizontal_body">Now move it left and right a few times. This sets the range used for volume.</string>
+    <string name="calibration_done_title">Done</string>
+    <string name="calibration_done_body">Your profile is ready. You can always fine-tune it in settings.</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_movement">Movement</string>
+    <string name="settings_distance">Distance profile</string>
+    <string name="settings_distance_hint">Automatic adapts to how big your hand looks, so the same movement scrolls the same amount whether you are close or far.</string>
+    <string name="settings_sensitivity">Sensitivity</string>
+    <string name="settings_max_speed">Maximum scroll speed</string>
+    <string name="settings_neutral_zone">Neutral zone</string>
+    <string name="settings_invert">Invert direction</string>
+    <string name="settings_invert_hint">Hand up scrolls the page up instead of down.</string>
+
+    <string name="settings_volume">Sideways movement</string>
+    <string name="settings_volume_speed">Volume steps per second</string>
+
+    <string name="settings_performance">Performance</string>
+    <string name="settings_performance_hint">Battery uses a smaller image and the CPU only. Responsive raises the frame rate on capable phones.</string>
+
+    <string name="settings_timings">Timing</string>
+    <string name="settings_waiting_window">Waiting window</string>
+    <string name="settings_stop_hold">Fist hold to stop</string>
+
+    <string name="settings_indicator">Indicator</string>
+    <string name="settings_indicator_show">Show the status dot</string>
+    <string name="settings_indicator_hint">Red off, amber waiting, green active.</string>
+    <string name="settings_haptics">Vibrate on start and stop</string>
+
+    <string name="settings_apps">Supported apps</string>
+    <string name="settings_apps_hint">Turn off the ones you do not want armed. You can add any other app by its package name.</string>
+    <string name="settings_add_package">Package name (e.g. com.example.app)</string>
+
+    <string name="settings_calibration">Calibration</string>
+
+    <!-- Choices -->
+    <string name="distance_near">Near</string>
+    <string name="distance_medium">Medium</string>
+    <string name="distance_far">Far</string>
+    <string name="distance_auto">Automatic</string>
+    <string name="performance_battery">Battery</string>
+    <string name="performance_balanced">Balanced</string>
+    <string name="performance_responsive">Responsive</string>
+    <string name="horizontal_none">Nothing</string>
+    <string name="horizontal_volume">Volume</string>
+    <string name="corner_top_start">Top left</string>
+    <string name="corner_top_end">Top right</string>
+    <string name="corner_bottom_start">Bottom left</string>
+    <string name="corner_bottom_end">Bottom right</string>
+
+    <!-- Actions -->
+    <string name="action_next">Next</string>
+    <string name="action_skip">Skip</string>
+    <string name="action_start">Start</string>
+    <string name="action_save">Save</string>
+    <string name="action_redo">Redo</string>
+    <string name="action_back">Back</string>
+    <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
+    <string name="action_grant">Grant</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_calibrate">Calibrate</string>
+    <string name="action_recalibrate">Calibrate again</string>
+    <string name="action_reset_calibration">Reset calibration</string>
+
+    <!-- Errors -->
+    <string name="error_camera_permission">Camera permission is missing: the engine cannot see your hand.</string>
+
+    <!-- Accessibility service -->
+    <string name="accessibility_service_description">AirScroll needs this service to scroll on your behalf inside other apps. It does not read the content of your screen: it only sees which app is in the foreground, and sends the swipe gestures that your hand movement produces.</string>
+    <string name="accessibility_service_summary">Turns hand movement into scrolling, offline.</string>
+</resources>

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_tagline">Controllo senza mani. Tutto gira sul telefono, offline.</string>
+
+    <string name="state_disabled">Spento</string>
+    <string name="state_idle">Inattivo — fotocamera chiusa</string>
+    <string name="state_waiting">In attesa — fai pollice in su</string>
+    <string name="state_active">Attivo — comandi tu</string>
+    <string name="state_no_app">Nessuna app compatibile in primo piano</string>
+
+    <string name="notification_channel_name">Stato di AirScroll</string>
+    <string name="notification_channel_description">Mostra se il controllo gestuale è inattivo, in attesa o attivo.</string>
+    <string name="notification_title">AirScroll · %1$s</string>
+    <string name="action_rearm">Cerca la mano</string>
+    <string name="action_stop">Spegni</string>
+
+    <string name="home_master_switch">Controllo gestuale</string>
+    <string name="home_master_switch_subtitle">Avvialo da qui: Android permette alla fotocamera di lavorare anche dopo solo se il servizio parte mentre l\'app è aperta.</string>
+    <string name="home_missing_permissions">Mancano dei permessi necessari: il motore non può partire.</string>
+    <string name="home_permissions_title">Permessi</string>
+    <string name="home_calibration_title">Calibrazione</string>
+    <string name="home_calibration_done">Calibrato. Rifallo se cambi la distanza abituale o la postura.</string>
+    <string name="home_calibration_missing">Non ancora calibrato: sono in uso i valori di partenza.</string>
+    <string name="home_gestures_title">I gesti</string>
+
+    <string name="gesture_thumb_up">Pollice in su: parte lo scorrimento.</string>
+    <string name="gesture_move">Muovi la mano su o giù: la pagina segue, come un dito invisibile. Più ti sposti, più accelera.</string>
+    <string name="gesture_sides">Spostala a destra o a sinistra: volume su o giù, in modo progressivo.</string>
+    <string name="gesture_fist">Pugno chiuso per circa due secondi: stop.</string>
+    <string name="gesture_leave">Anche uscire dall\'app ferma tutto e chiude la fotocamera.</string>
+
+    <string name="permission_camera">Fotocamera</string>
+    <string name="permission_camera_why">Serve a vedere la mano. Le immagini non escono dal dispositivo e non vengono salvate.</string>
+    <string name="permission_camera_grant">Consenti la fotocamera</string>
+    <string name="permission_camera_ok">Fotocamera consentita</string>
+    <string name="permission_accessibility">Servizio di accessibilità</string>
+    <string name="permission_accessibility_why">È l\'unico modo che ha un\'app di scorrere dentro un\'altra app. AirScroll non legge i contenuti dello schermo.</string>
+    <string name="permission_accessibility_grant">Attiva il servizio</string>
+    <string name="permission_accessibility_ok">Servizio attivo</string>
+    <string name="permission_overlay">Mostra sopra le altre app</string>
+    <string name="permission_overlay_why">Serve a disegnare il pallino di stato: rosso spento, giallo in attesa, verde attivo.</string>
+    <string name="permission_overlay_grant">Consenti l\'indicatore</string>
+    <string name="permission_overlay_ok">Indicatore consentito</string>
+    <string name="permission_notifications">Notifiche</string>
+    <string name="permission_notifications_why">Android impone una notifica visibile finché la fotocamera può essere usata in background.</string>
+    <string name="permission_notifications_grant">Consenti le notifiche</string>
+    <string name="permission_notifications_ok">Notifiche consentite</string>
+    <string name="permission_battery">Batteria senza restrizioni</string>
+    <string name="permission_battery_why">Senza questo, alcuni telefoni chiudono il servizio dopo pochi minuti in background.</string>
+    <string name="status_granted">Concesso</string>
+
+    <string name="onboarding_what_title">Cosa fa</string>
+    <string name="onboarding_what_body">AirScroll trasforma il movimento della mano in scorrimento e volume, così usi il telefono senza toccarlo.</string>
+    <string name="onboarding_use_kitchen">In cucina, con la ricetta aperta e le mani infarinate.</string>
+    <string name="onboarding_use_work">Al lavoro, con guanti, attrezzi o mani sporche.</string>
+    <string name="onboarding_use_gym">In palestra, fra una serie e l\'altra.</string>
+    <string name="onboarding_use_reading">Leggendo un PDF lungo o un articolo.</string>
+    <string name="onboarding_use_accessibility">Quando toccare lo schermo è difficile o doloroso.</string>
+
+    <string name="onboarding_privacy_title">Cosa non fa</string>
+    <string name="onboarding_privacy_body">Il riconoscimento dei gesti avviene interamente sul telefono.</string>
+    <string name="onboarding_privacy_offline">Non usa e non richiede alcuna connessione.</string>
+    <string name="onboarding_privacy_no_recording">Nessuna foto e nessun video viene salvato da nessuna parte.</string>
+    <string name="onboarding_privacy_camera_off">La fotocamera resta chiusa se non c\'è un\'app compatibile in primo piano.</string>
+    <string name="onboarding_privacy_no_content">Il servizio di accessibilità non legge i contenuti dello schermo: vede solo quale app è aperta.</string>
+
+    <string name="onboarding_permissions_title">Permessi</string>
+    <string name="onboarding_permissions_body">Quattro permessi, ognuno con un compito preciso.</string>
+    <string name="onboarding_permissions_note">Puoi concederli anche dopo, ma senza fotocamera e accessibilità il motore non parte.</string>
+
+    <string name="calibration_title">Calibrazione</string>
+    <string name="calibration_needs_camera">La calibrazione ha bisogno della fotocamera. Concedi il permesso e torna qui.</string>
+    <string name="calibration_show_hand">Mostra la mano alla fotocamera.</string>
+    <string name="calibration_hand_visible">Mano rilevata, continua così.</string>
+    <string name="calibration_use_defaults">Salta, usa i valori di partenza</string>
+    <string name="calibration_summary">Dimensione mano %1$d · ampiezza verticale %2$d · tremolio %3$d</string>
+
+    <string name="calibration_intro_title">Quattro passaggi brevi</string>
+    <string name="calibration_intro_body">Tieni il telefono come fai di solito e la mano nell\'inquadratura. In tutto sono una quindicina di secondi.</string>
+    <string name="calibration_distance_title">1. La tua distanza abituale</string>
+    <string name="calibration_distance_body">Tieni la mano aperta dove ti viene naturale e resta fermo lì. Da qui AirScroll capisce quanto stai lontano di solito.</string>
+    <string name="calibration_still_title">2. Mano ferma</string>
+    <string name="calibration_still_body">Cerca di non muoverti. Misuriamo il tuo tremolio naturale, così non diventerà mai scorrimento indesiderato.</string>
+    <string name="calibration_vertical_title">3. Su e giù</string>
+    <string name="calibration_vertical_body">Muovi la mano su e giù qualche volta, con l\'ampiezza che ti è comoda. Non di più.</string>
+    <string name="calibration_horizontal_title">4. Destra e sinistra</string>
+    <string name="calibration_horizontal_body">Ora spostala a destra e a sinistra qualche volta. Serve a tarare il volume.</string>
+    <string name="calibration_done_title">Fatto</string>
+    <string name="calibration_done_body">Il tuo profilo è pronto. Puoi sempre ritoccarlo dalle impostazioni.</string>
+
+    <string name="settings_title">Impostazioni</string>
+    <string name="settings_movement">Movimento</string>
+    <string name="settings_distance">Profilo distanza</string>
+    <string name="settings_distance_hint">L\'automatico si adatta a quanto appare grande la mano: lo stesso gesto scorre uguale che tu sia vicino o lontano.</string>
+    <string name="settings_sensitivity">Sensibilità</string>
+    <string name="settings_max_speed">Velocità massima di scorrimento</string>
+    <string name="settings_neutral_zone">Zona neutra</string>
+    <string name="settings_invert">Inverti il verso</string>
+    <string name="settings_invert_hint">Mano in su fa risalire la pagina invece di scenderla.</string>
+
+    <string name="settings_volume">Movimento laterale</string>
+    <string name="settings_volume_speed">Gradini di volume al secondo</string>
+
+    <string name="settings_performance">Prestazioni</string>
+    <string name="settings_performance_hint">Batteria usa un\'immagine più piccola e solo la CPU. Reattivo alza i fotogrammi sui telefoni capaci.</string>
+
+    <string name="settings_timings">Tempi</string>
+    <string name="settings_waiting_window">Finestra di attesa</string>
+    <string name="settings_stop_hold">Pugno chiuso per fermare</string>
+
+    <string name="settings_indicator">Indicatore</string>
+    <string name="settings_indicator_show">Mostra il pallino di stato</string>
+    <string name="settings_indicator_hint">Rosso spento, giallo in attesa, verde attivo.</string>
+    <string name="settings_haptics">Vibra all\'avvio e allo stop</string>
+
+    <string name="settings_apps">App supportate</string>
+    <string name="settings_apps_hint">Disattiva quelle che non vuoi armare. Puoi aggiungere qualunque altra app col suo nome di package.</string>
+    <string name="settings_add_package">Nome package (es. com.esempio.app)</string>
+
+    <string name="settings_calibration">Calibrazione</string>
+
+    <string name="distance_near">Vicino</string>
+    <string name="distance_medium">Medio</string>
+    <string name="distance_far">Lontano</string>
+    <string name="distance_auto">Automatico</string>
+    <string name="performance_battery">Batteria</string>
+    <string name="performance_balanced">Bilanciato</string>
+    <string name="performance_responsive">Reattivo</string>
+    <string name="horizontal_none">Niente</string>
+    <string name="horizontal_volume">Volume</string>
+    <string name="corner_top_start">In alto a sinistra</string>
+    <string name="corner_top_end">In alto a destra</string>
+    <string name="corner_bottom_start">In basso a sinistra</string>
+    <string name="corner_bottom_end">In basso a destra</string>
+
+    <string name="action_next">Avanti</string>
+    <string name="action_skip">Salta</string>
+    <string name="action_start">Inizia</string>
+    <string name="action_save">Salva</string>
+    <string name="action_redo">Rifai</string>
+    <string name="action_back">Indietro</string>
+    <string name="action_add">Aggiungi</string>
+    <string name="action_remove">Rimuovi</string>
+    <string name="action_grant">Concedi</string>
+    <string name="action_open_settings">Apri impostazioni</string>
+    <string name="action_settings">Impostazioni</string>
+    <string name="action_calibrate">Calibra</string>
+    <string name="action_recalibrate">Calibra di nuovo</string>
+    <string name="action_reset_calibration">Azzera la calibrazione</string>
+
+    <string name="error_camera_permission">Manca il permesso fotocamera: il motore non può vedere la mano.</string>
+
+    <string name="accessibility_service_description">AirScroll usa questo servizio per scorrere al posto tuo dentro le altre app. Non legge i contenuti dello schermo: vede solo quale app è in primo piano e invia i gesti di scorrimento che nascono dal movimento della tua mano.</string>
+    <string name="accessibility_service_summary">Trasforma il movimento della mano in scorrimento, offline.</string>
+</resources>

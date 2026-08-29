@@ -1,0 +1,16 @@
+# Android / Gradle
+*.iml
+.gradle/
+local.properties
+.idea/
+build/
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aab
+*.keystore
+*.jks
+
+# Il modello MediaPipe (~8 MB) viene scaricato dal task Gradle `downloadGestureModel`.
+core/vision/src/main/assets/gesture_recognizer.task
