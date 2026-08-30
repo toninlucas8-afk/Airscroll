@@ -211,6 +211,42 @@ può aggiungere un package a mano dalle impostazioni.
 
 ---
 
+## Se il riconoscimento non parte
+
+Nel laboratorio, nella palestra e in calibrazione, quando MediaPipe non riesce
+ad avviarsi compare un riquadro rosso con un blocco di dettagli tecnici e un
+pulsante **Copia i dettagli**. Quel blocco e' la segnalazione: dice quale dei
+tre punti si e' rotto, senza doverlo indovinare.
+
+```
+--- AirScroll: diagnosi riconoscimento ---
+modello        : OK, 8373440 byte
+libreria nativa: NON caricata
+libreria (det.): UnsatisfiedLinkError: dlopen failed: ... is not 16 KB aligned
+pagina memoria : 16384 byte
+ABI            : arm64-v8a
+Android        : 16 (API 36)
+dispositivo    : ...
+```
+
+Tre cose possono rompersi, e sono distinguibili:
+
+- **il modello non c'e'** o **e' compresso** nell'APK: e' un errore di
+  confezionamento, `tools/verify_apk.py` lo intercetta prima della pubblicazione;
+- **la libreria nativa non si carica**: quasi sempre l'incompatibilita' fra una
+  libreria allineata a 4 KB e un telefono con pagine di memoria da 16 KB.
+  Riguarda i telefoni Android usciti dal 2025 e si risolve solo aggiornando
+  MediaPipe (da 0.10.26 in avanti). `.github/workflows/probe-mediapipe.yml`
+  verifica l'allineamento leggendo l'intestazione ELF degli AAR pubblicati,
+  perche' il changelog su questo non e' affidabile.
+
+Le prime due versioni pubblicate sono state inservibili proprio per guasti di
+questo tipo, invisibili a compilazione e a installazione. Da qui la regola:
+ogni APK viene aperto e ispezionato prima di essere pubblicato, e l'app non
+tira mai a indovinare la causa di un fallimento.
+
+---
+
 ## Limiti, detti chiaramente
 
 Sono vincoli di Android o del riconoscimento visivo, non cose "da sistemare
