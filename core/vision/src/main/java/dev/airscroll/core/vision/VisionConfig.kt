@@ -14,7 +14,15 @@ data class VisionConfig(
     val minHandDetectionConfidence: Float = 0.5f,
     val minHandPresenceConfidence: Float = 0.5f,
     val minTrackingConfidence: Float = 0.5f,
-    val minGestureConfidence: Float = 0.55f,
+    /**
+     * Soglia minima per riportare un gesto.
+     *
+     * Volutamente bassa: chi decide davvero se il gesto vale e' il motore, che
+     * applica un'isteresi (severo per partire, indulgente per proseguire).
+     * Filtrare troppo qui significherebbe buttare via l'informazione prima che
+     * qualcuno possa usarla.
+     */
+    val minGestureConfidence: Float = 0.32f,
     /**
      * Specchia l'asse orizzontale. Con la fotocamera frontale serve sempre:
      * l'utente ragiona come davanti a uno specchio. Costa zero perche' e' una

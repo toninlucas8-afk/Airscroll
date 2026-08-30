@@ -222,4 +222,6 @@
     <string name="distance_far_body">Mano oltre i 70 cm. Movimenti piccoli, risposta più decisa.</string>
     <string name="distance_auto_body">Segue la dimensione della mano vista dalla fotocamera, usando la tua calibrazione.</string>
     <string name="error_vision_unavailable">Il riconoscimento della mano non è partito: in questa build manca il modello MediaPipe. La fotocamera funziona, ma nessun gesto verrà mai rilevato. Segnalalo indicando la versione dell\'app.</string>
+    <string name="practice_diagnostics">Motore: %1$s · %2$d fotogrammi inviati · %3$d analizzati</string>
+    <string name="practice_diagnostics_stalled">I fotogrammi partono ma il modello non risponde. È un difetto, non la tua mano: segnalalo con questa schermata.</string>
 </resources>

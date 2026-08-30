@@ -42,8 +42,8 @@ class GestureEngine(
     }
 
     private val mapper = MotionMapper()
-    private val activationHold = HoldDetector(DEFAULT_ACTIVATION_HOLD_MS)
-    private val stopHold = HoldDetector(DEFAULT_STOP_HOLD_MS)
+    private val activationHold = HoldDetector(DEFAULT_ACTIVATION_HOLD_MS, GESTURE_GRACE_MS)
+    private val stopHold = HoldDetector(DEFAULT_STOP_HOLD_MS, GESTURE_GRACE_MS)
 
     private var settings: AirScrollSettings = AirScrollSettings.Default
     private var profile: AppProfile? = null
@@ -151,8 +151,7 @@ class GestureEngine(
     }
 
     private fun handleWaiting(frame: HandFrame, now: Long) {
-        val wantsActivation = frame.present && frame.signal == HandSignal.THUMB_UP
-        if (activationHold.update(wantsActivation, now)) {
+        if (holdProgressed(frame, HandSignal.THUMB_UP, activationHold, now)) {
             mapper.anchorTo(frame, frame.timestampMs)
             stopHold.reset()
             transition(EngineState.ACTIVE, StateChangeReason.ACTIVATION_GESTURE)
@@ -160,8 +159,7 @@ class GestureEngine(
     }
 
     private fun handleActive(frame: HandFrame, now: Long) {
-        val fistHeld = frame.present && frame.signal == HandSignal.CLOSED_FIST
-        if (stopHold.update(fistHeld, now)) {
+        if (holdProgressed(frame, HandSignal.CLOSED_FIST, stopHold, now)) {
             publishScroll(ScrollCommand.Stopped)
             transition(EngineState.IDLE, StateChangeReason.STOP_GESTURE)
             return
@@ -180,6 +178,46 @@ class GestureEngine(
         if (output.volumeSteps != 0) {
             listener.onVolume(VolumeCommand(steps = output.volumeSteps))
         }
+    }
+
+    /**
+     * Fa avanzare il conteggio di un gesto tenuto, distinguendo due cose che si
+     * assomigliano solo in superficie.
+     *
+     * **Un buco** - il modello per un fotogramma non riconosce niente, o il
+     * punteggio scende - non e' un ripensamento: e' rumore. Viene tollerato
+     * dalla finestra di grazia del rilevatore, altrimenti a dodici fotogrammi
+     * al secondo un gesto di 400 ms si perderebbe di continuo.
+     *
+     * **Un altro gesto riconosciuto con convinzione** invece e' un ripensamento
+     * vero: l'utente ha aperto la mano, ha fatto altro. Li' il conteggio si
+     * azzera subito, senza aspettare la finestra di grazia.
+     *
+     * Sulla confidenza c'e' un'isteresi: severi per cominciare (una mano
+     * qualunque nell'inquadratura non deve far partire lo scorrimento),
+     * indulgenti per proseguire (una volta capito il gesto, pretendere lo
+     * stesso punteggio a ogni fotogramma significa solo perderlo a meta').
+     */
+    private fun holdProgressed(
+        frame: HandFrame,
+        signal: HandSignal,
+        detector: HoldDetector,
+        nowMs: Long,
+    ): Boolean {
+        val contradicted = frame.present &&
+            frame.signal != signal &&
+            frame.signal != HandSignal.NONE &&
+            frame.signalConfidence >= ENTER_CONFIDENCE
+        if (contradicted) {
+            detector.reset()
+            return false
+        }
+
+        val threshold = if (detector.isHolding) CONTINUE_CONFIDENCE else ENTER_CONFIDENCE
+        val matches = frame.present &&
+            frame.signal == signal &&
+            frame.signalConfidence >= threshold
+        return detector.update(matches, nowMs)
     }
 
     private fun transition(target: EngineState, reason: StateChangeReason) {
@@ -264,5 +302,14 @@ class GestureEngine(
         const val HAND_LOST_TIMEOUT_MS = 4_000L
 
         const val VELOCITY_EPSILON = 18f
+
+        /** Quanto puo' sparire un gesto senza che il conteggio riparta da zero. */
+        const val GESTURE_GRACE_MS = 220L
+
+        /** Confidenza richiesta per cominciare a contare un gesto tenuto. */
+        const val ENTER_CONFIDENCE = 0.55f
+
+        /** Confidenza sufficiente per proseguire un conteggio gia' iniziato. */
+        const val CONTINUE_CONFIDENCE = 0.35f
     }
 }

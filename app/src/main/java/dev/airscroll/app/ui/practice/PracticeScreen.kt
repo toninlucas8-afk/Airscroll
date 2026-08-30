@@ -183,6 +183,8 @@ fun PracticeScreen(
             Spacer(Modifier.height(40.dp))
         }
 
+        DiagnosticsRow(state)
+
         TuningBar(
             sensitivity = settings.sensitivity,
             neutralZone = settings.neutralZoneScale,
@@ -255,6 +257,44 @@ private fun LiveStrip(
                     Text(stringResource(R.string.practice_rearm))
                 }
             }
+        }
+    }
+}
+
+/**
+ * Una riga di numeri che vale mille segnalazioni.
+ *
+ * Se il riconoscimento non funziona, questa riga dice subito da che parte
+ * guardare: nessun fotogramma inviato significa fotocamera ferma, fotogrammi
+ * inviati senza risultati significa modello che non gira, risultati che
+ * arrivano senza gesti significa che e' davvero questione di luce o posa.
+ */
+@Composable
+private fun DiagnosticsRow(state: PracticeUiState) {
+    val stats = state.stats
+    val stalled = stats.submitted > 20 && stats.results == 0L
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+    ) {
+        Text(
+            text = stringResource(
+                R.string.practice_diagnostics,
+                if (stats.usingGpu) "GPU" else "CPU",
+                stats.submitted,
+                stats.results,
+            ),
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        if (stalled) {
+            Text(
+                text = stringResource(R.string.practice_diagnostics_stalled),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+            )
         }
     }
 }

@@ -10,6 +10,24 @@ import kotlinx.coroutines.flow.SharedFlow
  * Il motore dipende solo da questa interfaccia: se un domani si vuole
  * sostituire MediaPipe con un altro modello, basta una nuova implementazione.
  */
+/**
+ * Fotografia del funzionamento del riconoscitore.
+ *
+ * Serve a distinguere fra i tre modi in cui "non vedo la mano" puo' accadere:
+ * il modello non e' partito ([ready] falso), i fotogrammi non arrivano
+ * ([submitted] fermo), oppure arrivano ma il modello non risponde ([results]
+ * fermo). Senza questi numeri sono indistinguibili.
+ */
+data class TrackerStats(
+    val ready: Boolean = false,
+    val usingGpu: Boolean = false,
+    val submitted: Long = 0L,
+    val results: Long = 0L,
+    val droppedBusy: Long = 0L,
+    val stalls: Long = 0L,
+    val lastError: String? = null,
+)
+
 interface HandTracker {
 
     /** Fotogrammi analizzati, gia' normalizzati e specchiati. */
@@ -30,6 +48,9 @@ interface HandTracker {
      * agitare la mano davanti a una fotocamera che funziona benissimo.
      */
     val isReady: Boolean
+
+    /** Contatori di funzionamento, per capire *perche'* non si vede la mano. */
+    fun stats(): TrackerStats
 
     fun start()
 

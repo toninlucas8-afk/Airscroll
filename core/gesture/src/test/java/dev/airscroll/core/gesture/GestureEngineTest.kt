@@ -52,11 +52,15 @@ class GestureEngineTest {
         engine.updateSettings(AirScrollSettings.Default.copy(serviceEnabled = true))
     }
 
-    private fun frame(signal: HandSignal, y: Float = 0.5f) = HandFrame(
+    private fun frame(
+        signal: HandSignal,
+        y: Float = 0.5f,
+        confidence: Float = 0.95f,
+    ) = HandFrame(
         timestampMs = now,
         present = true,
         signal = signal,
-        signalConfidence = 0.95f,
+        signalConfidence = confidence,
         palmX = 0.5f,
         palmY = y,
         handSpan = 0.14f,
@@ -103,12 +107,62 @@ class GestureEngineTest {
     }
 
     @Test
-    fun `un pollice in su troppo breve non attiva nulla`() {
+    fun `un pollice in su poco convinto non attiva nulla`() {
+        enable()
+        engine.onForegroundApp("com.test", profile)
+
+        // Sotto la soglia di ingresso: potrebbe essere una mano qualsiasi.
+        engine.onFrame(frame(HandSignal.THUMB_UP, confidence = 0.40f))
+        now += 800
+        engine.onFrame(frame(HandSignal.THUMB_UP, confidence = 0.40f))
+
+        assertEquals(EngineState.WAITING, engine.currentState)
+    }
+
+    @Test
+    fun `una volta iniziato il gesto resiste a un calo di confidenza`() {
+        enable()
+        engine.onForegroundApp("com.test", profile)
+
+        // Parte convinto...
+        engine.onFrame(frame(HandSignal.THUMB_UP, confidence = 0.90f))
+        now += 200
+        // ...poi il punteggio cala, ma resta sopra la soglia di prosecuzione.
+        engine.onFrame(frame(HandSignal.THUMB_UP, confidence = 0.40f))
+        now += 250
+        engine.onFrame(frame(HandSignal.THUMB_UP, confidence = 0.38f))
+
+        assertEquals(
+            "un calo di punteggio non deve far perdere l'attivazione",
+            EngineState.ACTIVE,
+            engine.currentState,
+        )
+    }
+
+    @Test
+    fun `un fotogramma perso non fa perdere l'attivazione`() {
+        enable()
+        engine.onForegroundApp("com.test", profile)
+
+        engine.onFrame(frame(HandSignal.THUMB_UP))
+        now += 120
+        // Un fotogramma in cui il modello non riconosce niente: capita.
+        engine.onFrame(frame(HandSignal.NONE, confidence = 0f))
+        now += 300
+        engine.onFrame(frame(HandSignal.THUMB_UP))
+
+        assertEquals(EngineState.ACTIVE, engine.currentState)
+    }
+
+    @Test
+    fun `cambiare gesto azzera il conteggio, a differenza di un buco`() {
         enable()
         engine.onForegroundApp("com.test", profile)
 
         engine.onFrame(frame(HandSignal.THUMB_UP))
         now += 200
+        // Mano aperta riconosciuta con convinzione: non e' un fotogramma perso,
+        // e' l'utente che ha fatto altro. Il conteggio deve ripartire da zero.
         engine.onFrame(frame(HandSignal.OPEN_PALM))
         now += 400
         engine.onFrame(frame(HandSignal.THUMB_UP))

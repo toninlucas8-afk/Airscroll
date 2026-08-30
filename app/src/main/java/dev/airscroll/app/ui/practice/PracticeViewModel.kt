@@ -21,6 +21,7 @@ import dev.airscroll.core.gesture.GestureEngine
 import dev.airscroll.core.settings.AirScrollSettings
 import dev.airscroll.core.settings.effective
 import dev.airscroll.core.vision.MediaPipeHandTracker
+import dev.airscroll.core.vision.TrackerStats
 import dev.airscroll.core.vision.VisionConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -40,6 +41,7 @@ data class PracticeUiState(
     val volumeSteps: Int = 0,
     val error: String? = null,
     val usingGpu: Boolean = false,
+    val stats: TrackerStats = TrackerStats(),
 )
 
 /**
@@ -99,6 +101,11 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
             while (isActive) {
                 delay(TICK_MS)
                 engine.tick()
+                if (running) {
+                    // I contatori del tracker sono l'unico modo di distinguere
+                    // "non vedo la mano" da "il modello non sta girando".
+                    _state.value = _state.value.copy(stats = tracker.stats())
+                }
             }
         }
     }

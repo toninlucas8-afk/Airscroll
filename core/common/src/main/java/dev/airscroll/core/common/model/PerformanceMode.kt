@@ -14,13 +14,13 @@ enum class PerformanceMode(
     val preferGpu: Boolean,
 ) {
     /** Batteria prima di tutto: bassa risoluzione, poche analisi al secondo, solo CPU. */
-    BATTERY(waitingFps = 6, activeFps = 15, analysisWidth = 320, analysisHeight = 240, preferGpu = false),
+    BATTERY(waitingFps = 8, activeFps = 15, analysisWidth = 320, analysisHeight = 240, preferGpu = false),
 
     /** Default. */
-    BALANCED(waitingFps = 8, activeFps = 22, analysisWidth = 480, analysisHeight = 360, preferGpu = true),
+    BALANCED(waitingFps = 12, activeFps = 22, analysisWidth = 480, analysisHeight = 360, preferGpu = true),
 
     /** Massima fluidita' su telefoni potenti. */
-    RESPONSIVE(waitingFps = 12, activeFps = 30, analysisWidth = 640, analysisHeight = 480, preferGpu = true),
+    RESPONSIVE(waitingFps = 15, activeFps = 30, analysisWidth = 640, analysisHeight = 480, preferGpu = true),
 }
 
 /** Come mappare lo spostamento orizzontale della mano. */

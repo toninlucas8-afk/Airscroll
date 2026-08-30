@@ -16,6 +16,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicLong
 import kotlin.math.hypot
 
 /**
@@ -101,11 +102,19 @@ class MediaPipeHandTracker(
     }
 
     override fun submit(bitmap: Bitmap, timestampMs: Long) {
+        maybeRecoverFromStall(timestampMs)
+        maybeFallBackToCpu()
+
         val active = recognizer ?: return
         // MediaPipe in LIVE_STREAM pretende timestamp strettamente crescenti.
         val stamp = if (timestampMs <= lastSubmittedTimestamp) lastSubmittedTimestamp + 1 else timestampMs
-        if (!busy.compareAndSet(false, true)) return
+        if (!busy.compareAndSet(false, true)) {
+            droppedBusy.incrementAndGet()
+            return
+        }
+        busySinceMs = timestampMs
         lastSubmittedTimestamp = stamp
+        submittedFrames.incrementAndGet()
         try {
             active.recognizeAsync(BitmapImageBuilder(bitmap).build(), stamp)
         } catch (t: Throwable) {
@@ -115,16 +124,64 @@ class MediaPipeHandTracker(
         }
     }
 
+    /**
+     * Sblocca la pipeline se un fotogramma resta appeso.
+     *
+     * `busy` viene liberato dal callback dei risultati o da quello degli
+     * errori. Se per qualunque motivo non arriva nessuno dei due, senza questo
+     * controllo ogni fotogramma successivo verrebbe scartato per sempre: la
+     * fotocamera resterebbe accesa, l'anteprima perfetta, e il riconoscimento
+     * morto senza un solo messaggio.
+     */
+    private fun maybeRecoverFromStall(nowMs: Long) {
+        if (!busy.get()) return
+        if (nowMs - busySinceMs < STALL_TIMEOUT_MS) return
+        if (busy.compareAndSet(true, false)) {
+            stalls.incrementAndGet()
+            Log.w(TAG, "Fotogramma appeso da oltre $STALL_TIMEOUT_MS ms: pipeline sbloccata")
+        }
+    }
+
+    /**
+     * Ricade su CPU se il delegate GPU e' stato creato ma non produce nulla.
+     *
+     * Su parecchi dispositivi `createFromOptions` con GPU riesce e poi
+     * l'inferenza non restituisce mai un risultato. Controllare solo la
+     * creazione non basta: l'unica prova che la GPU funzioni e' che arrivino
+     * dei risultati.
+     */
+    private fun maybeFallBackToCpu() {
+        if (gpuFallbackAttempted || !usingGpu) return
+        if (submittedFrames.get() < GPU_PROOF_FRAMES || resultFrames.get() > 0L) return
+        gpuFallbackAttempted = true
+        Log.w(TAG, "Il delegate GPU non ha prodotto risultati: passo su CPU")
+        synchronized(this) {
+            runCatching { recognizer?.close() }
+            recognizer = null
+            busy.set(false)
+            lastSubmittedTimestamp = 0L
+            usingGpu = false
+            if (!tryCreate(Delegate.CPU)) {
+                Log.e(TAG, "Nemmeno il delegate CPU parte: $lastError")
+            }
+        }
+    }
+
     @Synchronized
     override fun stop() {
         busy.set(false)
         lastSubmittedTimestamp = 0L
+        submittedFrames.set(0)
+        resultFrames.set(0)
+        droppedBusy.set(0)
+        gpuFallbackAttempted = false
         runCatching { recognizer?.close() }
         recognizer = null
     }
 
     private fun onResult(result: GestureRecognizerResult) {
         busy.set(false)
+        resultFrames.incrementAndGet()
         val timestamp = result.timestampMs()
         val landmarks = result.landmarks().firstOrNull()
         if (landmarks == null || landmarks.size <= MIDDLE_MCP) {
@@ -171,5 +228,11 @@ class MediaPipeHandTracker(
         const val INDEX_MCP = 5
         const val MIDDLE_MCP = 9
         const val PINKY_MCP = 17
+
+        /** Oltre questo tempo un fotogramma in volo e' considerato perso. */
+        const val STALL_TIMEOUT_MS = 1_500L
+
+        /** Fotogrammi da provare prima di dichiarare inservibile la GPU. */
+        const val GPU_PROOF_FRAMES = 12L
     }
 }
