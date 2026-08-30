@@ -233,4 +233,10 @@
     <string name="calibration_tip_slow">慢慢转一圈，大约五秒。动得太快，相机会跟丢。</string>
     <string name="calibration_tip_comfort">移动到舒服的位置就好，不要勉强。这应该和你平时真正使用的样子一致。</string>
     <string name="calibration_tip_frame">保持在画面内。如果圆点变红，说明相机跟丢了：回到中间。</string>
+    <string name="home_gestures_subtitle">所有手势，都在动。这些细节正是第一次用时不容易想到的。</string>
+    <string name="gesture_thumb_up_info">要保持大约半秒，不是一闪而过。短暂的中断——手转了一下、手指挡住拇指——不会让计时归零，会接着算。但明确做出另一个手势就会归零，因为那说明你改主意了。</string>
+    <string name="gesture_move_info">速度是渐进的：动得小就滚得慢，动得大就滚得快。轻微的抖动完全没有影响——由校准时测得的中性区吸收。而且每个方向只要求你的手真正能做到的幅度。</string>
+    <string name="gesture_sides_info">一次只用一个轴：滚动时不会误改音量，另一个轴要明显占优才能接管。水平轴也可以在设置里完全关掉。</string>
+    <string name="gesture_fist_info">两秒，避免误停。可在「设置 → 时间」里调整。如果不到两秒就松开手，停止会被取消。</string>
+    <string name="gesture_leave_info">黄色窗口在大约六秒没有竖起拇指后也会自动关闭，相机随之关闭。想不退出应用就重新打开它，点一下 AirScroll 通知上的“寻找手部”。</string>
 </resources>

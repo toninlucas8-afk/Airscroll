@@ -26,17 +26,12 @@ import androidx.compose.material.icons.filled.BatteryFull
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Layers
-import androidx.compose.material.icons.filled.Logout
 import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.PanTool
 import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SportsMartialArts
 import androidx.compose.material.icons.filled.Straighten
-import androidx.compose.material.icons.filled.ThumbUp
 import androidx.compose.material.icons.filled.Tune
-import androidx.compose.material.icons.filled.UnfoldMore
-import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.Button
 import androidx.compose.material3.HorizontalDivider
@@ -61,6 +56,7 @@ import dev.airscroll.app.ui.MainViewModel
 import dev.airscroll.app.ui.components.IconRow
 import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.ScreenPadding
+import dev.airscroll.app.ui.components.GestureLegend
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.StatusDot
 import dev.airscroll.app.ui.components.SwitchRow
@@ -217,12 +213,17 @@ fun HomeScreen(
             LegendRow(EngineState.ACTIVE, stringResource(R.string.legend_green))
         }
 
-        SectionCard(title = stringResource(R.string.home_gestures_title)) {
-            IconRow(Icons.Filled.ThumbUp, stringResource(R.string.gesture_thumb_up_title), stringResource(R.string.gesture_thumb_up))
-            IconRow(Icons.Filled.UnfoldMore, stringResource(R.string.gesture_move_title), stringResource(R.string.gesture_move))
-            IconRow(Icons.Filled.VolumeUp, stringResource(R.string.gesture_sides_title), stringResource(R.string.gesture_sides))
-            IconRow(Icons.Filled.PanTool, stringResource(R.string.gesture_fist_title), stringResource(R.string.gesture_fist))
-            IconRow(Icons.Filled.Logout, stringResource(R.string.gesture_leave_title), stringResource(R.string.gesture_leave))
+        // La legenda dei gesti, animata.
+        //
+        // Prima era un elenco di icone ferme, e le due cose che alla prima prova
+        // non erano ovvie sono proprio quelle che un pittogramma non puo' dire:
+        // che il pollice in su va **tenuto**, e che la pagina **segue** la mano
+        // invece di saltare a scatti.
+        SectionCard(
+            title = stringResource(R.string.home_gestures_title),
+            subtitle = stringResource(R.string.home_gestures_subtitle),
+        ) {
+            GestureLegend()
         }
 
         OutlinedButton(

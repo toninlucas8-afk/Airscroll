@@ -284,4 +284,10 @@
     <string name="calibration_tip_slow">One slow lap, about five seconds. Moving fast makes the camera lose your hand.</string>
     <string name="calibration_tip_comfort">Go as far as is comfortable, not as far as you can strain. This should look like the way you will really use it.</string>
     <string name="calibration_tip_frame">Stay inside the frame. If the dot turns red, the camera has lost you: come back towards the middle.</string>
+    <string name="home_gestures_subtitle">Every gesture, moving. The details are the ones that are not obvious the first time.</string>
+    <string name="gesture_thumb_up_info">Hold it for about half a second, not just a flash. A brief dip — your hand rotates, a finger covers the thumb — does not reset the count: it picks up again. But clearly making a different gesture does reset it, because that means you changed your mind.</string>
+    <string name="gesture_move_info">Speed is progressive: a small movement scrolls slowly, a wide one scrolls fast. Small tremors do nothing at all — the neutral zone measured during calibration absorbs them. And each direction only asks for what your hand can actually reach.</string>
+    <string name="gesture_sides_info">One axis at a time: while you are scrolling you cannot change the volume by accident, and the other axis has to win by a clear margin to take over. The horizontal axis can also be switched off entirely in Settings.</string>
+    <string name="gesture_fist_info">Two seconds, so you do not stop by accident. Adjustable in Settings → Timings. Opening your hand before the two seconds are up cancels the stop.</string>
+    <string name="gesture_leave_info">The amber window also closes on its own after about six seconds without a thumbs up, and the camera goes off. To reopen it without leaving the app, tap “Look for the hand” on the AirScroll notification.</string>
 </resources>

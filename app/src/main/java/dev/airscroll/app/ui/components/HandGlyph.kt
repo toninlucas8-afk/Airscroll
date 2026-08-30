@@ -58,3 +58,85 @@ fun DrawScope.drawHandGlyph(
         cornerRadius = CornerRadius(fingerWidth / 2f),
     )
 }
+
+/**
+ * Pugno chiuso: il palmo senza dita distese, con le nocche accennate.
+ *
+ * E' il gesto di uscita, e nella legenda deve essere riconoscibile a colpo
+ * d'occhio accanto alla mano aperta: da qui le nocche, che sono l'unica cosa
+ * che distingue davvero un pugno da un rettangolo arrotondato.
+ */
+fun DrawScope.drawFistGlyph(
+    center: Offset,
+    palmWidth: Float,
+    color: Color,
+) {
+    val palmHeight = palmWidth * 0.92f
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - palmWidth / 2f, center.y - palmHeight / 2f),
+        size = Size(palmWidth, palmHeight),
+        cornerRadius = CornerRadius(palmWidth * 0.32f),
+    )
+
+    val knuckle = palmWidth * 0.15f
+    for (index in 0..3) {
+        drawCircle(
+            color = color.copy(alpha = 0.45f),
+            radius = knuckle / 2f,
+            center = Offset(
+                x = center.x - palmWidth * 0.30f + index * palmWidth * 0.20f,
+                y = center.y - palmHeight * 0.26f,
+            ),
+        )
+    }
+
+    // Il pollice piegato di traverso, come in un pugno vero.
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - palmWidth * 0.58f, center.y + palmHeight * 0.02f),
+        size = Size(palmWidth * 0.34f, palmWidth * 0.20f),
+        cornerRadius = CornerRadius(palmWidth * 0.10f),
+    )
+}
+
+/**
+ * Pollice in su: il pugno con il solo pollice disteso verso l'alto.
+ *
+ * E' il gesto di attivazione, quello che l'utente deve imparare per primo.
+ */
+fun DrawScope.drawThumbUpGlyph(
+    center: Offset,
+    palmWidth: Float,
+    color: Color,
+) {
+    val palmHeight = palmWidth * 0.92f
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - palmWidth * 0.42f, center.y - palmHeight * 0.34f),
+        size = Size(palmWidth * 0.84f, palmHeight * 0.86f),
+        cornerRadius = CornerRadius(palmWidth * 0.28f),
+    )
+
+    val fingerWidth = palmWidth * 0.16f
+    for (index in 0..2) {
+        drawRoundRect(
+            color = color.copy(alpha = 0.45f),
+            topLeft = Offset(
+                center.x - palmWidth * 0.30f + index * palmWidth * 0.22f,
+                center.y - palmHeight * 0.22f,
+            ),
+            size = Size(fingerWidth, palmHeight * 0.16f),
+            cornerRadius = CornerRadius(fingerWidth / 2f),
+        )
+    }
+
+    // Il pollice, che esce dal lato e punta in su: e' cio' che rende il gesto
+    // leggibile, quindi e' l'elemento piu' lungo del disegno.
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - palmWidth * 0.62f, center.y - palmHeight * 0.86f),
+        size = Size(palmWidth * 0.26f, palmHeight * 0.72f),
+        cornerRadius = CornerRadius(palmWidth * 0.13f),
+    )
+}

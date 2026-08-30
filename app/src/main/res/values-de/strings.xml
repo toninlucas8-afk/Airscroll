@@ -233,4 +233,10 @@
     <string name="calibration_tip_slow">Eine langsame Runde, etwa fünf Sekunden. Zu schnell, und die Kamera verliert die Hand.</string>
     <string name="calibration_tip_comfort">Geh so weit, wie es bequem ist, nicht so weit wie irgend möglich. Es soll dem entsprechen, wie du es wirklich nutzt.</string>
     <string name="calibration_tip_frame">Bleib im Bild. Wird der Punkt rot, hat die Kamera dich verloren: geh wieder zur Mitte.</string>
+    <string name="home_gestures_subtitle">Alle Gesten, in Bewegung. Die Details sind die, die beim ersten Mal nicht offensichtlich sind.</string>
+    <string name="gesture_thumb_up_info">Etwa eine halbe Sekunde halten, nicht nur kurz zeigen. Ein kurzer Aussetzer — die Hand dreht sich, ein Finger verdeckt den Daumen — setzt die Zählung nicht zurück: sie läuft weiter. Eine deutlich andere Geste dagegen schon, denn das heißt, du hast es dir anders überlegt.</string>
+    <string name="gesture_move_info">Die Geschwindigkeit ist progressiv: kleine Bewegung, langsames Scrollen; große Bewegung, schnelles Scrollen. Zittern bewirkt gar nichts — das fängt die bei der Kalibrierung gemessene neutrale Zone ab. Und jede Richtung verlangt nur das, was deine Hand wirklich erreicht.</string>
+    <string name="gesture_sides_info">Immer nur eine Achse: beim Scrollen kannst du die Lautstärke nicht versehentlich ändern, und die andere Achse muss deutlich gewinnen, um zu übernehmen. Die waagerechte Achse lässt sich in den Einstellungen ganz abschalten.</string>
+    <string name="gesture_fist_info">Zwei Sekunden, damit du nicht versehentlich stoppst. Einstellbar unter Einstellungen → Zeiten. Öffnest du die Hand vor Ablauf der zwei Sekunden, wird der Stopp abgebrochen.</string>
+    <string name="gesture_leave_info">Auch das gelbe Fenster schließt sich nach etwa sechs Sekunden ohne Daumen hoch von selbst, und die Kamera geht aus. Um es zu öffnen, ohne die App zu verlassen, tippe in der AirScroll-Benachrichtigung auf “Hand suchen”.</string>
 </resources>

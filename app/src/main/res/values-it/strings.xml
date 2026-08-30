@@ -264,4 +264,10 @@
     <string name="calibration_tip_slow">Un giro lento, cinque secondi circa. Andando veloce la fotocamera perde la mano.</string>
     <string name="calibration_tip_comfort">Arriva dove ti viene comodo, non dove riesci a sforzarti. Deve somigliare a come la userai davvero.</string>
     <string name="calibration_tip_frame">Resta dentro l\'inquadratura. Se il puntino diventa rosso la fotocamera ti ha perso: torna verso il centro.</string>
+    <string name="home_gestures_subtitle">Tutti i gesti, in movimento. I dettagli sono quelli che la prima volta non sono ovvi.</string>
+    <string name="gesture_thumb_up_info">Va tenuto circa mezzo secondo, non un lampo. Un calo breve — la mano ruota, un dito copre il pollice — non azzera il conteggio: riprende da dove era. Ma fare chiaramente un altro gesto sì, perché vuol dire che hai cambiato idea.</string>
+    <string name="gesture_move_info">La velocità è progressiva: movimento piccolo, scorrimento lento; movimento ampio, scorrimento veloce. I tremolii non fanno proprio niente — li assorbe la zona neutra misurata in calibrazione. E ogni direzione chiede solo quello che la tua mano ci arriva davvero a fare.</string>
+    <string name="gesture_sides_info">Un asse alla volta: mentre scorri non puoi cambiare volume per sbaglio, e per rubare il comando l\'altro asse deve vincere di un buon margine. L\'asse orizzontale si può anche spegnere del tutto dalle impostazioni.</string>
+    <string name="gesture_fist_info">Due secondi, per non fermarti per sbaglio. Si regola da Impostazioni → Tempi. Se riapri la mano prima dei due secondi, lo stop si annulla.</string>
+    <string name="gesture_leave_info">Anche la finestra gialla si chiude da sola dopo circa sei secondi senza pollice in su, e la fotocamera si spegne. Per riaprirla senza uscire dall\'app, tocca “Cerca la mano” sulla notifica di AirScroll.</string>
 </resources>

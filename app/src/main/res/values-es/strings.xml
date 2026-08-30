@@ -233,4 +233,10 @@
     <string name="calibration_tip_slow">Una vuelta lenta, unos cinco segundos. Yendo rápido la cámara pierde la mano.</string>
     <string name="calibration_tip_comfort">Llega hasta donde te resulte cómodo, no hasta donde puedas forzar. Debe parecerse a cómo la usarás de verdad.</string>
     <string name="calibration_tip_frame">Quédate dentro del encuadre. Si el punto se pone rojo, la cámara te ha perdido: vuelve hacia el centro.</string>
+    <string name="home_gestures_subtitle">Todos los gestos, en movimiento. Los detalles son los que la primera vez no resultan obvios.</string>
+    <string name="gesture_thumb_up_info">Hay que mantenerlo medio segundo, no un instante. Una caída breve — la mano gira, un dedo tapa el pulgar — no reinicia la cuenta: continúa. Pero hacer claramente otro gesto sí la reinicia, porque significa que has cambiado de idea.</string>
+    <string name="gesture_move_info">La velocidad es progresiva: movimiento pequeño, desplazamiento lento; movimiento amplio, rápido. Los temblores no hacen nada — los absorbe la zona neutra medida en la calibración. Y cada dirección pide solo lo que tu mano alcanza de verdad.</string>
+    <string name="gesture_sides_info">Un eje a la vez: mientras te desplazas no puedes cambiar el volumen sin querer, y para robar el mando el otro eje tiene que ganar por un buen margen. El eje horizontal se puede apagar del todo en los ajustes.</string>
+    <string name="gesture_fist_info">Dos segundos, para no parar sin querer. Se ajusta en Ajustes → Tiempos. Si abres la mano antes de los dos segundos, la parada se cancela.</string>
+    <string name="gesture_leave_info">La ventana ámbar también se cierra sola tras unos seis segundos sin pulgar arriba, y la cámara se apaga. Para reabrirla sin salir de la app, toca “Buscar la mano” en la notificación de AirScroll.</string>
 </resources>
