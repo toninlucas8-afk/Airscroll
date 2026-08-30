@@ -51,6 +51,18 @@
             </intent-filter>
         </activity>
 
+        <!-- Serve solo a condividere il CSV del laboratorio: Android non
+             permette di consegnare a un'altra app il percorso di un file. -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.recordings"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
         <service
             android:name=".service.VisionForegroundService"
             android:exported="false"

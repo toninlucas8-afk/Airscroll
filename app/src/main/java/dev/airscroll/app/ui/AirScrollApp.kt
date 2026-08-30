@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.airscroll.app.ui.calibration.CalibrationScreen
 import dev.airscroll.app.ui.home.HomeScreen
+import dev.airscroll.app.ui.lab.LabScreen
 import dev.airscroll.app.ui.onboarding.GuidedSetupScreen
 import dev.airscroll.app.ui.practice.PracticeScreen
 import dev.airscroll.app.ui.settings.SettingsScreen
@@ -28,6 +29,7 @@ object Routes {
     const val CALIBRATION = "calibration"
     const val SETTINGS = "settings"
     const val PRACTICE = "practice"
+    const val LAB = "lab"
 }
 
 @Composable
@@ -92,10 +94,14 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
                     onBack = { navController.popBackStack() },
                     onOpenPractice = { navController.navigate(Routes.PRACTICE) },
                     onOpenSetup = { navController.navigate(Routes.ONBOARDING) },
+                    onOpenLab = { navController.navigate(Routes.LAB) },
                 )
             }
             composable(Routes.PRACTICE) {
                 PracticeScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Routes.LAB) {
+                LabScreen(onBack = { navController.popBackStack() })
             }
         }
     }

@@ -56,6 +56,7 @@ fun SettingsScreen(
     onBack: () -> Unit,
     onOpenPractice: () -> Unit,
     onOpenSetup: () -> Unit,
+    onOpenLab: () -> Unit,
 ) {
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     var newPackage by remember { mutableStateOf("") }
@@ -278,6 +279,14 @@ fun SettingsScreen(
             OutlinedButton(onClick = onOpenSetup, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.action_replay_setup))
             }
+            OutlinedButton(onClick = onOpenLab, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.lab_open))
+            }
+            Text(
+                text = stringResource(R.string.lab_settings_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
         }
 
         TextButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }

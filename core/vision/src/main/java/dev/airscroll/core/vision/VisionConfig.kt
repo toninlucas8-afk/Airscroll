@@ -29,6 +29,11 @@ data class VisionConfig(
      * sottrazione sulle coordinate, non una trasformazione del bitmap.
      */
     val mirrorHorizontally: Boolean = true,
+    /**
+     * Allega i 21 punti grezzi a ogni fotogramma. Serve solo al laboratorio:
+     * a regime resta spento perche' costa allocazioni inutili.
+     */
+    val includeLandmarks: Boolean = false,
 ) {
     companion object {
         const val DEFAULT_MODEL_ASSET = "gesture_recognizer.task"

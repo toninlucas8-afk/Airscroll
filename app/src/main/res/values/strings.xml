@@ -243,4 +243,31 @@
     <string name="error_vision_unavailable">Hand recognition could not start: the MediaPipe model is missing from this build. The camera works, but no gesture will ever be detected. Please report this with the app version.</string>
     <string name="practice_diagnostics">Engine: %1$s · %2$d frames sent · %3$d analysed</string>
     <string name="practice_diagnostics_stalled">Frames are being sent but the model is not answering. This is a bug, not your hand: please report it with this screen.</string>
+
+    <!-- Laboratorio -->
+    <string name="lab_title">Recognition lab</string>
+    <string name="lab_open">Open the recognition lab</string>
+    <string name="lab_settings_hint">Records how your hand looks to the model, so the thresholds can be tuned on real numbers instead of guesses.</string>
+    <string name="lab_privacy">Five short takes. Only numbers are saved — the 21 hand points and the recognised gesture. No image is ever written to the file, and nothing leaves your phone unless you choose to share it.</string>
+    <string name="lab_take_progress">Take %1$d of %2$d</string>
+    <string name="lab_start_take">Start this take</string>
+    <string name="lab_recording">Recording · %1$d frames</string>
+    <string name="lab_hand_seen">Hand detected</string>
+    <string name="lab_hand_missing">No hand</string>
+    <string name="lab_done_title">Recording complete</string>
+    <string name="lab_done_body">The file is on your phone. Open it if you want to see exactly what it contains: it is plain text.</string>
+    <string name="lab_done_size">%1$d KB</string>
+    <string name="lab_share">Share the recording</string>
+    <string name="lab_restart">Record again</string>
+
+    <string name="lab_take_thumb_up">Thumbs up</string>
+    <string name="lab_take_thumb_up_hint">Hold a thumbs up steady, the way you would to start scrolling.</string>
+    <string name="lab_take_fist">Closed fist</string>
+    <string name="lab_take_fist_hint">Close your fist and hold it, the way you would to stop.</string>
+    <string name="lab_take_palm">Open hand</string>
+    <string name="lab_take_palm_hint">Open hand, still. This teaches the app what should NOT start anything.</string>
+    <string name="lab_take_motion">Hand moving</string>
+    <string name="lab_take_motion_hint">Move your hand up and down as if scrolling, at your natural pace.</string>
+    <string name="lab_take_idle">Hand at rest</string>
+    <string name="lab_take_idle_hint">Lower your hand or move it out of frame. This shows what the camera sees when you are not asking for anything.</string>
 </resources>

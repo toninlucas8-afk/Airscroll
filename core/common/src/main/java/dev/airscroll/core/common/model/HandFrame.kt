@@ -20,6 +20,14 @@ data class HandFrame(
      * usiamo per il profilo distanza automatico.
      */
     val handSpan: Float,
+    /**
+     * I 21 punti grezzi, presenti solo quando la registrazione e' attiva.
+     *
+     * Fuori dal laboratorio resta null: allocare una lista per ogni fotogramma
+     * a venti fotogrammi al secondo sarebbe spazzatura per il garbage
+     * collector, in cambio di niente.
+     */
+    val landmarks: List<Landmark>? = null,
 ) {
     companion object {
         fun absent(timestampMs: Long) = HandFrame(

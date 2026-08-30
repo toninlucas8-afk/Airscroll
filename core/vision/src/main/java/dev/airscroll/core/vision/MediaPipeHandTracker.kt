@@ -11,6 +11,7 @@ import com.google.mediapipe.tasks.vision.gesturerecognizer.GestureRecognizer
 import com.google.mediapipe.tasks.vision.gesturerecognizer.GestureRecognizerResult
 import dev.airscroll.core.common.model.HandFrame
 import dev.airscroll.core.common.model.HandSignal
+import dev.airscroll.core.common.model.Landmark
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -231,6 +232,18 @@ class MediaPipeHandTracker(
             HandSignal.NONE
         }
 
+        val rawLandmarks = if (config.includeLandmarks) {
+            landmarks.map { point ->
+                Landmark(
+                    x = if (config.mirrorHorizontally) 1f - point.x() else point.x(),
+                    y = point.y(),
+                    z = point.z(),
+                )
+            }
+        } else {
+            null
+        }
+
         _frames.tryEmit(
             HandFrame(
                 timestampMs = timestamp,
@@ -240,6 +253,7 @@ class MediaPipeHandTracker(
                 palmX = mirroredX.coerceIn(0f, 1f),
                 palmY = palmY.coerceIn(0f, 1f),
                 handSpan = span,
+                landmarks = rawLandmarks,
             )
         )
     }

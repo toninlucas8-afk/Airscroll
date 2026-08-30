@@ -224,4 +224,30 @@
     <string name="error_vision_unavailable">Il riconoscimento della mano non è partito: in questa build manca il modello MediaPipe. La fotocamera funziona, ma nessun gesto verrà mai rilevato. Segnalalo indicando la versione dell\'app.</string>
     <string name="practice_diagnostics">Motore: %1$s · %2$d fotogrammi inviati · %3$d analizzati</string>
     <string name="practice_diagnostics_stalled">I fotogrammi partono ma il modello non risponde. È un difetto, non la tua mano: segnalalo con questa schermata.</string>
+
+    <string name="lab_title">Laboratorio riconoscimento</string>
+    <string name="lab_open">Apri il laboratorio</string>
+    <string name="lab_settings_hint">Registra come la tua mano appare al modello, così le soglie si tarano su numeri veri invece che a intuito.</string>
+    <string name="lab_privacy">Cinque prese brevi. Vengono salvati solo numeri — i 21 punti della mano e il gesto riconosciuto. Nessuna immagine finisce nel file, e niente esce dal telefono se non sei tu a condividerlo.</string>
+    <string name="lab_take_progress">Presa %1$d di %2$d</string>
+    <string name="lab_start_take">Registra questa presa</string>
+    <string name="lab_recording">Registrazione · %1$d fotogrammi</string>
+    <string name="lab_hand_seen">Mano rilevata</string>
+    <string name="lab_hand_missing">Nessuna mano</string>
+    <string name="lab_done_title">Registrazione completata</string>
+    <string name="lab_done_body">Il file è sul telefono. Aprilo se vuoi vedere esattamente cosa contiene: è testo semplice.</string>
+    <string name="lab_done_size">%1$d KB</string>
+    <string name="lab_share">Condividi la registrazione</string>
+    <string name="lab_restart">Registra di nuovo</string>
+
+    <string name="lab_take_thumb_up">Pollice in su</string>
+    <string name="lab_take_thumb_up_hint">Tieni il pollice in su fermo, come faresti per far partire lo scorrimento.</string>
+    <string name="lab_take_fist">Pugno chiuso</string>
+    <string name="lab_take_fist_hint">Chiudi il pugno e tienilo, come faresti per fermare.</string>
+    <string name="lab_take_palm">Mano aperta</string>
+    <string name="lab_take_palm_hint">Mano aperta, ferma. Serve a insegnare all\'app cosa NON deve far partire niente.</string>
+    <string name="lab_take_motion">Mano in movimento</string>
+    <string name="lab_take_motion_hint">Muovi la mano su e giù come per scorrere, al tuo ritmo naturale.</string>
+    <string name="lab_take_idle">Mano a riposo</string>
+    <string name="lab_take_idle_hint">Abbassa la mano o portala fuori inquadratura. Mostra cosa vede la fotocamera quando non stai chiedendo niente.</string>
 </resources>
