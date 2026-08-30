@@ -65,7 +65,23 @@ jobs:
           } >> "$GITHUB_ENV"
 
       - name: Build release APK
-        run: ./gradlew --no-daemon :app:assembleRelease
+        run: ./gradlew --no-daemon :app:assembleRelease -PairscrollVersionName="${TAG#v}"
+
+
+      - name: Verify the model is packaged
+        run: |
+          set -euo pipefail
+          apk=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
+          echo "APK: $apk"
+          if ! unzip -l "$apk" | grep -q "assets/gesture_recognizer.task"; then
+            echo "::error::L'APK non contiene gesture_recognizer.task. Senza modello il riconoscimento della mano non parte e l'app sembra semplicemente non vedere niente."
+            echo "Asset presenti:"
+            unzip -l "$apk" | grep "assets/" || echo "  (nessuno)"
+            exit 1
+          fi
+          size=$(unzip -l "$apk" | grep "assets/gesture_recognizer.task" | awk '{print $1}')
+          echo "Modello presente nell'APK: $size byte."
+          test "$size" -gt 1000000
 
       - name: Prepare artifact
         run: |

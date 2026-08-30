@@ -46,6 +46,9 @@ class MediaPipeHandTracker(
         private set
 
     private var recognizer: GestureRecognizer? = null
+
+    override val isReady: Boolean
+        get() = recognizer != null
     private val busy = AtomicBoolean(false)
     private var lastSubmittedTimestamp = 0L
 
@@ -58,7 +61,9 @@ class MediaPipeHandTracker(
         }
         usingGpu = false
         if (!tryCreate(Delegate.CPU)) {
-            Log.e(TAG, "Impossibile inizializzare il riconoscitore: $lastError")
+            // Il caso tipico e' il modello assente dagli asset. Va detto forte:
+            // silenziosamente, l'app sembrerebbe solo cieca.
+            Log.e(TAG, "Riconoscitore non inizializzato: $lastError")
         }
     }
 

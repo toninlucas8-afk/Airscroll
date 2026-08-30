@@ -5,6 +5,7 @@ import androidx.camera.core.Preview
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import dev.airscroll.app.R
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.camera.DeviceCapabilities
@@ -78,6 +79,12 @@ class CalibrationViewModel(application: Application) : AndroidViewModel(applicat
 
     fun startCamera(lifecycleOwner: LifecycleOwner, preview: Preview) {
         tracker.start()
+        if (!tracker.isReady) {
+            _state.value = _state.value.copy(
+                error = getApplication<Application>().getString(R.string.error_vision_unavailable),
+            )
+            return
+        }
         camera.bind(
             lifecycleOwner = lifecycleOwner,
             mode = performanceMode,

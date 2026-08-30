@@ -4,6 +4,10 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
+// Gradle vuole `plugins {}` come prima istruzione dello script, quindi le
+// costanti vanno dopo.
+val fallbackVersion = "0.3.1"
+
 android {
     namespace = "dev.airscroll.app"
     compileSdk = libs.versions.compileSdk.get().toInt()
@@ -12,8 +16,17 @@ android {
         applicationId = "dev.airscroll.app"
         minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "0.1.0"
+        // La versione arriva dal tag della release (`-PairscrollVersionName=0.3.1`).
+        // Prima era inchiodata a 0.1.0, quindi ogni APK pubblicato dichiarava la
+        // stessa versione e le info dell'app mentivano.
+        val declaredVersion = providers.gradleProperty("airscrollVersionName").orNull
+            ?.takeIf { it.isNotBlank() }
+            ?: fallbackVersion
+        val parts = declaredVersion.split('.').map { it.filter(Char::isDigit).toIntOrNull() ?: 0 }
+        versionCode = (parts.getOrElse(0) { 0 } * 10_000) +
+            (parts.getOrElse(1) { 0 } * 100) +
+            parts.getOrElse(2) { 0 }
+        versionName = declaredVersion
 
         vectorDrawables.useSupportLibrary = true
     }

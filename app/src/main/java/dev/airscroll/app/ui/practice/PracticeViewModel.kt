@@ -5,6 +5,7 @@ import androidx.camera.core.Preview
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import dev.airscroll.app.R
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.apps.api.AppCategory
 import dev.airscroll.apps.api.AppProfile
@@ -105,7 +106,13 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
     fun start(lifecycleOwner: LifecycleOwner, preview: Preview) {
         running = true
         tracker.start()
-        _state.value = _state.value.copy(usingGpu = tracker.usingGpu)
+        if (!tracker.isReady) {
+            _state.value = _state.value.copy(
+                error = getApplication<Application>().getString(R.string.error_vision_unavailable),
+            )
+            return
+        }
+        _state.value = _state.value.copy(usingGpu = tracker.usingGpu, error = null)
         camera.bind(
             lifecycleOwner = lifecycleOwner,
             mode = performanceMode,

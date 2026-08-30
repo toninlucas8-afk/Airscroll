@@ -142,6 +142,19 @@ fun PracticeScreen(
             return@Column
         }
 
+        state.error?.let { error ->
+            SectionCard(
+                modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
+                accent = MaterialTheme.colorScheme.error.copy(alpha = 0.5f),
+            ) {
+                Text(
+                    text = error,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+        }
+
         LiveStrip(
             engineState = state.engineState,
             signal = state.signal,

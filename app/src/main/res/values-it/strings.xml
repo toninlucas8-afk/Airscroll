@@ -221,4 +221,5 @@
     <string name="distance_medium_body">Mano a 40-60 cm. La scelta bilanciata.</string>
     <string name="distance_far_body">Mano oltre i 70 cm. Movimenti piccoli, risposta più decisa.</string>
     <string name="distance_auto_body">Segue la dimensione della mano vista dalla fotocamera, usando la tua calibrazione.</string>
+    <string name="error_vision_unavailable">Il riconoscimento della mano non è partito: in questa build manca il modello MediaPipe. La fotocamera funziona, ma nessun gesto verrà mai rilevato. Segnalalo indicando la versione dell\'app.</string>
 </resources>

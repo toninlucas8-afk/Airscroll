@@ -240,4 +240,5 @@
     <string name="distance_medium_body">Hand at 40-60 cm. The balanced choice.</string>
     <string name="distance_far_body">Hand beyond 70 cm. Small movements, stronger response.</string>
     <string name="distance_auto_body">Follows the hand size seen by the camera, using your calibration.</string>
+    <string name="error_vision_unavailable">Hand recognition could not start: the MediaPipe model is missing from this build. The camera works, but no gesture will ever be detected. Please report this with the app version.</string>
 </resources>

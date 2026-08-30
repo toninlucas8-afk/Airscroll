@@ -207,6 +207,10 @@ class VisionForegroundService : LifecycleService() {
         if (!trackerStarted) {
             tracker.start()
             trackerStarted = true
+            if (!tracker.isReady) {
+                engine.reportError(getString(R.string.error_vision_unavailable))
+                return
+            }
         }
         if (cameraController.isBound) {
             cameraController.setTargetFps(targetFps)

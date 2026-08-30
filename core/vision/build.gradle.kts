@@ -86,8 +86,19 @@ val downloadGestureModel = tasks.register<DownloadModelTask>("downloadGestureMod
     destination.set(layout.buildDirectory.file("generated/mediapipeAssets/gesture_recognizer.task"))
 }
 
+// Il modello va scaricato prima di *qualunque* cosa in questo modulo.
+//
+// La versione precedente agganciava solo i task chiamati `merge*Assets`, che
+// pero' esistono nel modulo applicazione: in una libreria Android il task che
+// raccoglie gli asset si chiama `packageReleaseAssets`. Risultato: il download
+// non partiva mai, la cartella restava vuota e l'APK usciva senza modello,
+// senza che niente fallisse. `preBuild` non lascia scampatoie.
+tasks.named("preBuild") {
+    dependsOn(downloadGestureModel)
+}
+
 tasks.configureEach {
-    if (name.startsWith("merge") && name.endsWith("Assets")) {
+    if (name.endsWith("Assets") && (name.startsWith("merge") || name.startsWith("package"))) {
         dependsOn(downloadGestureModel)
     }
 }

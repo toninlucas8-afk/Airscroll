@@ -21,6 +21,16 @@ interface HandTracker {
     /** true se il delegate GPU e' realmente in uso. */
     val usingGpu: Boolean
 
+    /**
+     * true quando il modello e' caricato e i fotogrammi vengono davvero
+     * analizzati.
+     *
+     * Senza questo, un modello mancante e' indistinguibile da "non vedo la tua
+     * mano": l'app scarta ogni fotogramma in silenzio e l'utente resta a
+     * agitare la mano davanti a una fotocamera che funziona benissimo.
+     */
+    val isReady: Boolean
+
     fun start()
 
     /**
