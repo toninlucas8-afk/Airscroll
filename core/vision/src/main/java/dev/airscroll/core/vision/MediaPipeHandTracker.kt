@@ -50,8 +50,30 @@ class MediaPipeHandTracker(
 
     override val isReady: Boolean
         get() = recognizer != null
+
     private val busy = AtomicBoolean(false)
     private var lastSubmittedTimestamp = 0L
+
+    @Volatile
+    private var busySinceMs = 0L
+
+    @Volatile
+    private var gpuFallbackAttempted = false
+
+    private val submittedFrames = AtomicLong(0)
+    private val resultFrames = AtomicLong(0)
+    private val droppedBusy = AtomicLong(0)
+    private val stalls = AtomicLong(0)
+
+    override fun stats() = TrackerStats(
+        ready = isReady,
+        usingGpu = usingGpu,
+        submitted = submittedFrames.get(),
+        results = resultFrames.get(),
+        droppedBusy = droppedBusy.get(),
+        stalls = stalls.get(),
+        lastError = lastError,
+    )
 
     @Synchronized
     override fun start() {
