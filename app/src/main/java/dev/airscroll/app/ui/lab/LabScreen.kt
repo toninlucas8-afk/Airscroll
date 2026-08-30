@@ -44,6 +44,7 @@ import dev.airscroll.app.R
 import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
+import dev.airscroll.app.ui.components.VisionFailureCard
 import dev.airscroll.app.util.AirScrollPermissions
 import java.io.File
 
@@ -104,13 +105,7 @@ fun LabScreen(
         }
 
         state.error?.let { error ->
-            SectionCard(accent = MaterialTheme.colorScheme.error.copy(alpha = 0.5f)) {
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
+            VisionFailureCard(headline = error, report = state.diagnostics)
         }
 
         Box(

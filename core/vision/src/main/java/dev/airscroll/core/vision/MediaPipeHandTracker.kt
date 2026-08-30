@@ -52,6 +52,10 @@ class MediaPipeHandTracker(
     override val isReady: Boolean
         get() = recognizer != null
 
+    @Volatile
+    override var failure: VisionDiagnostics? = null
+        private set
+
     private val busy = AtomicBoolean(false)
     private var lastSubmittedTimestamp = 0L
 
@@ -81,14 +85,21 @@ class MediaPipeHandTracker(
         if (recognizer != null) return
         if (config.preferGpu && tryCreate(Delegate.GPU)) {
             usingGpu = true
+            failure = null
             return
         }
         usingGpu = false
-        if (!tryCreate(Delegate.CPU)) {
-            // Il caso tipico e' il modello assente dagli asset. Va detto forte:
-            // silenziosamente, l'app sembrerebbe solo cieca.
-            Log.e(TAG, "Riconoscitore non inizializzato: $lastError")
+        if (tryCreate(Delegate.CPU)) {
+            failure = null
+            return
         }
+        // Qui non si tira a indovinare la causa: si guarda il telefono.
+        // Il modello puo' mancare, puo' essere compresso, oppure - il caso che
+        // ci e' costato una versione intera - la libreria nativa puo' non
+        // aprirsi affatto su questo dispositivo.
+        val diagnosis = VisionDiagnostics.collect(appContext, config.modelAssetPath, lastError)
+        failure = diagnosis
+        Log.e(TAG, "Riconoscitore non inizializzato\n" + diagnosis.report())
     }
 
     private fun tryCreate(delegate: Delegate): Boolean = try {
@@ -107,7 +118,7 @@ class MediaPipeHandTracker(
             .setResultListener { result, _ -> onResult(result) }
             .setErrorListener { error ->
                 busy.set(false)
-                lastError = error.message
+                lastError = VisionDiagnostics.describe(error)
                 Log.w(TAG, "Errore MediaPipe", error)
             }
             .build()
@@ -118,7 +129,10 @@ class MediaPipeHandTracker(
     } catch (t: Throwable) {
         // Su alcuni dispositivi il delegate GPU non e' disponibile: e' un caso
         // atteso, non un crash. Si riprova su CPU.
-        lastError = t.message ?: t::class.java.simpleName
+        // Il messaggio va tenuto per intero, catena delle cause compresa:
+        // `t.message` da solo e' spesso vuoto proprio negli errori di
+        // caricamento nativo, che sono quelli che contano davvero.
+        lastError = "$delegate: " + VisionDiagnostics.describe(t)
         Log.w(TAG, "Delegate $delegate non utilizzabile: $lastError")
         recognizer = null
         false

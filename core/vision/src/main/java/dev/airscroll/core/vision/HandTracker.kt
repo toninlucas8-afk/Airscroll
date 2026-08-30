@@ -52,6 +52,15 @@ interface HandTracker {
     /** Contatori di funzionamento, per capire *perche'* non si vede la mano. */
     fun stats(): TrackerStats
 
+    /**
+     * Diagnosi dell'avvio fallito, `null` se il riconoscitore e' partito.
+     *
+     * L'interfaccia la espone perche' l'unico posto in cui la causa vera e'
+     * conoscibile e' il telefono dell'utente: farla arrivare fino alla
+     * schermata e' la differenza fra una correzione e un tentativo.
+     */
+    val failure: VisionDiagnostics?
+
     fun start()
 
     /**

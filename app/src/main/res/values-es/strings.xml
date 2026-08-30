@@ -192,7 +192,6 @@
     <string name="distance_medium_body">Mano a 40-60 cm. La opción equilibrada.</string>
     <string name="distance_far_body">Mano a más de 70 cm. Movimientos pequeños, respuesta más marcada.</string>
     <string name="distance_auto_body">Sigue el tamaño de la mano que ve la cámara, usando tu calibración.</string>
-    <string name="error_vision_unavailable">El reconocimiento de la mano no ha arrancado: falta el modelo de MediaPipe en esta compilación. La cámara funciona, pero nunca se detectará ningún gesto. Comunícalo indicando la versión de la app.</string>
     <string name="practice_diagnostics">Motor: %1$s · %2$d fotogramas enviados · %3$d analizados</string>
     <string name="practice_diagnostics_stalled">Se envían fotogramas pero el modelo no responde. Es un defecto, no tu mano: comunícalo con esta pantalla.</string>
     <string name="lab_title">Laboratorio de reconocimiento</string>
@@ -221,4 +220,11 @@
     <string name="lab_take_idle_hint">Baja la mano o sácala del encuadre. Muestra qué ve la cámara cuando no pides nada.</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_language_hint">AirScroll habla italiano, inglés, español, alemán y chino. \"Sistema\" sigue a tu teléfono.</string>
+    <string name="error_vision_model_missing">El reconocimiento de la mano no ha arrancado: el modelo no está dentro de esta versión de la app. La cámara funciona, pero no se detectará ningún gesto.</string>
+    <string name="error_vision_model_compressed">El reconocimiento de la mano no ha arrancado: el modelo está empaquetado comprimido y no se puede abrir. Es un fallo de empaquetado de la app, no un problema de tu teléfono.</string>
+    <string name="error_vision_page_size">El reconocimiento de la mano no ha arrancado: la biblioteca de reconocimiento no es compatible con este teléfono, que usa páginas de memoria de %1$d KB. Es una incompatibilidad conocida y se resuelve actualizando la biblioteca, no haciendo nada por tu parte.</string>
+    <string name="error_vision_native_library">El reconocimiento de la mano no ha arrancado: la biblioteca de reconocimiento no se ha podido cargar en este teléfono.</string>
+    <string name="error_vision_unknown">El reconocimiento de la mano no ha arrancado. Debajo están los detalles técnicos: envíamelos, dicen exactamente qué ha fallado.</string>
+    <string name="action_copy_report">Copiar detalles</string>
+    <string name="action_share_report">Compartir detalles</string>
 </resources>

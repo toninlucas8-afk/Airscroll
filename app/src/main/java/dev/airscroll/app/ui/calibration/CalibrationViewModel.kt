@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import dev.airscroll.app.R
+import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.camera.DeviceCapabilities
@@ -37,6 +38,8 @@ data class CalibrationUiState(
     val progress: Float = 0f,
     val handVisible: Boolean = false,
     val error: String? = null,
+    /** Diagnosi tecnica dell'avvio fallito, da mostrare e da poter copiare. */
+    val diagnostics: String? = null,
     val result: CalibrationProfile = CalibrationProfile.Default,
 )
 
@@ -83,8 +86,10 @@ class CalibrationViewModel(application: Application) : AndroidViewModel(applicat
             // Si segnala l'errore ma si accende comunque la fotocamera: vedere
             // l'anteprima viva dice all'utente che il guasto non e' la sua
             // fotocamera. Uscire qui lasciava un rettangolo nero e nessun indizio.
+            val failure = tracker.failure
             _state.value = _state.value.copy(
-                error = getApplication<Application>().getString(R.string.error_vision_unavailable),
+                error = visionFailureHeadline(getApplication<Application>(), failure),
+                diagnostics = failure?.report(),
             )
         }
         camera.bind(

@@ -23,6 +23,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.LifecycleService
 import dev.airscroll.app.MainActivity
 import dev.airscroll.app.R
+import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.app.bootstrap.ProfileResolver
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.core.camera.CameraController
@@ -208,7 +209,7 @@ class VisionForegroundService : LifecycleService() {
             tracker.start()
             trackerStarted = true
             if (!tracker.isReady) {
-                engine.reportError(getString(R.string.error_vision_unavailable))
+                engine.reportError(visionFailureHeadline(this, tracker.failure))
                 return
             }
         }

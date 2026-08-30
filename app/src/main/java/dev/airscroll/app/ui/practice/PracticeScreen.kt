@@ -52,6 +52,7 @@ import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.StatusDot
 import dev.airscroll.app.ui.components.SwitchRow
+import dev.airscroll.app.ui.components.VisionFailureCard
 import dev.airscroll.app.ui.components.colorForState
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.core.common.model.EngineState
@@ -143,16 +144,11 @@ fun PracticeScreen(
         }
 
         state.error?.let { error ->
-            SectionCard(
+            VisionFailureCard(
+                headline = error,
+                report = state.diagnostics,
                 modifier = Modifier.padding(horizontal = 20.dp, vertical = 4.dp),
-                accent = MaterialTheme.colorScheme.error.copy(alpha = 0.5f),
-            ) {
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.error,
-                )
-            }
+            )
         }
 
         LiveStrip(

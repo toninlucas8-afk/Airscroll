@@ -192,7 +192,6 @@
     <string name="distance_medium_body">手距 40-60 厘米。均衡之选。</string>
     <string name="distance_far_body">手距超过 70 厘米。动作幅度小，响应更明显。</string>
     <string name="distance_auto_body">根据摄像头看到的手部大小，结合你的校准自动调整。</string>
-    <string name="error_vision_unavailable">手部识别没有启动：此版本缺少 MediaPipe 模型。摄像头是好的，但永远不会识别到任何手势。请附上应用版本号反馈这个问题。</string>
     <string name="practice_diagnostics">引擎：%1$s · 已发送 %2$d 帧 · 已分析 %3$d 帧</string>
     <string name="practice_diagnostics_stalled">帧已发送但模型没有响应。这是缺陷，不是你的手的问题：请附上这个界面反馈。</string>
     <string name="lab_title">识别实验室</string>
@@ -221,4 +220,11 @@
     <string name="lab_take_idle_hint">把手放下或移出画面。这展示你没有任何要求时摄像头看到的画面。</string>
     <string name="settings_language">语言</string>
     <string name="settings_language_hint">AirScroll 支持意大利语、英语、西班牙语、德语和中文。\"系统\"跟随手机设置。</string>
+    <string name="error_vision_model_missing">手部识别未能启动：这个版本里没有识别模型。相机能用，但永远不会识别到手势。</string>
+    <string name="error_vision_model_compressed">手部识别未能启动：模型被压缩打包，无法打开。这是应用打包的错误，不是你手机的问题。</string>
+    <string name="error_vision_page_size">手部识别未能启动：识别库与这部手机不兼容，它使用 %1$d KB 的内存页。这是已知的不兼容，需要更新库来解决，你这边不用做任何事。</string>
+    <string name="error_vision_native_library">手部识别未能启动：识别库在这部手机上无法加载。</string>
+    <string name="error_vision_unknown">手部识别未能启动。下面是技术细节：请发给我，它们会说明到底哪里出了问题。</string>
+    <string name="action_copy_report">复制详情</string>
+    <string name="action_share_report">分享详情</string>
 </resources>

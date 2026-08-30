@@ -1,0 +1,59 @@
+# Sonda di supporto, non fa parte della build.
+#
+# Serve a rispondere a una domanda sola: quale versione di MediaPipe pubblica
+# librerie native allineate a 16 KB? Dal 2025 i telefoni Android con pagine di
+# memoria da 16 KB non riescono ad aprire un .so allineato a 4 KB, e il
+# fallimento arriva come una banale eccezione dentro `createFromOptions`.
+#
+# Qui non si compila niente: si scaricano gli AAR e si legge l'intestazione ELF.
+name: Sonda MediaPipe
+
+on:
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: "Versioni da sondare, separate da spazio"
+        required: false
+        default: "0.10.14 0.10.18 0.10.20 0.10.21 0.10.22 0.10.24 0.10.26 0.10.26.1"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica e ispeziona
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/probe && cd /tmp/probe
+          for v in ${{ github.event.inputs.versions }}; do
+            url="https://dl.google.com/dl/android/maven2/com/google/mediapipe/tasks-vision/$v/tasks-vision-$v.aar"
+            code=$(curl -sSL -o "$v.aar" -w '%{http_code}' "$url" || echo 000)
+            if [ "$code" != "200" ]; then
+              echo "$v -> NON DISPONIBILE (HTTP $code)"
+              rm -f "$v.aar"
+              continue
+            fi
+            rm -rf "x$v" && mkdir "x$v"
+            unzip -q -o "$v.aar" -d "x$v" 'jni/arm64-v8a/*' || true
+            so="x$v/jni/arm64-v8a/libmediapipe_tasks_vision_jni.so"
+            if [ ! -f "$so" ]; then
+              echo "$v -> AAR scaricato ma senza libreria arm64"
+              continue
+            fi
+            python3 - "$v" "$so" <<'PY'
+          import struct, sys
+          version, path = sys.argv[1], sys.argv[2]
+          d = open(path, 'rb').read()
+          phoff = struct.unpack_from('<Q', d, 0x20)[0]
+          entsize = struct.unpack_from('<H', d, 0x36)[0]
+          num = struct.unpack_from('<H', d, 0x38)[0]
+          aligns = set()
+          for i in range(num):
+              o = phoff + i * entsize
+              if struct.unpack_from('<I', d, o)[0] == 1:  # PT_LOAD
+                  aligns.add(struct.unpack_from('<Q', d, o + 48)[0])
+          worst = min(aligns) if aligns else 0
+          verdict = "OK 16 KB" if worst >= 16384 else "SOLO 4 KB - inservibile sui telefoni a 16 KB"
+          print(f"{version} -> allineamento {[hex(a) for a in sorted(aligns)]}  {len(d)} byte  {verdict}")
+          PY
+          done

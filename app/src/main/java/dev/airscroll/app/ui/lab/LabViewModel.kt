@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import dev.airscroll.app.R
 import dev.airscroll.app.util.RecordingWriter
+import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.camera.DeviceCapabilities
 import dev.airscroll.core.common.model.HandFrame
@@ -55,6 +56,8 @@ data class LabUiState(
     val finished: Boolean = false,
     val savedFile: File? = null,
     val error: String? = null,
+    /** Diagnosi tecnica dell'avvio fallito, da mostrare e da poter copiare. */
+    val diagnostics: String? = null,
 ) {
     val take: LabTake get() = LabTake.entries[takeIndex.coerceIn(0, LabTake.entries.lastIndex)]
     val isLastTake: Boolean get() = takeIndex >= LabTake.entries.lastIndex
@@ -97,8 +100,10 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
     fun start(lifecycleOwner: LifecycleOwner, preview: Preview) {
         tracker.start()
         if (!tracker.isReady) {
+            val failure = tracker.failure
             _state.value = _state.value.copy(
-                error = getApplication<Application>().getString(R.string.error_vision_unavailable),
+                error = visionFailureHeadline(getApplication<Application>(), failure),
+                diagnostics = failure?.report(),
             )
         }
         camera.bind(

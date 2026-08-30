@@ -36,6 +36,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import dev.airscroll.app.R
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
+import dev.airscroll.app.ui.components.VisionFailureCard
 import dev.airscroll.app.util.AirScrollPermissions
 
 @Composable
@@ -130,11 +131,7 @@ fun CalibrationScreen(
             }
 
             state.error?.let { error ->
-                Text(
-                    text = error,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.error,
-                )
+                VisionFailureCard(headline = error, report = state.diagnostics)
             }
 
             when {

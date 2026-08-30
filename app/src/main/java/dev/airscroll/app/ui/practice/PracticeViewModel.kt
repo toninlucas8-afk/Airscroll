@@ -6,6 +6,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
 import dev.airscroll.app.R
+import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.apps.api.AppCategory
 import dev.airscroll.apps.api.AppProfile
@@ -40,6 +41,8 @@ data class PracticeUiState(
     val velocityPxPerSec: Float = 0f,
     val volumeSteps: Int = 0,
     val error: String? = null,
+    /** Diagnosi tecnica dell'avvio fallito, da mostrare e da poter copiare. */
+    val diagnostics: String? = null,
     val usingGpu: Boolean = false,
     val stats: TrackerStats = TrackerStats(),
 )
@@ -115,13 +118,11 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
         tracker.start()
         // Anche col riconoscitore morto la fotocamera si accende lo stesso:
         // l'anteprima viva e' l'unica prova che il guasto sta altrove.
+        val failure = tracker.failure
         _state.value = _state.value.copy(
             usingGpu = tracker.usingGpu,
-            error = if (tracker.isReady) {
-                null
-            } else {
-                getApplication<Application>().getString(R.string.error_vision_unavailable)
-            },
+            error = if (tracker.isReady) null else visionFailureHeadline(getApplication<Application>(), failure),
+            diagnostics = failure?.report(),
         )
         camera.bind(
             lifecycleOwner = lifecycleOwner,

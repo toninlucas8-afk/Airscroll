@@ -192,7 +192,6 @@
     <string name="distance_medium_body">Hand bei 40-60 cm. Die ausgewogene Wahl.</string>
     <string name="distance_far_body">Hand über 70 cm. Kleine Bewegungen, deutlichere Reaktion.</string>
     <string name="distance_auto_body">Folgt der von der Kamera gesehenen Handgröße, anhand deiner Kalibrierung.</string>
-    <string name="error_vision_unavailable">Die Handerkennung ist nicht gestartet: in diesem Build fehlt das MediaPipe-Modell. Die Kamera funktioniert, aber es wird nie eine Geste erkannt. Bitte melde das unter Angabe der App-Version.</string>
     <string name="practice_diagnostics">Motor: %1$s · %2$d Bilder gesendet · %3$d ausgewertet</string>
     <string name="practice_diagnostics_stalled">Bilder werden gesendet, aber das Modell antwortet nicht. Das ist ein Fehler, nicht deine Hand: bitte melde ihn mit diesem Bildschirm.</string>
     <string name="lab_title">Erkennungslabor</string>
@@ -221,4 +220,11 @@
     <string name="lab_take_idle_hint">Senke die Hand oder nimm sie aus dem Bild. Das zeigt, was die Kamera sieht, wenn du nichts verlangst.</string>
     <string name="settings_language">Sprache</string>
     <string name="settings_language_hint">AirScroll spricht Italienisch, Englisch, Spanisch, Deutsch und Chinesisch. \"System\" folgt deinem Telefon.</string>
+    <string name="error_vision_model_missing">Die Handerkennung ist nicht gestartet: Das Modell ist in dieser Version der App nicht enthalten. Die Kamera funktioniert, aber es wird nie eine Geste erkannt.</string>
+    <string name="error_vision_model_compressed">Die Handerkennung ist nicht gestartet: Das Modell ist komprimiert verpackt und laesst sich nicht oeffnen. Das ist ein Verpackungsfehler der App, kein Problem deines Telefons.</string>
+    <string name="error_vision_page_size">Die Handerkennung ist nicht gestartet: Die Erkennungsbibliothek ist mit diesem Telefon nicht kompatibel, das Speicherseiten von %1$d KB verwendet. Das ist eine bekannte Inkompatibilitaet und wird durch ein Update der Bibliothek behoben, nicht durch etwas auf deiner Seite.</string>
+    <string name="error_vision_native_library">Die Handerkennung ist nicht gestartet: Die Erkennungsbibliothek konnte auf diesem Telefon nicht geladen werden.</string>
+    <string name="error_vision_unknown">Die Handerkennung ist nicht gestartet. Unten stehen die technischen Details: Schick sie mir, sie sagen genau, was schiefgelaufen ist.</string>
+    <string name="action_copy_report">Details kopieren</string>
+    <string name="action_share_report">Details teilen</string>
 </resources>

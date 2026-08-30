@@ -240,7 +240,6 @@
     <string name="distance_medium_body">Hand at 40-60 cm. The balanced choice.</string>
     <string name="distance_far_body">Hand beyond 70 cm. Small movements, stronger response.</string>
     <string name="distance_auto_body">Follows the hand size seen by the camera, using your calibration.</string>
-    <string name="error_vision_unavailable">Hand recognition could not start: the MediaPipe model is missing from this build. The camera works, but no gesture will ever be detected. Please report this with the app version.</string>
     <string name="practice_diagnostics">Engine: %1$s · %2$d frames sent · %3$d analysed</string>
     <string name="practice_diagnostics_stalled">Frames are being sent but the model is not answering. This is a bug, not your hand: please report it with this screen.</string>
 
@@ -272,4 +271,11 @@
     <string name="lab_take_idle_hint">Lower your hand or move it out of frame. This shows what the camera sees when you are not asking for anything.</string>
     <string name="settings_language">Language</string>
     <string name="settings_language_hint">AirScroll speaks Italian, English, Spanish, German and Chinese. \"System\" follows your phone.</string>
+    <string name="error_vision_model_missing">Hand recognition could not start: the recognition model is not inside this build. The camera works, but no gesture will ever be detected.</string>
+    <string name="error_vision_model_compressed">Hand recognition could not start: the recognition model is packed compressed and cannot be opened. This is a packaging bug, not a problem with your phone.</string>
+    <string name="error_vision_page_size">Hand recognition could not start: the recognition library is not compatible with this phone, which uses %1$d KB memory pages. It is a known incompatibility and it is fixed by updating the library, not by changing anything on your side.</string>
+    <string name="error_vision_native_library">Hand recognition could not start: the recognition library could not be loaded on this phone.</string>
+    <string name="error_vision_unknown">Hand recognition could not start. The technical details are below: please send them, they say exactly what went wrong.</string>
+    <string name="action_copy_report">Copy details</string>
+    <string name="action_share_report">Share details</string>
 </resources>
