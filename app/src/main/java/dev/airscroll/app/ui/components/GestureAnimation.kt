@@ -104,37 +104,10 @@ fun GesturePreviewAnimation(
         // La mano, a destra del telefono, che sale e scende in sincrono.
         val handCenterX = w * 0.5f + h * 0.24f
         val handCenterY = h * 0.5f - wave * h * 0.17f
-        val palmWidth = h * 0.30f
-        val palmHeight = h * 0.30f
-
-        drawRoundRect(
+        drawHandGlyph(
+            center = Offset(handCenterX, handCenterY),
+            palmWidth = h * 0.30f,
             color = accent,
-            topLeft = Offset(handCenterX - palmWidth / 2f, handCenterY - palmHeight * 0.15f),
-            size = Size(palmWidth, palmHeight),
-            cornerRadius = CornerRadius(palmWidth * 0.34f),
-        )
-        // Dita
-        val fingerWidth = palmWidth * 0.19f
-        val fingerGap = palmWidth * 0.245f
-        for (finger in 0..3) {
-            val length = palmHeight * (0.62f - 0.07f * kotlin.math.abs(finger - 1.2f))
-            val x = handCenterX - palmWidth / 2f + palmWidth * 0.08f + finger * fingerGap
-            drawRoundRect(
-                color = accent,
-                topLeft = Offset(x, handCenterY - palmHeight * 0.15f - length),
-                size = Size(fingerWidth, length + palmHeight * 0.2f),
-                cornerRadius = CornerRadius(fingerWidth / 2f),
-            )
-        }
-        // Pollice
-        drawRoundRect(
-            color = accent,
-            topLeft = Offset(
-                handCenterX - palmWidth * 0.78f,
-                handCenterY + palmHeight * 0.12f,
-            ),
-            size = Size(palmWidth * 0.42f, fingerWidth),
-            cornerRadius = CornerRadius(fingerWidth / 2f),
         )
 
         // Scia verticale: suggerisce l'asse del movimento.

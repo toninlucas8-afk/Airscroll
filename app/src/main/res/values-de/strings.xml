@@ -58,7 +58,7 @@
     <string name="calibration_use_defaults">Überspringen, Ausgangswerte nutzen</string>
     <string name="calibration_summary">Handgröße %1$d · vertikaler Weg %2$d · Zittern %3$d</string>
     <string name="calibration_intro_title">Vier kurze Schritte</string>
-    <string name="calibration_intro_body">Halte das Telefon wie sonst auch und deine Hand im Bild. Insgesamt etwa fünfzehn Sekunden.</string>
+    <string name="calibration_intro_body">Zwei Schritte, etwa zwanzig Sekunden. Halte die Hand zuerst ruhig in der Mitte, dann vervollständige den Kreis, indem du sie in alle Richtungen nach außen bewegst. Sieh dir die Animation an: genau diese Bewegung ist gemeint.</string>
     <string name="calibration_done_title">Fertig</string>
     <string name="calibration_done_body">Dein Profil ist bereit. Du kannst es jederzeit in den Einstellungen nachjustieren.</string>
     <string name="settings_title">Einstellungen</string>
@@ -227,4 +227,10 @@
     <string name="calibration_ring_left">Noch %1$d Richtungen</string>
     <string name="calibration_accept_partial">So passt es für mich</string>
     <string name="calibration_summary_reach">Gemessene Reichweite: %1$d oben, %2$d unten, %3$d links, %4$d rechts. Sie sind unterschiedlich, und genau darum geht es: das Scrollen verlangt jetzt von jeder Richtung nur das, was deine Hand wirklich kann.</string>
+    <string name="calibration_tips_title">So bewegst du die Hand</string>
+    <string name="calibration_tip_open_hand">Offene Hand, Handfläche zum Bildschirm, 20 bis 40 cm entfernt — der Abstand, den du wirklich nutzen wirst.</string>
+    <string name="calibration_tip_forearm">Bewege den ganzen Unterarm, nicht nur die Finger: die Erkennung folgt der Mitte der Handfläche.</string>
+    <string name="calibration_tip_slow">Eine langsame Runde, etwa fünf Sekunden. Zu schnell, und die Kamera verliert die Hand.</string>
+    <string name="calibration_tip_comfort">Geh so weit, wie es bequem ist, nicht so weit wie irgend möglich. Es soll dem entsprechen, wie du es wirklich nutzt.</string>
+    <string name="calibration_tip_frame">Bleib im Bild. Wird der Punkt rot, hat die Kamera dich verloren: geh wieder zur Mitte.</string>
 </resources>

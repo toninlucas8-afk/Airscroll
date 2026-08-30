@@ -110,6 +110,38 @@ fun CalibrationScreen(
                 style = MaterialTheme.typography.bodyLarge,
             )
 
+            // Il movimento si mostra prima di chiederlo. Durante il cerchio
+            // vero l'animazione sparisce: due cerchi insieme, uno finto e uno
+            // vivo, si darebbero solo fastidio.
+            if (state.step == CalibrationStep.INTRO || state.step == CalibrationStep.CENTER) {
+                CalibrationDemo(step = state.step)
+            }
+
+            if (state.step == CalibrationStep.INTRO) {
+                Text(
+                    text = stringResource(R.string.calibration_tips_title),
+                    style = MaterialTheme.typography.titleSmall,
+                )
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    listOf(
+                        R.string.calibration_tip_open_hand,
+                        R.string.calibration_tip_forearm,
+                        R.string.calibration_tip_slow,
+                        R.string.calibration_tip_comfort,
+                        R.string.calibration_tip_frame,
+                    ).forEach { tip ->
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                            Text("\u2022", color = MaterialTheme.colorScheme.primary)
+                            Text(
+                                text = stringResource(tip),
+                                style = MaterialTheme.typography.bodyMedium,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                    }
+                }
+            }
+
             if (state.step == CalibrationStep.RING) {
                 CalibrationRing(
                     sectors = state.sectors,

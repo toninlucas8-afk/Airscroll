@@ -58,7 +58,7 @@
     <string name="calibration_use_defaults">Saltar, usar los valores de partida</string>
     <string name="calibration_summary">Tamaño de mano %1$d · recorrido vertical %2$d · temblor %3$d</string>
     <string name="calibration_intro_title">Cuatro pasos breves</string>
-    <string name="calibration_intro_body">Sujeta el teléfono como sueles hacerlo y mantén la mano en el encuadre. En total son unos quince segundos.</string>
+    <string name="calibration_intro_body">Dos pasos, unos veinte segundos. Primero mantén la mano quieta en el centro, luego completa el círculo moviéndola hacia fuera en todas las direcciones. Mira la animación: el movimiento es exactamente ese.</string>
     <string name="calibration_done_title">Hecho</string>
     <string name="calibration_done_body">Tu perfil está listo. Siempre puedes retocarlo en los ajustes.</string>
     <string name="settings_title">Ajustes</string>
@@ -227,4 +227,10 @@
     <string name="calibration_ring_left">Faltan %1$d direcciones</string>
     <string name="calibration_accept_partial">Así está bien para mí</string>
     <string name="calibration_summary_reach">Alcance medido: %1$d arriba, %2$d abajo, %3$d a la izquierda, %4$d a la derecha. Son distintos, y ese es el objetivo: ahora el desplazamiento pide a cada dirección solo lo que tu mano puede hacer de verdad.</string>
+    <string name="calibration_tips_title">Cómo mover la mano</string>
+    <string name="calibration_tip_open_hand">Mano abierta, palma hacia la pantalla, a 20-40 cm: la distancia a la que la usarás de verdad.</string>
+    <string name="calibration_tip_forearm">Mueve todo el antebrazo, no solo los dedos: el reconocimiento sigue el centro de la palma.</string>
+    <string name="calibration_tip_slow">Una vuelta lenta, unos cinco segundos. Yendo rápido la cámara pierde la mano.</string>
+    <string name="calibration_tip_comfort">Llega hasta donde te resulte cómodo, no hasta donde puedas forzar. Debe parecerse a cómo la usarás de verdad.</string>
+    <string name="calibration_tip_frame">Quédate dentro del encuadre. Si el punto se pone rojo, la cámara te ha perdido: vuelve hacia el centro.</string>
 </resources>

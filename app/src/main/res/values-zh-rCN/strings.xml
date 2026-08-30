@@ -58,7 +58,7 @@
     <string name="calibration_use_defaults">跳过，使用默认值</string>
     <string name="calibration_summary">手部尺寸 %1$d · 垂直幅度 %2$d · 抖动 %3$d</string>
     <string name="calibration_intro_title">四个简短步骤</string>
-    <string name="calibration_intro_body">像平时那样拿着手机，并让手保持在取景范围内。整个过程约十五秒。</string>
+    <string name="calibration_intro_body">两个步骤，大约二十秒。先把手稳稳地放在中间，然后朝各个方向向外移动，把圆圈补全。看一下动画：动作就是这样。</string>
     <string name="calibration_done_title">完成</string>
     <string name="calibration_done_body">你的配置已就绪。随时可以在设置里微调。</string>
     <string name="settings_title">设置</string>
@@ -227,4 +227,10 @@
     <string name="calibration_ring_left">还差 %1$d 个方向</string>
     <string name="calibration_accept_partial">这样就可以了</string>
     <string name="calibration_summary_reach">测得的活动范围：上 %1$d，下 %2$d，左 %3$d，右 %4$d。它们并不相同，而这正是重点：现在滚动只会向每个方向要求你的手真正能做到的幅度。</string>
+    <string name="calibration_tips_title">手该怎么动</string>
+    <string name="calibration_tip_open_hand">张开手，手掌朝向屏幕，距离 20 到 40 厘米——也就是你实际使用的距离。</string>
+    <string name="calibration_tip_forearm">整条小臂一起动，不要只动手指：识别跟随的是手掌中心。</string>
+    <string name="calibration_tip_slow">慢慢转一圈，大约五秒。动得太快，相机会跟丢。</string>
+    <string name="calibration_tip_comfort">移动到舒服的位置就好，不要勉强。这应该和你平时真正使用的样子一致。</string>
+    <string name="calibration_tip_frame">保持在画面内。如果圆点变红，说明相机跟丢了：回到中间。</string>
 </resources>

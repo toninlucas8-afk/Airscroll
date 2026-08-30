@@ -67,7 +67,7 @@
     <string name="calibration_summary">Dimensione mano %1$d · ampiezza verticale %2$d · tremolio %3$d</string>
 
     <string name="calibration_intro_title">Quattro passaggi brevi</string>
-    <string name="calibration_intro_body">Tieni il telefono come fai di solito e la mano nell\'inquadratura. In tutto sono una quindicina di secondi.</string>
+    <string name="calibration_intro_body">Due passaggi, una ventina di secondi. Prima tieni la mano ferma al centro, poi completa il cerchio muovendola verso l\'esterno in tutte le direzioni. Guarda l\'animazione: il movimento è esattamente quello.</string>
     <string name="calibration_done_title">Fatto</string>
     <string name="calibration_done_body">Il tuo profilo è pronto. Puoi sempre ritoccarlo dalle impostazioni.</string>
 
@@ -258,4 +258,10 @@
     <string name="calibration_ring_left">Mancano %1$d direzioni</string>
     <string name="calibration_accept_partial">Per me va bene così</string>
     <string name="calibration_summary_reach">Portata misurata: %1$d in alto, %2$d in basso, %3$d a sinistra, %4$d a destra. Sono diverse, ed è proprio il punto: adesso lo scorrimento chiede a ogni direzione solo quello che la tua mano sa davvero fare.</string>
+    <string name="calibration_tips_title">Come muovere la mano</string>
+    <string name="calibration_tip_open_hand">Mano aperta, palmo verso lo schermo, a 20-40 cm — la distanza a cui la userai davvero.</string>
+    <string name="calibration_tip_forearm">Muovi tutto l\'avambraccio, non solo le dita: il riconoscimento segue il centro del palmo.</string>
+    <string name="calibration_tip_slow">Un giro lento, cinque secondi circa. Andando veloce la fotocamera perde la mano.</string>
+    <string name="calibration_tip_comfort">Arriva dove ti viene comodo, non dove riesci a sforzarti. Deve somigliare a come la userai davvero.</string>
+    <string name="calibration_tip_frame">Resta dentro l\'inquadratura. Se il puntino diventa rosso la fotocamera ti ha perso: torna verso il centro.</string>
 </resources>

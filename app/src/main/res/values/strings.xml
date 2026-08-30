@@ -74,7 +74,7 @@
     <string name="calibration_summary">Hand size %1$d · vertical range %2$d · tremor %3$d</string>
 
     <string name="calibration_intro_title">Four short steps</string>
-    <string name="calibration_intro_body">Hold the phone the way you normally would and keep your hand in the camera view. It takes about fifteen seconds in total.</string>
+    <string name="calibration_intro_body">Two steps, about twenty seconds. First hold your hand still in the middle, then complete the circle by moving outwards in every direction. Watch the animation: that is exactly the movement.</string>
     <string name="calibration_done_title">Done</string>
     <string name="calibration_done_body">Your profile is ready. You can always fine-tune it in settings.</string>
 
@@ -278,4 +278,10 @@
     <string name="calibration_ring_left">%1$d directions to go</string>
     <string name="calibration_accept_partial">This is far enough for me</string>
     <string name="calibration_summary_reach">Reach measured: %1$d up, %2$d down, %3$d left, %4$d right. They are different, and that is the point: scrolling now asks each direction only what your hand can actually do.</string>
+    <string name="calibration_tips_title">How to move your hand</string>
+    <string name="calibration_tip_open_hand">Open hand, palm towards the screen, 20 to 40 cm away — the distance you will actually use.</string>
+    <string name="calibration_tip_forearm">Move your whole forearm, not just your fingers: recognition follows the middle of your palm.</string>
+    <string name="calibration_tip_slow">One slow lap, about five seconds. Moving fast makes the camera lose your hand.</string>
+    <string name="calibration_tip_comfort">Go as far as is comfortable, not as far as you can strain. This should look like the way you will really use it.</string>
+    <string name="calibration_tip_frame">Stay inside the frame. If the dot turns red, the camera has lost you: come back towards the middle.</string>
 </resources>
