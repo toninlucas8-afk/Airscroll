@@ -113,13 +113,16 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
     fun start(lifecycleOwner: LifecycleOwner, preview: Preview) {
         running = true
         tracker.start()
-        if (!tracker.isReady) {
-            _state.value = _state.value.copy(
-                error = getApplication<Application>().getString(R.string.error_vision_unavailable),
-            )
-            return
-        }
-        _state.value = _state.value.copy(usingGpu = tracker.usingGpu, error = null)
+        // Anche col riconoscitore morto la fotocamera si accende lo stesso:
+        // l'anteprima viva e' l'unica prova che il guasto sta altrove.
+        _state.value = _state.value.copy(
+            usingGpu = tracker.usingGpu,
+            error = if (tracker.isReady) {
+                null
+            } else {
+                getApplication<Application>().getString(R.string.error_vision_unavailable)
+            },
+        )
         camera.bind(
             lifecycleOwner = lifecycleOwner,
             mode = performanceMode,

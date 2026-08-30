@@ -80,10 +80,12 @@ class CalibrationViewModel(application: Application) : AndroidViewModel(applicat
     fun startCamera(lifecycleOwner: LifecycleOwner, preview: Preview) {
         tracker.start()
         if (!tracker.isReady) {
+            // Si segnala l'errore ma si accende comunque la fotocamera: vedere
+            // l'anteprima viva dice all'utente che il guasto non e' la sua
+            // fotocamera. Uscire qui lasciava un rettangolo nero e nessun indizio.
             _state.value = _state.value.copy(
                 error = getApplication<Application>().getString(R.string.error_vision_unavailable),
             )
-            return
         }
         camera.bind(
             lifecycleOwner = lifecycleOwner,

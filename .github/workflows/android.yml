@@ -41,15 +41,26 @@ jobs:
           set -euo pipefail
           apk=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
           echo "APK: $apk"
-          if ! unzip -l "$apk" | grep -q "assets/gesture_recognizer.task"; then
-            echo "::error::L'APK non contiene gesture_recognizer.task. Senza modello il riconoscimento della mano non parte e l'app sembra semplicemente non vedere niente."
-            echo "Asset presenti:"
-            unzip -l "$apk" | grep "assets/" || echo "  (nessuno)"
-            exit 1
-          fi
-          size=$(unzip -l "$apk" | grep "assets/gesture_recognizer.task" | awk '{print $1}')
-          echo "Modello presente nell'APK: $size byte."
-          test "$size" -gt 1000000
+          python3 - "$apk" <<'CHECK'
+          import sys, zipfile
+          apk = zipfile.ZipFile(sys.argv[1])
+          name = "assets/gesture_recognizer.task"
+          if name not in apk.namelist():
+              print(f"::error::L'APK non contiene {name}. Senza modello il riconoscimento non parte.")
+              print("Asset presenti:", [n for n in apk.namelist() if n.startswith("assets/")])
+              sys.exit(1)
+          info = apk.getinfo(name)
+          if info.file_size < 1_000_000:
+              print(f"::error::Il modello e' troppo piccolo: {info.file_size} byte. Download troncato?")
+              sys.exit(1)
+          # ZIP_STORED = 0. MediaPipe apre il modello con AssetManager.openFd(),
+          # che funziona solo su asset non compressi: se e' DEFLATED l'app si
+          # installa, la fotocamera va, e nessun gesto viene mai riconosciuto.
+          if info.compress_type != zipfile.ZIP_STORED:
+              print("::error::Il modello e' compresso dentro l'APK. MediaPipe non riuscira' a caricarlo: serve `noCompress += \"task\"` nel modulo :app.")
+              sys.exit(1)
+          print(f"Modello presente e non compresso: {info.file_size:,} byte.")
+          CHECK
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

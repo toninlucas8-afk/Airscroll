@@ -80,6 +80,19 @@ android {
     packaging {
         resources.excludes += setOf("META-INF/{AL2.0,LGPL2.1}", "META-INF/DEPENDENCIES")
     }
+
+    androidResources {
+        // Il modello MediaPipe deve restare NON compresso dentro l'APK.
+        //
+        // `setModelAssetPath` lo apre con `AssetManager.openFd()`, che funziona
+        // solo su asset memorizzati senza compressione: su uno compresso lancia
+        // un'eccezione e il riconoscitore non parte affatto.
+        //
+        // La stessa riga esiste in :core:vision, ma non serviva a niente:
+        // l'impacchettamento dell'APK avviene qui, e l'impostazione di un
+        // modulo libreria non si propaga al modulo applicazione.
+        noCompress += "task"
+    }
 }
 
 dependencies {

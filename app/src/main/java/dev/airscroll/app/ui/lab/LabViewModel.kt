@@ -100,7 +100,6 @@ class LabViewModel(application: Application) : AndroidViewModel(application) {
             _state.value = _state.value.copy(
                 error = getApplication<Application>().getString(R.string.error_vision_unavailable),
             )
-            return
         }
         camera.bind(
             lifecycleOwner = lifecycleOwner,
