@@ -59,14 +59,6 @@
     <string name="calibration_summary">Tamaño de mano %1$d · recorrido vertical %2$d · temblor %3$d</string>
     <string name="calibration_intro_title">Cuatro pasos breves</string>
     <string name="calibration_intro_body">Sujeta el teléfono como sueles hacerlo y mantén la mano en el encuadre. En total son unos quince segundos.</string>
-    <string name="calibration_distance_title">1. Tu distancia habitual</string>
-    <string name="calibration_distance_body">Mantén la mano abierta donde te resulte natural y quédate ahí. Así AirScroll aprende a qué distancia sueles estar.</string>
-    <string name="calibration_still_title">2. Mano quieta</string>
-    <string name="calibration_still_body">Intenta no moverte. Medimos tu temblor natural para que nunca se convierta en desplazamiento no deseado.</string>
-    <string name="calibration_vertical_title">3. Arriba y abajo</string>
-    <string name="calibration_vertical_body">Mueve la mano arriba y abajo unas cuantas veces, con la amplitud que te resulte cómoda. No más.</string>
-    <string name="calibration_horizontal_title">4. Derecha e izquierda</string>
-    <string name="calibration_horizontal_body">Ahora muévela a derecha e izquierda unas cuantas veces. Sirve para ajustar el volumen.</string>
     <string name="calibration_done_title">Hecho</string>
     <string name="calibration_done_body">Tu perfil está listo. Siempre puedes retocarlo en los ajustes.</string>
     <string name="settings_title">Ajustes</string>
@@ -228,4 +220,11 @@
     <string name="error_vision_unknown">El reconocimiento de la mano no ha arrancado. Debajo están los detalles técnicos: envíamelos, dicen exactamente qué ha fallado.</string>
     <string name="action_copy_report">Copiar detalles</string>
     <string name="action_share_report">Compartir detalles</string>
+    <string name="calibration_center_title">Mano quieta en el centro</string>
+    <string name="calibration_center_body">Mantén la mano quieta delante de la cámara, a la distancia a la que la usarías normalmente. Dos segundos y medio: aquí se mide cuánto tiembla tu mano y qué tamaño aparenta, y se marca tu punto de reposo.</string>
+    <string name="calibration_ring_title">Completa el círculo</string>
+    <string name="calibration_ring_body">Mueve la mano hacia fuera en todas las direcciones, como si dibujaras un círculo en el aire. Cada segmento se enciende cuando llegas. Llega hasta donde te resulte cómodo, no hasta donde puedas forzar.</string>
+    <string name="calibration_ring_left">Faltan %1$d direcciones</string>
+    <string name="calibration_accept_partial">Así está bien para mí</string>
+    <string name="calibration_summary_reach">Alcance medido: %1$d arriba, %2$d abajo, %3$d a la izquierda, %4$d a la derecha. Son distintos, y ese es el objetivo: ahora el desplazamiento pide a cada dirección solo lo que tu mano puede hacer de verdad.</string>
 </resources>

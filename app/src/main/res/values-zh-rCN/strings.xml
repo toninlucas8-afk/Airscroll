@@ -59,14 +59,6 @@
     <string name="calibration_summary">手部尺寸 %1$d · 垂直幅度 %2$d · 抖动 %3$d</string>
     <string name="calibration_intro_title">四个简短步骤</string>
     <string name="calibration_intro_body">像平时那样拿着手机，并让手保持在取景范围内。整个过程约十五秒。</string>
-    <string name="calibration_distance_title">1. 你习惯的距离</string>
-    <string name="calibration_distance_body">把张开的手放在你觉得自然的位置并保持不动。AirScroll 由此了解你通常离得多远。</string>
-    <string name="calibration_still_title">2. 保持手不动</string>
-    <string name="calibration_still_body">尽量不要移动。我们要测量你自然的抖动，好让它永远不会变成误滚动。</string>
-    <string name="calibration_vertical_title">3. 上下移动</string>
-    <string name="calibration_vertical_body">上下移动手几次，幅度以你觉得舒服为准，不要更大。</string>
-    <string name="calibration_horizontal_title">4. 左右移动</string>
-    <string name="calibration_horizontal_body">现在左右移动几次。这用来校准音量。</string>
     <string name="calibration_done_title">完成</string>
     <string name="calibration_done_body">你的配置已就绪。随时可以在设置里微调。</string>
     <string name="settings_title">设置</string>
@@ -228,4 +220,11 @@
     <string name="error_vision_unknown">手部识别未能启动。下面是技术细节：请发给我，它们会说明到底哪里出了问题。</string>
     <string name="action_copy_report">复制详情</string>
     <string name="action_share_report">分享详情</string>
+    <string name="calibration_center_title">手放在中间不动</string>
+    <string name="calibration_center_body">把手稳稳地放在相机前，用你平时习惯的距离。两秒半：这里会测量你的手抖动多少、看起来多大，并标记你的静止位置。</string>
+    <string name="calibration_ring_title">把圆圈补全</string>
+    <string name="calibration_ring_body">朝各个方向把手向外移动，就像在空中画一个圆。每个扇形在你到达时点亮。移动到舒服的位置就好，不用勉强。</string>
+    <string name="calibration_ring_left">还差 %1$d 个方向</string>
+    <string name="calibration_accept_partial">这样就可以了</string>
+    <string name="calibration_summary_reach">测得的活动范围：上 %1$d，下 %2$d，左 %3$d，右 %4$d。它们并不相同，而这正是重点：现在滚动只会向每个方向要求你的手真正能做到的幅度。</string>
 </resources>

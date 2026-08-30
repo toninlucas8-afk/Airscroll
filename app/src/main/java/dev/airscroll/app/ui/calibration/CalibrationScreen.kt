@@ -110,11 +110,40 @@ fun CalibrationScreen(
                 style = MaterialTheme.typography.bodyLarge,
             )
 
-            if (state.recording) {
-                LinearProgressIndicator(
-                    progress = { state.progress },
-                    modifier = Modifier.fillMaxWidth(),
+            if (state.step == CalibrationStep.RING) {
+                CalibrationRing(
+                    sectors = state.sectors,
+                    handOffsetX = state.handOffsetX,
+                    handOffsetY = state.handOffsetY,
+                    handVisible = state.handVisible,
                 )
+                if (state.sectorsLeft > 0) {
+                    Text(
+                        text = stringResource(R.string.calibration_ring_left, state.sectorsLeft),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
+                if (state.canFinishEarly) {
+                    // Chi non riesce a chiudere il cerchio non deve restare
+                    // bloccato: una calibrazione parziale vale piu' di una
+                    // calibrazione impossibile da finire.
+                    OutlinedButton(
+                        onClick = { viewModel.beginNextStep() },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.calibration_accept_partial))
+                    }
+                }
+            }
+
+            if (state.recording) {
+                if (state.step != CalibrationStep.RING) {
+                    LinearProgressIndicator(
+                        progress = { state.progress },
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
                 Text(
                     text = if (state.handVisible) {
                         stringResource(R.string.calibration_hand_visible)
@@ -142,6 +171,20 @@ fun CalibrationScreen(
                             (state.result.referenceHandSpan * 100).toInt(),
                             (state.result.verticalRange * 100).toInt(),
                             (state.result.tremor * 1000).toInt(),
+                        ),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    // Le quattro portate scritte per esteso: sono la ragione
+                    // per cui il cerchio esiste, e vederle diverse fra loro
+                    // spiega da solo perche' una media non poteva bastare.
+                    Text(
+                        text = stringResource(
+                            R.string.calibration_summary_reach,
+                            (state.result.reachUp * 100).toInt(),
+                            (state.result.reachDown * 100).toInt(),
+                            (state.result.reachLeft * 100).toInt(),
+                            (state.result.reachRight * 100).toInt(),
                         ),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -188,19 +231,15 @@ fun CalibrationScreen(
 @androidx.annotation.StringRes
 private fun stepTitle(step: CalibrationStep): Int = when (step) {
     CalibrationStep.INTRO -> R.string.calibration_intro_title
-    CalibrationStep.DISTANCE -> R.string.calibration_distance_title
-    CalibrationStep.STILL -> R.string.calibration_still_title
-    CalibrationStep.VERTICAL -> R.string.calibration_vertical_title
-    CalibrationStep.HORIZONTAL -> R.string.calibration_horizontal_title
+    CalibrationStep.CENTER -> R.string.calibration_center_title
+    CalibrationStep.RING -> R.string.calibration_ring_title
     CalibrationStep.DONE -> R.string.calibration_done_title
 }
 
 @androidx.annotation.StringRes
 private fun stepBody(step: CalibrationStep): Int = when (step) {
     CalibrationStep.INTRO -> R.string.calibration_intro_body
-    CalibrationStep.DISTANCE -> R.string.calibration_distance_body
-    CalibrationStep.STILL -> R.string.calibration_still_body
-    CalibrationStep.VERTICAL -> R.string.calibration_vertical_body
-    CalibrationStep.HORIZONTAL -> R.string.calibration_horizontal_body
+    CalibrationStep.CENTER -> R.string.calibration_center_body
+    CalibrationStep.RING -> R.string.calibration_ring_body
     CalibrationStep.DONE -> R.string.calibration_done_body
 }

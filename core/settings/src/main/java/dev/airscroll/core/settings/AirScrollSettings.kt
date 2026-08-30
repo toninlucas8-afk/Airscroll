@@ -15,14 +15,50 @@ data class CalibrationProfile(
     val completed: Boolean = false,
     /** Dimensione apparente della mano alla distanza abituale dell'utente. */
     val referenceHandSpan: Float = DEFAULT_HAND_SPAN,
-    /** Ampiezza verticale comoda misurata durante la calibrazione. */
+    /**
+     * Ampiezza verticale comoda: la media fra [reachUp] e [reachDown].
+     *
+     * Resta come riepilogo, per le schermate che mostrano un numero solo.
+     */
     val verticalRange: Float = DEFAULT_VERTICAL_RANGE,
-    /** Ampiezza orizzontale comoda misurata durante la calibrazione. */
+    /** Ampiezza orizzontale comoda: la media fra [reachLeft] e [reachRight]. */
     val horizontalRange: Float = DEFAULT_HORIZONTAL_RANGE,
+
+    // --- Portata per direzione ---------------------------------------------
+    //
+    // Un numero solo non bastava, e non e' un dettaglio: alla prova su telefono
+    // uno dei due versi dello scorrimento sembrava non funzionare affatto.
+    // Nessuno arriva alla stessa distanza in tutte le direzioni - il braccio
+    // sale piu' facilmente di quanto scenda, e verso il lato del braccio che
+    // gesticola si arriva molto piu' lontano che dall'altro - e forzare una
+    // media fra due versi diversi rende uno dei due lento e l'altro nervoso.
+    //
+    // Il cerchio da completare in calibrazione serve a misurarli tutti e
+    // quattro davvero, invece di stimarne uno.
+
+    /** Quanto in alto arriva la mano, dal centro. */
+    val reachUp: Float = DEFAULT_VERTICAL_RANGE,
+    /** Quanto in basso arriva la mano, dal centro. */
+    val reachDown: Float = DEFAULT_VERTICAL_RANGE,
+    /** Quanto a sinistra arriva la mano, dal centro. */
+    val reachLeft: Float = DEFAULT_HORIZONTAL_RANGE,
+    /** Quanto a destra arriva la mano, dal centro. */
+    val reachRight: Float = DEFAULT_HORIZONTAL_RANGE,
+
     /** Tremolio residuo con la mano ferma: da qui esce la zona neutra. */
     val tremor: Float = DEFAULT_TREMOR,
     val calibratedAtMillis: Long = 0L,
 ) {
+
+    /**
+     * Ricalcola i due riepiloghi dalle quattro portate misurate, cosi' non
+     * possono raccontare qualcosa di diverso dai dati veri.
+     */
+    fun withDerivedRanges(): CalibrationProfile = copy(
+        verticalRange = (reachUp + reachDown) / 2f,
+        horizontalRange = (reachLeft + reachRight) / 2f,
+    )
+
     companion object {
         const val DEFAULT_HAND_SPAN = 0.14f
         const val DEFAULT_VERTICAL_RANGE = 0.22f

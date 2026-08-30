@@ -68,14 +68,6 @@
 
     <string name="calibration_intro_title">Quattro passaggi brevi</string>
     <string name="calibration_intro_body">Tieni il telefono come fai di solito e la mano nell\'inquadratura. In tutto sono una quindicina di secondi.</string>
-    <string name="calibration_distance_title">1. La tua distanza abituale</string>
-    <string name="calibration_distance_body">Tieni la mano aperta dove ti viene naturale e resta fermo lì. Da qui AirScroll capisce quanto stai lontano di solito.</string>
-    <string name="calibration_still_title">2. Mano ferma</string>
-    <string name="calibration_still_body">Cerca di non muoverti. Misuriamo il tuo tremolio naturale, così non diventerà mai scorrimento indesiderato.</string>
-    <string name="calibration_vertical_title">3. Su e giù</string>
-    <string name="calibration_vertical_body">Muovi la mano su e giù qualche volta, con l\'ampiezza che ti è comoda. Non di più.</string>
-    <string name="calibration_horizontal_title">4. Destra e sinistra</string>
-    <string name="calibration_horizontal_body">Ora spostala a destra e a sinistra qualche volta. Serve a tarare il volume.</string>
     <string name="calibration_done_title">Fatto</string>
     <string name="calibration_done_body">Il tuo profilo è pronto. Puoi sempre ritoccarlo dalle impostazioni.</string>
 
@@ -259,4 +251,11 @@
     <string name="error_vision_unknown">Il riconoscimento della mano non e\' partito. Qui sotto ci sono i dettagli tecnici: mandameli, dicono esattamente cosa e\' andato storto.</string>
     <string name="action_copy_report">Copia i dettagli</string>
     <string name="action_share_report">Condividi i dettagli</string>
+    <string name="calibration_center_title">Mano ferma al centro</string>
+    <string name="calibration_center_body">Tieni la mano ferma davanti alla fotocamera, alla distanza a cui la useresti normalmente. Due secondi e mezzo: qui si misura quanto trema la tua mano e quanto appare grande, e si segna il tuo punto di riposo.</string>
+    <string name="calibration_ring_title">Completa il cerchio</string>
+    <string name="calibration_ring_body">Muovi la mano verso l\'esterno in tutte le direzioni, come se disegnassi un cerchio in aria. Ogni spicchio si accende quando ci arrivi. Vai fin dove ti viene comodo, non fin dove riesci a sforzarti.</string>
+    <string name="calibration_ring_left">Mancano %1$d direzioni</string>
+    <string name="calibration_accept_partial">Per me va bene così</string>
+    <string name="calibration_summary_reach">Portata misurata: %1$d in alto, %2$d in basso, %3$d a sinistra, %4$d a destra. Sono diverse, ed è proprio il punto: adesso lo scorrimento chiede a ogni direzione solo quello che la tua mano sa davvero fare.</string>
 </resources>

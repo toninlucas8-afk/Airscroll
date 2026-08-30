@@ -103,6 +103,10 @@ class SettingsRepository(context: Context) {
         prefs[Keys.CAL_HAND_SPAN] = profile.referenceHandSpan
         prefs[Keys.CAL_VERTICAL] = profile.verticalRange
         prefs[Keys.CAL_HORIZONTAL] = profile.horizontalRange
+        prefs[Keys.CAL_REACH_UP] = profile.reachUp
+        prefs[Keys.CAL_REACH_DOWN] = profile.reachDown
+        prefs[Keys.CAL_REACH_LEFT] = profile.reachLeft
+        prefs[Keys.CAL_REACH_RIGHT] = profile.reachRight
         prefs[Keys.CAL_TREMOR] = profile.tremor
         prefs[Keys.CAL_AT] = profile.calibratedAtMillis
     }
@@ -140,6 +144,19 @@ class SettingsRepository(context: Context) {
                 referenceHandSpan = this[Keys.CAL_HAND_SPAN] ?: CalibrationProfile.DEFAULT_HAND_SPAN,
                 verticalRange = this[Keys.CAL_VERTICAL] ?: CalibrationProfile.DEFAULT_VERTICAL_RANGE,
                 horizontalRange = this[Keys.CAL_HORIZONTAL] ?: CalibrationProfile.DEFAULT_HORIZONTAL_RANGE,
+                // Le portate per direzione sono arrivate dopo il cerchio di
+                // calibrazione. Chi ha calibrato prima non le ha: si ripiega
+                // sull'ampiezza unica gia' misurata, che e' esattamente cio'
+                // che l'app usava fino a ieri. Nessuno si ritrova peggio di
+                // com'era, e chi rifa' la calibrazione guadagna la misura vera.
+                reachUp = this[Keys.CAL_REACH_UP]
+                    ?: this[Keys.CAL_VERTICAL] ?: CalibrationProfile.DEFAULT_VERTICAL_RANGE,
+                reachDown = this[Keys.CAL_REACH_DOWN]
+                    ?: this[Keys.CAL_VERTICAL] ?: CalibrationProfile.DEFAULT_VERTICAL_RANGE,
+                reachLeft = this[Keys.CAL_REACH_LEFT]
+                    ?: this[Keys.CAL_HORIZONTAL] ?: CalibrationProfile.DEFAULT_HORIZONTAL_RANGE,
+                reachRight = this[Keys.CAL_REACH_RIGHT]
+                    ?: this[Keys.CAL_HORIZONTAL] ?: CalibrationProfile.DEFAULT_HORIZONTAL_RANGE,
                 tremor = this[Keys.CAL_TREMOR] ?: CalibrationProfile.DEFAULT_TREMOR,
                 calibratedAtMillis = this[Keys.CAL_AT] ?: 0L,
             ),
@@ -173,6 +190,10 @@ class SettingsRepository(context: Context) {
         val CAL_VERTICAL = floatPreferencesKey("cal_vertical")
         val CAL_HORIZONTAL = floatPreferencesKey("cal_horizontal")
         val CAL_TREMOR = floatPreferencesKey("cal_tremor")
+        val CAL_REACH_UP = floatPreferencesKey("cal_reach_up")
+        val CAL_REACH_DOWN = floatPreferencesKey("cal_reach_down")
+        val CAL_REACH_LEFT = floatPreferencesKey("cal_reach_left")
+        val CAL_REACH_RIGHT = floatPreferencesKey("cal_reach_right")
         val CAL_AT = longPreferencesKey("cal_at")
     }
 }

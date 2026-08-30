@@ -106,8 +106,19 @@ class MotionMapper {
         val calibration = settings.calibration
         val neutral = (calibration.tremor * NEUTRAL_MULTIPLIER * settings.neutralZoneScale)
             .clamp(MIN_NEUTRAL, MAX_NEUTRAL)
-        val verticalRange = calibration.verticalRange.coerceAtLeast(neutral * 3f)
-        val horizontalRange = calibration.horizontalRange.coerceAtLeast(neutral * 3f)
+        // Una portata per direzione, non una media fra le due.
+        //
+        // Nessuno arriva alla stessa distanza in tutti i versi: il braccio sale
+        // piu' facilmente di quanto scenda, e verso il proprio lato arriva
+        // molto piu' lontano che verso l'altro. Con una media, il verso corto
+        // resta lento e quello lungo diventa nervoso - ed e' meta' del motivo
+        // per cui, alla prova, uno dei due sensi sembrava non funzionare.
+        // Questi quattro numeri li misura il cerchio di calibrazione.
+        val minimumRange = neutral * 3f
+        val reachUp = calibration.reachUp.coerceAtLeast(minimumRange)
+        val reachDown = calibration.reachDown.coerceAtLeast(minimumRange)
+        val reachLeft = calibration.reachLeft.coerceAtLeast(minimumRange)
+        val reachRight = calibration.reachRight.coerceAtLeast(minimumRange)
 
         // Il pugno chiuso e' il gesto di uscita: mentre e' visibile non si scorre.
         if (frame.signal == HandSignal.CLOSED_FIST) {
@@ -139,7 +150,8 @@ class MotionMapper {
                 // deltaY positivo = mano alzata: lo spazio che conta e' quello
                 // verso l'alto dell'inquadratura, cioe' verso y piccole.
                 val room = if (deltaY > 0f) anchorY - FRAME_EDGE else (1f - FRAME_EDGE) - anchorY
-                val excursion = excursion(abs(deltaY), verticalExcess, verticalRange, neutral, room, gain)
+                val range = if (deltaY > 0f) reachUp else reachDown
+                val excursion = excursion(abs(deltaY), verticalExcess, range, neutral, room, gain)
                 var speed = settings.maxScrollSpeedPxPerSec *
                     tuning.speedMultiplier *
                     progressiveResponse(excursion, tuning.curveGamma)
@@ -158,8 +170,8 @@ class MotionMapper {
 
             MotionAxis.HORIZONTAL -> {
                 val room = if (deltaX > 0f) (1f - FRAME_EDGE) - anchorX else anchorX - FRAME_EDGE
-                val excursion =
-                    excursion(abs(deltaX), horizontalExcess, horizontalRange, neutral, room, gain)
+                val range = if (deltaX > 0f) reachRight else reachLeft
+                val excursion = excursion(abs(deltaX), horizontalExcess, range, neutral, room, gain)
                 val stepsPerSecond = settings.maxVolumeStepsPerSec *
                     progressiveResponse(excursion, VOLUME_GAMMA) *
                     sign(deltaX)

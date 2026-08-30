@@ -75,14 +75,6 @@
 
     <string name="calibration_intro_title">Four short steps</string>
     <string name="calibration_intro_body">Hold the phone the way you normally would and keep your hand in the camera view. It takes about fifteen seconds in total.</string>
-    <string name="calibration_distance_title">1. Your usual distance</string>
-    <string name="calibration_distance_body">Hold your open hand where it feels natural and keep it there. This is how AirScroll learns how far away you usually are.</string>
-    <string name="calibration_still_title">2. Hold still</string>
-    <string name="calibration_still_body">Try not to move. We measure your natural tremor so that it never turns into unwanted scrolling.</string>
-    <string name="calibration_vertical_title">3. Up and down</string>
-    <string name="calibration_vertical_body">Move your hand up and down a few times, as widely as feels comfortable — not more.</string>
-    <string name="calibration_horizontal_title">4. Left and right</string>
-    <string name="calibration_horizontal_body">Now move it left and right a few times. This sets the range used for volume.</string>
     <string name="calibration_done_title">Done</string>
     <string name="calibration_done_body">Your profile is ready. You can always fine-tune it in settings.</string>
 
@@ -279,4 +271,11 @@
     <string name="error_vision_unknown">Hand recognition could not start. The technical details are below: please send them, they say exactly what went wrong.</string>
     <string name="action_copy_report">Copy details</string>
     <string name="action_share_report">Share details</string>
+    <string name="calibration_center_title">Hand still in the middle</string>
+    <string name="calibration_center_body">Hold your hand still in front of the camera, at the distance you would normally use. Two and a half seconds: this measures how much your hand trembles and how big it looks, and marks your resting point.</string>
+    <string name="calibration_ring_title">Complete the circle</string>
+    <string name="calibration_ring_body">Move your hand outwards in every direction, as if drawing a circle in the air. Each segment lights up when you reach it. Move as far as is comfortable — not as far as you possibly can.</string>
+    <string name="calibration_ring_left">%1$d directions to go</string>
+    <string name="calibration_accept_partial">This is far enough for me</string>
+    <string name="calibration_summary_reach">Reach measured: %1$d up, %2$d down, %3$d left, %4$d right. They are different, and that is the point: scrolling now asks each direction only what your hand can actually do.</string>
 </resources>

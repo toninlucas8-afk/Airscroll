@@ -59,14 +59,6 @@
     <string name="calibration_summary">Handgröße %1$d · vertikaler Weg %2$d · Zittern %3$d</string>
     <string name="calibration_intro_title">Vier kurze Schritte</string>
     <string name="calibration_intro_body">Halte das Telefon wie sonst auch und deine Hand im Bild. Insgesamt etwa fünfzehn Sekunden.</string>
-    <string name="calibration_distance_title">1. Dein üblicher Abstand</string>
-    <string name="calibration_distance_body">Halte die offene Hand dort, wo es sich natürlich anfühlt, und bleib dort. So lernt AirScroll, wie weit du normalerweise entfernt bist.</string>
-    <string name="calibration_still_title">2. Hand ruhig halten</string>
-    <string name="calibration_still_body">Versuche, dich nicht zu bewegen. Wir messen dein natürliches Zittern, damit daraus nie ungewolltes Scrollen wird.</string>
-    <string name="calibration_vertical_title">3. Hoch und runter</string>
-    <string name="calibration_vertical_body">Bewege die Hand ein paar Mal hoch und runter, so weit wie es bequem ist. Nicht weiter.</string>
-    <string name="calibration_horizontal_title">4. Rechts und links</string>
-    <string name="calibration_horizontal_body">Jetzt ein paar Mal nach rechts und links. Das justiert die Lautstärke.</string>
     <string name="calibration_done_title">Fertig</string>
     <string name="calibration_done_body">Dein Profil ist bereit. Du kannst es jederzeit in den Einstellungen nachjustieren.</string>
     <string name="settings_title">Einstellungen</string>
@@ -228,4 +220,11 @@
     <string name="error_vision_unknown">Die Handerkennung ist nicht gestartet. Unten stehen die technischen Details: Schick sie mir, sie sagen genau, was schiefgelaufen ist.</string>
     <string name="action_copy_report">Details kopieren</string>
     <string name="action_share_report">Details teilen</string>
+    <string name="calibration_center_title">Hand ruhig in der Mitte</string>
+    <string name="calibration_center_body">Halte die Hand ruhig vor die Kamera, in dem Abstand, den du normalerweise nutzen würdest. Zweieinhalb Sekunden: hier wird gemessen, wie stark deine Hand zittert und wie groß sie erscheint, und dein Ruhepunkt wird festgelegt.</string>
+    <string name="calibration_ring_title">Vervollständige den Kreis</string>
+    <string name="calibration_ring_body">Bewege die Hand in alle Richtungen nach außen, als würdest du einen Kreis in die Luft zeichnen. Jedes Segment leuchtet auf, sobald du es erreichst. Geh so weit, wie es bequem ist, nicht so weit wie irgend möglich.</string>
+    <string name="calibration_ring_left">Noch %1$d Richtungen</string>
+    <string name="calibration_accept_partial">So passt es für mich</string>
+    <string name="calibration_summary_reach">Gemessene Reichweite: %1$d oben, %2$d unten, %3$d links, %4$d rechts. Sie sind unterschiedlich, und genau darum geht es: das Scrollen verlangt jetzt von jeder Richtung nur das, was deine Hand wirklich kann.</string>
 </resources>

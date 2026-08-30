@@ -33,14 +33,31 @@ si installa l'APK.
 
 ### La calibrazione
 
-Alla prima installazione, quattro passaggi da una quindicina di secondi in
-tutto, nello spirito di Face ID: invece di chiederti di indovinare dei numeri,
-misura i tuoi movimenti veri.
+Un cerchio da completare, nello spirito di Face ID: invece di chiederti di
+indovinare dei numeri, ti fa fare il movimento e lo misura. Due passaggi, una
+ventina di secondi in tutto.
 
-1. **Distanza abituale** → guadagno del profilo automatico.
-2. **Mano ferma** → ampiezza del tuo tremolio, cioè la zona neutra.
-3. **Su e giù** → quanto è ampio un movimento "pieno" per te.
-4. **Destra e sinistra** → la stessa cosa, per il volume.
+1. **Mano ferma al centro** → il tuo tremolio (da cui esce la zona neutra), la
+   dimensione apparente della mano (da cui esce il guadagno automatico per la
+   distanza) e il punto di riposo, che diventa il centro del cerchio.
+2. **Completa il cerchio** → muovi la mano verso l'esterno in tutte le
+   direzioni. Ogni spicchio si accende quando ci arrivi.
+
+Il cerchio non è decorazione: è ciò che ti spinge a esplorare *tutte* le
+direzioni, e da lì escono **quattro portate distinte** — in alto, in basso, a
+sinistra, a destra.
+
+Prima erano due, un'ampiezza verticale e una orizzontale, come se il braccio
+salisse e scendesse allo stesso modo. Non è così per nessuno: verso il proprio
+lato si arriva molto più lontano che verso l'altro, e il braccio sale più
+facilmente di quanto scenda. Quella media è stata metà del motivo per cui, alla
+prima prova su telefono, uno dei due sensi dello scorrimento sembrava non
+funzionare affatto: al verso corto veniva chiesto un movimento che quella mano
+non poteva fare.
+
+Chi non riesce a chiudere il cerchio non resta bloccato: uno spicchio si accende
+anche arrivando al bordo di ciò che la fotocamera vede, e dopo un po' compare
+un pulsante per concludere con quello che si è misurato.
 
 Ci sono anche tre profili distanza fissi (vicino, medio, lontano) oltre alla
 modalità automatica, che stima la distanza dalla dimensione apparente della

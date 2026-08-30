@@ -192,4 +192,60 @@ class MotionMapperTest {
         }
         return ultima
     }
+
+    // --- Portata per direzione ---------------------------------------------
+
+    /**
+     * Il motivo per cui il cerchio di calibrazione esiste.
+     *
+     * Chi arriva lontano in alto e poco in basso deve trovare le due direzioni
+     * ugualmente pronte: un movimento piccolo verso il basso - dove la portata
+     * misurata e' piccola - deve spingere quanto un movimento grande verso
+     * l'alto. Con una portata media, il verso corto restava lento comunque.
+     */
+    @Test
+    fun `usa la portata misurata di quella direzione, non una media`() {
+        val asimmetrica = settings.copy(
+            calibration = settings.calibration.copy(
+                reachUp = 0.24f,
+                reachDown = 0.08f,
+                reachLeft = 0.20f,
+                reachRight = 0.20f,
+            )
+        )
+
+        // Ancora al centro: spazio in abbondanza da entrambe le parti, cosi'
+        // l'aiuto al bordo non entra in gioco e si misura solo la portata.
+        val versoAlto = abs(velocitaConImpostazioni(asimmetrica, 0.5f, -0.24f))
+        val versoBasso = abs(velocitaConImpostazioni(asimmetrica, 0.5f, +0.08f))
+
+        val massima = asimmetrica.maxScrollSpeedPxPerSec * tuning.speedMultiplier
+        assertTrue(
+            "in alto, alla sua portata piena: $versoAlto su $massima",
+            versoAlto >= massima * 0.85f,
+        )
+        assertTrue(
+            "in basso, alla sua portata piena: $versoBasso su $massima. " +
+                "Con una media questo verso resterebbe lento.",
+            versoBasso >= massima * 0.85f,
+        )
+    }
+
+    private fun velocitaConImpostazioni(
+        impostazioni: AirScrollSettings,
+        ancora: Float,
+        delta: Float,
+    ): Float {
+        val mapper = MotionMapper()
+        mapper.anchorTo(frame(0, y = ancora), 0)
+        var timestamp = 0L
+        var ultima = 0f
+        repeat(25) {
+            timestamp += 40
+            val output =
+                mapper.map(frame(timestamp, y = ancora + delta), timestamp, impostazioni, tuning)
+            ultima = output.scrollVelocityPxPerSec
+        }
+        return ultima
+    }
 }
