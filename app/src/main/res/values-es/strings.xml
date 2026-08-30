@@ -101,6 +101,7 @@
     <string name="performance_responsive">Reactivo</string>
     <string name="horizontal_none">Nada</string>
     <string name="horizontal_volume">Volumen</string>
+    <string name="corner_top_center">Arriba en el centro (barra de estado)</string>
     <string name="corner_top_start">Arriba a la izquierda</string>
     <string name="corner_top_end">Arriba a la derecha</string>
     <string name="corner_bottom_start">Abajo a la izquierda</string>

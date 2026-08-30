@@ -101,6 +101,7 @@
     <string name="performance_responsive">Reaktionsfreudig</string>
     <string name="horizontal_none">Nichts</string>
     <string name="horizontal_volume">Lautstärke</string>
+    <string name="corner_top_center">Oben mittig (Statusleiste)</string>
     <string name="corner_top_start">Oben links</string>
     <string name="corner_top_end">Oben rechts</string>
     <string name="corner_bottom_start">Unten links</string>

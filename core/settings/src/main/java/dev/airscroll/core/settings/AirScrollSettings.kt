@@ -63,7 +63,7 @@ data class AirScrollSettings(
     val maxVolumeStepsPerSec: Float = 6f,
 
     val indicatorEnabled: Boolean = true,
-    val indicatorCorner: IndicatorCorner = IndicatorCorner.TOP_END,
+    val indicatorCorner: IndicatorCorner = IndicatorCorner.TOP_CENTER,
     val hapticsEnabled: Boolean = true,
 
     /** Durata della finestra gialla di attesa, in millisecondi. */

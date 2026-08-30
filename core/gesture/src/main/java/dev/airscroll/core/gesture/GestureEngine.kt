@@ -168,9 +168,25 @@ class GestureEngine(
         val tuning = profile?.tuning ?: ScrollTuning.Default
         val output = mapper.map(frame, frame.timestampMs, settings, tuning)
 
+        // Un buco di qualche decina di millisecondi non e' un ripensamento.
+        //
+        // `tick()` prevedeva gia' una tolleranza prima di fermare lo
+        // scorrimento, ma non entrava mai in gioco: il riconoscitore emette
+        // comunque un fotogramma "mano assente", che arriva qui, produce
+        // velocita' zero e ferma tutto sul colpo. Bastava che la mano uscisse
+        // dall'inquadratura per un istante - cosa che succede di continuo
+        // abbassandola, perche' il bordo basso del fotogramma e' vicino - e lo
+        // scorrimento moriva a meta' gesto.
+        val velocity = if (frame.present) {
+            output.scrollVelocityPxPerSec
+        } else {
+            val coasting = now - lastHandSeen < HAND_BLINK_COAST_MS
+            if (coasting) lastPublishedVelocity.takeIf { !it.isNaN() } ?: 0f else 0f
+        }
+
         publishScroll(
             ScrollCommand(
-                velocityPxPerSec = output.scrollVelocityPxPerSec,
+                velocityPxPerSec = velocity,
                 gripFractionX = tuning.gripFractionX,
                 gripFractionY = tuning.gripFractionY,
             )
@@ -297,6 +313,14 @@ class GestureEngine(
 
         /** Dopo questo silenzio fermiamo lo scorrimento ma restiamo attivi. */
         const val HAND_LOST_STOP_MS = 450L
+
+        /**
+         * Quanto si prosegue per inerzia su un fotogramma senza mano.
+         *
+         * Corto di proposito: copre un fotogramma perso o una sbandata fuori
+         * inquadratura, non una mano abbassata per smettere.
+         */
+        const val HAND_BLINK_COAST_MS = 260L
 
         /** Dopo questo silenzio torniamo in attesa. */
         const val HAND_LOST_TIMEOUT_MS = 4_000L

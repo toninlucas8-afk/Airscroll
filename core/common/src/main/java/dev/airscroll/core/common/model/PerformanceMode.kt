@@ -29,8 +29,17 @@ enum class HorizontalAction {
     VOLUME,
 }
 
-/** Angolo in cui disegnare l'indicatore di stato. */
+/** Dove disegnare l'indicatore di stato. */
 enum class IndicatorCorner {
+    /**
+     * In cima, al centro, nella fascia della status bar.
+     *
+     * E' la posizione predefinita perche' e' dove si guarda gia': accanto
+     * all'orologio e alle notifiche. Su un telefono con il foro della
+     * fotocamera al centro puo' finirci sotto: in quel caso si sceglie un
+     * angolo.
+     */
+    TOP_CENTER,
     TOP_START,
     TOP_END,
     BOTTOM_START,

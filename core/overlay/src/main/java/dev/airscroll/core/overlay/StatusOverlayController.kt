@@ -49,8 +49,10 @@ class StatusOverlayController(context: Context) {
             PixelFormat.TRANSLUCENT,
         ).apply {
             gravity = corner.toGravity()
-            x = margin
-            y = margin
+            // Al centro l'offset orizzontale va azzerato, altrimenti il
+            // margine lo sposta di lato e non e' piu' centrato.
+            x = if (corner == IndicatorCorner.TOP_CENTER) 0 else margin
+            y = if (corner == IndicatorCorner.TOP_CENTER) statusBarInset() else margin
         }
 
         runCatching { manager.addView(indicator, params) }
@@ -64,6 +66,9 @@ class StatusOverlayController(context: Context) {
         val params = indicator.layoutParams as? WindowManager.LayoutParams ?: return
         if (params.gravity == corner.toGravity()) return
         params.gravity = corner.toGravity()
+        val margin = (appContext.resources.displayMetrics.density * MARGIN_DP).toInt()
+        params.x = if (corner == IndicatorCorner.TOP_CENTER) 0 else margin
+        params.y = if (corner == IndicatorCorner.TOP_CENTER) statusBarInset() else margin
         runCatching { manager.updateViewLayout(indicator, params) }
     }
 
@@ -88,7 +93,29 @@ class StatusOverlayController(context: Context) {
             WindowManager.LayoutParams.TYPE_PHONE
         }
 
+    /**
+     * Altezza della status bar, per posare il puntino dentro quella fascia
+     * invece che sopra il contenuto dell'app.
+     *
+     * Se il sistema non la dichiara si ripiega su un valore ragionevole: e'
+     * un'inezia di posizione, non vale un ramo di codice fragile.
+     */
+    private fun statusBarInset(): Int {
+        val resources = appContext.resources
+        val density = resources.displayMetrics.density
+        val fallback = (density * MARGIN_DP).toInt()
+
+        @Suppress("DiscouragedApi", "InternalInsetResource")
+        val id = resources.getIdentifier("status_bar_height", "dimen", "android")
+        val statusBarHeight = if (id > 0) resources.getDimensionPixelSize(id) else 0
+        if (statusBarHeight <= 0) return fallback
+
+        val centered = (statusBarHeight - density * SIZE_DP) / 2f
+        return centered.toInt().coerceAtLeast(0)
+    }
+
     private fun IndicatorCorner.toGravity(): Int = when (this) {
+        IndicatorCorner.TOP_CENTER -> Gravity.TOP or Gravity.CENTER_HORIZONTAL
         IndicatorCorner.TOP_START -> Gravity.TOP or Gravity.START
         IndicatorCorner.TOP_END -> Gravity.TOP or Gravity.END
         IndicatorCorner.BOTTOM_START -> Gravity.BOTTOM or Gravity.START

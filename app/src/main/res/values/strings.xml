@@ -127,6 +127,7 @@
     <string name="performance_responsive">Responsive</string>
     <string name="horizontal_none">Nothing</string>
     <string name="horizontal_volume">Volume</string>
+    <string name="corner_top_center">Top centre (status bar)</string>
     <string name="corner_top_start">Top left</string>
     <string name="corner_top_end">Top right</string>
     <string name="corner_bottom_start">Bottom left</string>

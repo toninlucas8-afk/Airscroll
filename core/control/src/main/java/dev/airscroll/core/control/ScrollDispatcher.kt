@@ -80,7 +80,7 @@ class ScrollDispatcher(private val service: AccessibilityService) {
         if (size.x <= 0 || size.y <= 0) return
 
         pointerX = (size.x * gripFractionX).coerceIn(EDGE_MARGIN_PX, size.x - EDGE_MARGIN_PX)
-        pointerY = (size.y * gripFractionY).coerceIn(verticalMargin(size), size.y - verticalMargin(size))
+        pointerY = startY(size)
 
         // Primo scatto abbastanza ampio da superare il "touch slop": senza questo
         // il sistema potrebbe interpretare l'appoggio come un tocco e aprire un link.
@@ -229,6 +229,41 @@ class ScrollDispatcher(private val service: AccessibilityService) {
             running = false
             lastStroke = null
             if (velocity != 0f) handler.postDelayed({ if (velocity != 0f) press() }, RETRY_MS)
+        }
+    }
+
+    /**
+     * Dove appoggiare il dito, in funzione del verso in cui deve andare.
+     *
+     * Prima si appoggiava sempre a `gripFractionY` - fra il 50% e il 65%
+     * dell'altezza a seconda dell'app - e da li' partiva in entrambi i versi.
+     * Il risultato era che le due direzioni **non avevano la stessa corsa**.
+     * Su uno schermo da 2400 px con margini al 18%, in Instagram
+     * (`gripFractionY = 0.65`): 1128 px verso l'alto e appena 408 px verso il
+     * basso, cioe' 2,8 volte meno. A 900 px/s sono 1,25 s di trascinamento
+     * fluido da una parte e 0,45 s dall'altra, dopo i quali il dito arriva a
+     * fondo corsa, si stacca e si riappoggia.
+     *
+     * In una lista che risponde all'inerzia, un trascinamento interrotto ogni
+     * mezzo secondo non scorre quasi niente. Da qui il difetto segnalato alla
+     * prova: **giu' funziona, su no**.
+     *
+     * Adesso il dito parte dall'estremita' opposta al verso di marcia, e ha
+     * tutta la banda utile davanti a se': la stessa corsa in entrambi i versi,
+     * qualunque sia l'app.
+     */
+    private fun startY(size: Point): Float {
+        val top = verticalMargin(size)
+        val bottom = size.y - verticalMargin(size)
+        if (bottom <= top) return (top + bottom) / 2f
+        // Un dito di margine oltre l'estremita', per lasciare spazio allo
+        // scatto iniziale che deve superare il touch slop.
+        val room = (touchSlop * 2f + 16f).coerceAtMost((bottom - top) / 4f)
+        return when {
+            velocity > 0f -> top + room      // il dito va verso il basso: parte in alto
+            velocity < 0f -> bottom - room   // il dito va verso l'alto: parte in basso
+            // Verso ignoto: si torna al punto preferito dal profilo dell'app.
+            else -> (size.y * gripFractionY).coerceIn(top, bottom)
         }
     }
 

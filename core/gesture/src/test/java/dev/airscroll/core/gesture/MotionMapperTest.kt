@@ -128,4 +128,68 @@ class MotionMapperTest {
         }
         assertTrue("gradini accumulati: $totalSteps", totalSteps > 0)
     }
+
+    // --- Simmetria fra i due versi -----------------------------------------
+    //
+    // Alla prova su telefono lo scorrimento verso il basso funzionava e quello
+    // verso l'alto no. Uno dei due motivi stava qui: l'ancora si fissa dove sta
+    // la mano al pollice in su, e da li' i due versi non hanno lo stesso spazio
+    // prima che la mano esca dall'inquadratura.
+
+    /** Muovendo la mano di altrettanto, i due versi devono dare la stessa spinta. */
+    @Test
+    fun `con l'ancora in basso i due versi rispondono allo stesso modo`() {
+        val movimento = 0.10f
+        val ancora = 0.78f  // mano bassa: sopra ha spazio, sotto quasi niente
+
+        val versoAlto = velocitaDopoMovimento(ancora, -movimento)
+        val versoBasso = velocitaDopoMovimento(ancora, +movimento)
+
+        assertTrue("verso l'alto deve scorrere", abs(versoAlto) > 0f)
+        assertTrue("verso il basso deve scorrere", abs(versoBasso) > 0f)
+        assertEquals("versi opposti", -1f, versoAlto.sign * versoBasso.sign, 0.001f)
+
+        val rapporto = abs(versoAlto) / abs(versoBasso)
+        assertTrue(
+            "I due versi rispondono in modo troppo diverso: rapporto $rapporto " +
+                "(alto ${abs(versoAlto)}, basso ${abs(versoBasso)})",
+            rapporto in 0.5f..2f,
+        )
+    }
+
+    /** Il verso stretto deve comunque poter arrivare a fondo scala. */
+    @Test
+    fun `il verso con poco spazio arriva alla velocita' massima`() {
+        val ancora = 0.80f
+        // Tutto lo spazio che la mano ha prima di uscire dall'inquadratura:
+        // consumarlo per intero deve dare la spinta piena, altrimenti quel
+        // verso resta lento comunque ci si sforzi. E' il difetto segnalato.
+        val spazioDisponibile = 0.92f - ancora
+        val velocita = abs(velocitaDopoMovimento(ancora, +spazioDisponibile))
+        val massima = settings.maxScrollSpeedPxPerSec * tuning.speedMultiplier
+        assertTrue(
+            "Con tutto lo spazio disponibile la velocita' e' solo $velocita su $massima",
+            velocita >= massima * 0.9f,
+        )
+    }
+
+    private val Float.sign: Float get() = if (this > 0f) 1f else if (this < 0f) -1f else 0f
+
+    /**
+     * Fissa l'ancora, poi sposta la mano di [delta] e restituisce la velocita'
+     * a regime. Il movimento e' graduale perche' il filtro anti-tremolio ha
+     * bisogno di qualche fotogramma per seguirlo.
+     */
+    private fun velocitaDopoMovimento(ancora: Float, delta: Float): Float {
+        val mapper = MotionMapper()
+        mapper.anchorTo(frame(0, y = ancora), 0)
+        var timestamp = 0L
+        var ultima = 0f
+        repeat(25) {
+            timestamp += 40
+            val output = mapper.map(frame(timestamp, y = ancora + delta), timestamp, settings, tuning)
+            ultima = output.scrollVelocityPxPerSec
+        }
+        return ultima
+    }
 }

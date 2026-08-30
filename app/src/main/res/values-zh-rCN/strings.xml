@@ -101,6 +101,7 @@
     <string name="performance_responsive">灵敏</string>
     <string name="horizontal_none">无</string>
     <string name="horizontal_volume">音量</string>
+    <string name="corner_top_center">顶部居中（状态栏）</string>
     <string name="corner_top_start">左上角</string>
     <string name="corner_top_end">右上角</string>
     <string name="corner_bottom_start">左下角</string>

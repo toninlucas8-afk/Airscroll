@@ -136,7 +136,10 @@ class MotionMapper {
 
         return when (lockedAxis) {
             MotionAxis.VERTICAL -> {
-                val excursion = ((verticalExcess / (verticalRange - neutral)) * gain).clamp(0f, 1f)
+                // deltaY positivo = mano alzata: lo spazio che conta e' quello
+                // verso l'alto dell'inquadratura, cioe' verso y piccole.
+                val room = if (deltaY > 0f) anchorY - FRAME_EDGE else (1f - FRAME_EDGE) - anchorY
+                val excursion = excursion(abs(deltaY), verticalExcess, verticalRange, neutral, room, gain)
                 var speed = settings.maxScrollSpeedPxPerSec *
                     tuning.speedMultiplier *
                     progressiveResponse(excursion, tuning.curveGamma)
@@ -154,7 +157,9 @@ class MotionMapper {
             }
 
             MotionAxis.HORIZONTAL -> {
-                val excursion = ((horizontalExcess / (horizontalRange - neutral)) * gain).clamp(0f, 1f)
+                val room = if (deltaX > 0f) (1f - FRAME_EDGE) - anchorX else anchorX - FRAME_EDGE
+                val excursion =
+                    excursion(abs(deltaX), horizontalExcess, horizontalRange, neutral, room, gain)
                 val stepsPerSecond = settings.maxVolumeStepsPerSec *
                     progressiveResponse(excursion, VOLUME_GAMMA) *
                     sign(deltaX)
@@ -166,6 +171,56 @@ class MotionMapper {
 
             MotionAxis.NONE -> MotionOutput(gain = gain)
         }
+    }
+
+    /**
+     * Quanto e' "premuto" il comando, fra 0 e 1.
+     *
+     * Alla prova su telefono lo scorrimento verso il basso funzionava e quello
+     * verso l'alto no, e meta' del motivo sta qui.
+     *
+     * L'ancora si fissa dove sta la mano al momento del pollice in su, e quel
+     * punto non e' quasi mai al centro dell'inquadratura. Se la mano e' bassa,
+     * per scendere ancora ha pochissimo spazio prima di uscire dal fotogramma,
+     * mentre per salire ne ha in abbondanza. Con una portata unica - un solo
+     * numero, uguale nei due versi - il verso stretto non arrivava mai a
+     * un'escursione piena: la mano spariva dall'inquadratura mentre lo
+     * scorrimento era ancora al minimo.
+     *
+     * Qui ci sono due letture della stessa cosa, e vince la piu' alta:
+     *
+     * - **quanto ti sei mosso**, rapportato alla portata calibrata. E' la
+     *   lettura normale, ed e' identica nei due versi: finche' c'e' spazio, un
+     *   movimento uguale da' una risposta uguale.
+     * - **quanta parte dello spazio disponibile hai consumato**. Conta solo
+     *   quando lo spazio e' poco: garantisce che, arrivando al bordo di cio'
+     *   che la fotocamera vede, si raggiunga comunque la velocita' massima.
+     *
+     * Il primo tentativo usava solo la seconda lettura, e i test lo hanno
+     * bocciato: rendeva il verso stretto due volte e mezzo piu' nervoso
+     * dell'altro. Prendere il massimo delle due tiene la risposta uniforme
+     * dove lo spazio c'e', e la salva dove non c'e'.
+     */
+    private fun excursion(
+        displacement: Float,
+        excess: Float,
+        range: Float,
+        neutral: Float,
+        room: Float,
+        gain: Float,
+    ): Float {
+        val normal = ((excess / (range - neutral)) * gain).clamp(0f, 1f)
+
+        val usableRoom = room.coerceAtLeast(neutral * MIN_ROOM_MULTIPLIER)
+        val used = (displacement / usableRoom).clamp(0f, 1f)
+        // L'aiuto entra in scena solo nella seconda meta' dello spazio: prima
+        // di allora comanda la lettura normale, che e' identica nei due versi.
+        // Senza questa soglia il verso stretto diventava tre volte piu' nervoso
+        // dell'altro - la curva progressiva amplifica ogni differenza - ed e'
+        // il motivo per cui i test hanno bocciato il primo tentativo.
+        val edgeAssist = ((used - EDGE_ASSIST_START) / (1f - EDGE_ASSIST_START)).clamp(0f, 1f)
+
+        return maxOf(normal, edgeAssist)
     }
 
     /**
@@ -230,6 +285,20 @@ class MotionMapper {
         const val MIN_SCROLL_SPEED = 130f
         const val VOLUME_GAMMA = 1.7f
         const val AXIS_HYSTERESIS = 1.35f
+
+        /**
+         * Quanto vicino al bordo del fotogramma la mano si considera persa.
+         *
+         * Non zero: il riconoscitore molla la mano ben prima che esca del
+         * tutto, perche' gli servono tutti e ventuno i punti.
+         */
+        const val FRAME_EDGE = 0.08f
+
+        /** Lo spazio utile non scende mai sotto questo multiplo della zona neutra. */
+        const val MIN_ROOM_MULTIPLIER = 2.5f
+
+        /** Frazione dello spazio disponibile oltre la quale scatta l'aiuto al bordo. */
+        const val EDGE_ASSIST_START = 0.5f
         const val DRIFT_DELAY_MS = 600L
         const val DRIFT_RATE_PER_SEC = 0.6f
         const val MIN_AUTO_GAIN = 0.55f

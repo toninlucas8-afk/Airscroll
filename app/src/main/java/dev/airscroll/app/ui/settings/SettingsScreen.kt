@@ -387,6 +387,7 @@ private fun horizontalLabel(action: HorizontalAction): Int = when (action) {
 
 @androidx.annotation.StringRes
 private fun cornerLabel(corner: IndicatorCorner): Int = when (corner) {
+    IndicatorCorner.TOP_CENTER -> R.string.corner_top_center
     IndicatorCorner.TOP_START -> R.string.corner_top_start
     IndicatorCorner.TOP_END -> R.string.corner_top_end
     IndicatorCorner.BOTTOM_START -> R.string.corner_bottom_start
