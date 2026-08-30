@@ -6,7 +6,7 @@ plugins {
 
 // Gradle vuole `plugins {}` come prima istruzione dello script, quindi le
 // costanti vanno dopo.
-val fallbackVersion = "0.4.2"
+val fallbackVersion = "0.4.3"
 
 android {
     namespace = "dev.airscroll.app"
@@ -29,7 +29,15 @@ android {
         versionName = declaredVersion
 
         vectorDrawables.useSupportLibrary = true
+
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
+
+    // I test strumentati girano contro la variante *release*, cioe' esattamente
+    // l'APK che viene pubblicato. Provarli sulla debug non servirebbe a niente:
+    // i guasti che ci hanno fermato quattro volte - modello assente, modello
+    // compresso, MediaPipe rotto da R8 - esistono solo nella release.
+    testBuildType = "release"
 
     // Firma opzionale: se le variabili d'ambiente non ci sono, la release viene
     // firmata con la chiave di debug. Serve solo a poter installare l'APK preso
@@ -53,8 +61,31 @@ android {
             versionNameSuffix = "-debug"
         }
         release {
-            isMinifyEnabled = true
-            isShrinkResources = true
+            // R8 resta SPENTO, e non e' una pigrizia: e' la correzione di un
+            // guasto vero.
+            //
+            // Nella 0.4.2 il riconoscimento non partiva con questo errore:
+            //
+            //   NoClassDefFoundError: com.google.mediapipe.framework.Graph
+            //     <- ExceptionInInitializerError
+            //     <- IllegalStateException: no caller found on the stack for: E2.d
+            //
+            // `E2` e' il nome che R8 ha dato a `com.google.common.flogger`, la
+            // libreria di log che MediaPipe usa internamente. Flogger ricava il
+            // nome della classe chiamante **camminando sullo stack**, e R8 -
+            // rinominando, unendo classi e incorporando metodi - fa sparire il
+            // fotogramma che flogger sta cercando. L'inizializzatore statico di
+            // `Graph` esplode, e con lui tutto MediaPipe.
+            //
+            // Le regole `-keep` non bastano contro questa classe di guasti: si
+            // puo' impedire a R8 di rinominare una classe, non di cambiare la
+            // forma dello stack attorno a lei. E per un'app distribuita fuori
+            // dagli store non c'e' niente da guadagnare: il dex e' una briciola
+            // rispetto ai 40 MB di librerie native e modello.
+            //
+            // Correttezza prima di due megabyte.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
             signingConfig = if (keystorePath != null) {
                 signingConfigs.getByName("release")
@@ -133,4 +164,8 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.tooling)
 
     testImplementation(libs.junit)
+
+    androidTestImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.androidx.test.ext.junit)
 }
