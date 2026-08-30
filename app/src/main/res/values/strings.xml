@@ -270,4 +270,6 @@
     <string name="lab_take_motion_hint">Move your hand up and down as if scrolling, at your natural pace.</string>
     <string name="lab_take_idle">Hand at rest</string>
     <string name="lab_take_idle_hint">Lower your hand or move it out of frame. This shows what the camera sees when you are not asking for anything.</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_hint">AirScroll speaks Italian, English, Spanish, German and Chinese. \"System\" follows your phone.</string>
 </resources>

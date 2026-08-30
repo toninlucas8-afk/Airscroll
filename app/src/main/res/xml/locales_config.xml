@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Le lingue in cui l'app esiste davvero.
+
+  Serve ad Android 13+ per mostrare AirScroll nella schermata di sistema
+  "Lingue delle app": senza questo elenco, quella voce non compare proprio.
+-->
+<locale-config xmlns:android="http://schemas.android.com/apk/res/android">
+    <locale android:name="en" />
+    <locale android:name="it" />
+    <locale android:name="es" />
+    <locale android:name="de" />
+    <locale android:name="zh-CN" />
+</locale-config>

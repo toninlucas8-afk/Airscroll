@@ -250,4 +250,6 @@
     <string name="lab_take_motion_hint">Muovi la mano su e giù come per scorrere, al tuo ritmo naturale.</string>
     <string name="lab_take_idle">Mano a riposo</string>
     <string name="lab_take_idle_hint">Abbassa la mano o portala fuori inquadratura. Mostra cosa vede la fotocamera quando non stai chiedendo niente.</string>
+    <string name="settings_language">Lingua</string>
+    <string name="settings_language_hint">AirScroll parla italiano, inglese, spagnolo, tedesco e cinese. \"Sistema\" segue il telefono.</string>
 </resources>

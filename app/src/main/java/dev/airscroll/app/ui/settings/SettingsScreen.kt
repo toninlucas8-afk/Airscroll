@@ -38,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.airscroll.app.R
 import dev.airscroll.app.ui.MainViewModel
+import dev.airscroll.app.util.AppLanguage
 import dev.airscroll.app.ui.components.ChoiceChips
 import dev.airscroll.app.ui.components.LabeledSlider
 import dev.airscroll.app.ui.components.ScreenPadding
@@ -270,6 +271,22 @@ fun SettingsScreen(
             OutlinedButton(onClick = { viewModel.clearCalibration() }) {
                 Text(stringResource(R.string.action_reset_calibration))
             }
+        }
+
+        SectionCard(title = stringResource(R.string.settings_language)) {
+            Text(
+                text = stringResource(R.string.settings_language_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            val currentTag = remember { AppLanguage.current() }
+            ChoiceChips(
+                options = AppLanguage.entries.toList(),
+                selected = AppLanguage.entries.firstOrNull { it.tag == currentTag }
+                    ?: AppLanguage.SYSTEM,
+                label = { language -> language.label },
+                onSelect = { language -> AppLanguage.apply(language) },
+            )
         }
 
         SectionCard(title = stringResource(R.string.settings_guide)) {
