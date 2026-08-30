@@ -11,7 +11,13 @@ composeBom = "2024.10.01"
 navigationCompose = "2.8.4"
 datastore = "1.1.1"
 camerax = "1.3.4"
-mediapipe = "0.10.14"
+# 0.10.26 e' la prima versione che pubblica librerie native allineate a 16 KB.
+# Tutto cio' che viene prima e' allineato a 4 KB e su un telefono Android con
+# pagine di memoria da 16 KB non si carica affatto: `createFromOptions` fallisce
+# e il riconoscimento non parte, senza che nulla lo spieghi.
+# Verificato leggendo l'intestazione ELF degli AAR, non il changelog:
+# .github/workflows/probe-mediapipe.yml
+mediapipe = "0.10.29"
 
 compileSdk = "35"
 targetSdk = "35"

@@ -41,7 +41,7 @@ jobs:
           set -euo pipefail
           apk=$(find app/build/outputs/apk/release -name "*.apk" | head -1)
           echo "APK: $apk"
-          python3 tools/verify_apk.py "$apk" --allow-4k-pages
+          python3 tools/verify_apk.py "$apk"
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
