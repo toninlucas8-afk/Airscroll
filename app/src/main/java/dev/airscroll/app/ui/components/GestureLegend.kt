@@ -77,7 +77,45 @@ fun GestureLegend(modifier: Modifier = Modifier) {
             what = stringResource(R.string.gesture_leave),
             detail = stringResource(R.string.gesture_leave_info),
         ) { phase, colors -> drawLeaveApp(phase, colors) }
+
+        // La V sta in fondo perche' e' l'unica che richiede di aver acceso
+        // qualcosa nelle impostazioni: senza i comandi vocali non fa niente, e
+        // il testo lo dice.
+        LegendEntry(
+            title = stringResource(R.string.gesture_voice_title),
+            what = stringResource(R.string.gesture_voice),
+            detail = stringResource(R.string.gesture_voice_info),
+        ) { phase, colors -> drawVictoryHold(phase, colors) }
     }
+}
+
+/** La V tenuta: l'arco si riempie, poi il cerchio pulsa - il microfono e' aperto. */
+private fun DrawScope.drawVictoryHold(phase: Float, colors: LegendColors) {
+    val center = Offset(size.width / 2f, size.height / 2f)
+    val radius = min(size.width, size.height) / 2f * 0.92f
+    val hold = (phase / 0.35f).coerceIn(0f, 1f)
+    val listening = ((phase - 0.35f) / 0.65f).coerceIn(0f, 1f)
+
+    drawCircle(color = colors.muted, radius = radius, center = center, style = Stroke(width = 4f))
+    drawArc(
+        color = colors.accent,
+        startAngle = -90f,
+        sweepAngle = 360f * hold,
+        useCenter = false,
+        topLeft = Offset(center.x - radius, center.y - radius),
+        size = Size(radius * 2f, radius * 2f),
+        style = Stroke(width = 6f),
+    )
+    if (hold >= 1f) {
+        // L'alone che si allarga: e' il microfono aperto, e si spegne da solo -
+        // come nella realta'.
+        drawCircle(
+            color = colors.accent.copy(alpha = 0.30f * (1f - listening)),
+            radius = radius * (0.6f + 0.5f * listening),
+            center = center,
+        )
+    }
+    drawVictoryGlyph(center, radius * 0.72f, colors.accent)
 }
 
 @Composable

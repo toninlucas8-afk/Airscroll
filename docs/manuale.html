@@ -8,7 +8,7 @@
   <p style="font-size:11pt;max-width:120mm;">Controllare il telefono con la mano, senza toccarlo.<br>
   Tutto il riconoscimento avviene sul telefono, senza rete.</p>
   <div class="meta">
-    Versione del documento: 1.0 — riferita ad AirScroll 0.5.x<br>
+    Versione del documento: 2.0 — riferita ad AirScroll 0.7.x<br>
     Progetto open source, licenza Apache 2.0<br>
     Codice sorgente: github.com/toninlucas8-afk/Airscroll
   </div>
@@ -79,7 +79,7 @@ del tutto.</p>
   <li>Aprilo. Android chiederà il permesso di installare app da questa origine: concedilo.</li>
   <li>Al primo avvio parte la <strong>configurazione guidata</strong>, che ti accompagna nei
   permessi uno alla volta e ti dice quali sono già a posto.</li>
-  <li>Fai la calibrazione (capitolo 6). Bastano venti secondi e cambia molto.</li>
+  <li>Fai la calibrazione (capitolo 6). Serve circa un minuto e cambia molto.</li>
   <li>Apri la <strong>palestra</strong> e prova i gesti prima di usarli sul serio.</li>
 </ol>
 <div class="attenzione">
@@ -129,20 +129,61 @@ un'impostazione. AirScroll mostra la scheda con i passaggi quando serve, ma ecco
   <tr><td><strong>Batteria senza restrizioni</strong></td>
       <td>Su molti telefoni, senza questo, il sistema chiude il servizio dopo qualche minuto.
       Serve solo ad aprire la schermata di sistema che lo concede.</td></tr>
+  <tr><td><strong>Microfono</strong> (facoltativo)</td>
+      <td>Solo per i comandi vocali, che sono spenti finché non li accendi. Il microfono si apre
+      unicamente dopo la V con due dita, per sei secondi, e il riconoscimento avviene dentro il
+      telefono. Senza questo permesso tutto il resto funziona identico.</td></tr>
 </table>
 
-<h2>6. La calibrazione a cerchio</h2>
+<h2>6. La calibrazione</h2>
 <p>Ispirata a Face ID: invece di chiederti di indovinare dei numeri, ti fa fare il movimento e lo
-misura. Due passaggi, una ventina di secondi.</p>
-<h3>Passo 1 — Mano ferma al centro</h3>
-<p>Due secondi e mezzo con la mano ferma davanti alla fotocamera, alla distanza a cui la userai
+misura. Cinque passaggi più la pagella, circa un minuto.</p>
+<p>Fino alla 0.5.2 i passaggi erano tre e finivano con un «fatto» che veniva dato uguale a
+qualunque cosa fosse stata misurata: una mano a mezzo metro fuori fuoco, un cerchio percorso a
+metà, un pollice in su che sulla tua mano non viene mai riconosciuto. Il difetto si scopriva
+giorni dopo, dentro un'altra app, senza poterlo ricollegare a quei venti secondi. I passaggi
+nuovi non aggiungono misure: aggiungono <strong>verifiche</strong>.</p>
+
+<h3>Passo 1 — Mettiti nell'inquadratura</h3>
+<p>Prima di misurare qualsiasi cosa, AirScroll controlla di <em>poter</em> misurare: mano
+inquadrata, alla distanza giusta, verso il centro, tenuta così per quasi due secondi. Il
+consiglio a schermo dice cosa fare — «avvicinati», «allontanati», «portati al centro» — invece di
+limitarsi a dire che non va bene: sono mosse opposte, e sapere solo che qualcosa non va non
+aiuta. Se su questo telefono, con questa luce, le condizioni non si raggiungono mai, compare un
+pulsante per proseguire lo stesso: un passo che non finisce è peggio di un passo saltato, e la
+pagella dirà che la distanza non era buona.</p>
+
+<h3>Passo 2 — Mano ferma al centro</h3>
+<p>Quattro secondi con la mano ferma davanti alla fotocamera, alla distanza a cui la userai
 davvero. Si misurano tre cose insieme: quanto trema la tua mano (da cui nasce la
 <strong>zona neutra</strong> che ignora i micro-tremolii), quanto appare grande (da cui nasce
 l'adattamento automatico alla distanza) e il tuo punto di riposo.</p>
-<h3>Passo 2 — Completa il cerchio</h3>
+<p>Se durante quei quattro secondi la mano scivola via, la finestra riparte da capo. Non è
+pignoleria: quello spostamento finirebbe dentro la misura del tremolio, e la zona neutra
+uscirebbe larga il doppio del necessario — cioè la mano dovrebbe muoversi molto di più per far
+succedere qualcosa, senza che nessuno sappia perché.</p>
+
+<h3>Passo 3 — Completa il cerchio</h3>
 <p>Muovi la mano verso l'esterno in tutte le direzioni, come a disegnare un cerchio in aria.
 Ogni spicchio si accende quando ci arrivi. Un puntino ti segue: se diventa rosso, la fotocamera
 ti ha perso.</p>
+
+<h3>Passo 4 — I due comandi</h3>
+<p>Pollice in su tenuto, poi pugno chiuso tenuto. Qui non si misura niente di nuovo: si verifica
+che i due gesti che accendono e spengono tutto vengano riconosciuti <strong>sulla tua mano</strong>.
+Era l'unica verifica che mancava del tutto, e senza di essa si poteva finire una calibrazione
+impeccabile e scoprire solo all'uso che il proprio pollice non veniva mai visto. Se un gesto non
+viene riconosciuto, dopo una decina di secondi puoi saltarlo: la pagella dirà che non è stato
+riconosciuto, invece di fingere di sì.</p>
+
+<h3>Passo 5 — La pagella</h3>
+<p>Ogni pezzo riceve un giudizio, con accanto il numero misurato: un voto senza il dato dietro
+chiede solo di fidarsi. Il voto complessivo è il <strong>pezzo peggiore</strong>, non la media —
+una calibrazione è buona quanto il suo punto più debole, perché è lì che sbatterai.</p>
+<p>E si può rifare <strong>solo quel pezzo</strong>. È l'unica cosa utile da fare con un
+giudizio: senza, davanti a una misura storta l'unica scelta sarebbe rifare tutto da capo, cosa
+che nessuno fa — e la misura storta resterebbe lì.</p>
+
 <h3>Perché il cerchio, e non «muovi su e giù»</h3>
 <p>Perché nessuno arriva alla stessa distanza in tutte le direzioni. Verso il proprio lato si
 arriva molto più lontano che verso l'altro, e il braccio sale più facilmente di quanto scenda.
@@ -150,7 +191,9 @@ Le versioni fino alla 0.4.4 misuravano <em>due</em> numeri — un'ampiezza verti
 orizzontale — e ne facevano una media: al verso corto veniva poi chiesto un movimento che quella
 mano non poteva fare, e sembrava che quel verso non funzionasse.</p>
 <p>Il cerchio misura <strong>quattro portate distinte</strong>: in alto, in basso, a sinistra, a
-destra. Alla fine le vedi scritte, ed è normale che siano diverse fra loro.</p>
+destra. La pagella te le mostra, ed è normale che siano diverse fra loro. Se due versi opposti
+sono molto sbilanciati, te lo dice esplicitamente: è la condizione che all'uso fa dire «in giù
+funziona, in su no».</p>
 <div class="nota">
   <p><strong>Il consiglio che conta di più:</strong> arriva dove ti viene <em>comodo</em>, non
   dove riesci a sforzarti. Se ti allunghi in posizioni scomode, la calibrazione misura una mano
@@ -181,6 +224,9 @@ per concludere con quello che si è misurato.</p>
       annulla. La durata è regolabile.</td></tr>
   <tr><td><strong>Uscire dall'app</strong></td>
       <td>Ferma tutto e chiude la fotocamera, senza bisogno di gesti.</td></tr>
+  <tr><td><strong>V con due dita</strong></td>
+      <td>Apre il microfono per sei secondi, <em>solo</em> se hai acceso i comandi vocali nelle
+      impostazioni. Va tenuta circa sette decimi di secondo. Vedi il capitolo sulla voce.</td></tr>
 </table>
 <p>La stessa legenda, con ogni gesto <em>animato</em>, si trova in fondo alla schermata
 principale dell'app.</p>
@@ -254,7 +300,58 @@ ai tuoi valori.</p>
   seguire un testo no.</p>
 </div>
 
-<h2>11. Le impostazioni, voce per voce</h2>
+<h2>11. I comandi vocali</h2>
+<p>Spenti di partenza. Si accendono da <code>Impostazioni → Comandi vocali</code>, e chiedono il
+permesso del microfono solo in quel momento.</p>
+
+<h3>Quando si apre il microfono, e quando no</h3>
+<p>Non c'è nessuna parola di attivazione, e questo è una scelta: una parola di attivazione
+significa <em>ascoltare sempre</em>, aspettando di sentirla. AirScroll non ascolta mai in
+sottofondo.</p>
+<p>Il microfono si apre solo così: <strong>V con due dita, tenuta per circa sette decimi di
+secondo</strong>. Resta aperto sei secondi e si chiude da solo. Poi c'è una pausa prima che
+possa riaprirsi, altrimenti la V ancora alzata mentre finisci di parlare lo riaprirebbe
+all'istante.</p>
+<p>Hai due modi indipendenti di sapere che è aperto, e nessuno dei due dipende dal fatto che
+AirScroll dica la verità: il telefono <strong>vibra</strong> nell'istante in cui si apre, e
+Android mostra da solo il suo indicatore del microfono in alto, come fa per qualunque app che
+registri.</p>
+
+<h3>Cosa puoi dire</h3>
+<table>
+  <tr><th style="width:56mm">Esempi</th><th>Cosa succede</th></tr>
+  <tr><td>«apri Spotify», «apri YouTube», «apri il navigatore»</td>
+      <td>Apre l'app. L'elenco è chiuso: Spotify, YouTube, Instagram, WhatsApp, browser, Mappe.</td></tr>
+  <tr><td>«fai partire le mie canzoni preferite»</td>
+      <td>Su Spotify apre la raccolta dei brani salvati e, un paio di secondi dopo, manda il
+      comando di riproduzione.</td></tr>
+  <tr><td>«prossima canzone», «canzone precedente», «metti in pausa», «riprendi»</td>
+      <td>Comanda il lettore in corso, qualunque sia.</td></tr>
+  <tr><td>«alza il volume», «abbassa il volume»</td>
+      <td>Tre gradini per volta: uno solo costringerebbe a ripeterlo cinque volte.</td></tr>
+  <tr><td>«spegni», «ferma tutto»</td>
+      <td>Spegne AirScroll. Attenzione: «ferma la musica» invece mette in pausa il lettore, non
+      spegne AirScroll.</td></tr>
+</table>
+<p>Non serve dire una formula esatta: le frasi vengono normalizzate e si cercano le parole
+chiave, così «apri Spotify» e «senti, aprimi Spotify per favore» finiscono nello stesso posto. Se
+non si riconosce un comando <strong>non succede niente</strong>, ed è voluto: il microfono sente
+anche la televisione, e fare qualcosa a caso perché si è sentita una parola nota sarebbe molto
+peggio.</p>
+
+<h3>I limiti, detti chiari</h3>
+<ul>
+  <li>Serve <strong>Android 12 o più recente</strong>, con il modello vocale di sistema
+  installato. Dove non c'è, la voce resta spenta e l'app lo dice: l'unica alternativa sarebbe
+  mandare l'audio a un server, e non è un'alternativa.</li>
+  <li>«Apri e fai partire» su Spotify è ottenuto in due tempi — apertura e poi comando di
+  riproduzione — perché non esiste un modo pubblico di chiedere entrambe le cose insieme. Se
+  Spotify cambia comportamento, cambia il risultato.</li>
+  <li>AirScroll vede solo le app che sa aprire, non l'elenco di quelle che hai installato: nel
+  manifest sono nominate una per una, invece di chiedere il permesso di vederle tutte.</li>
+</ul>
+
+<h2>12. Le impostazioni, voce per voce</h2>
 <h3>Movimento</h3>
 <ul>
   <li><strong>Come la mano comanda lo scorrimento</strong> — aggancio diretto o levetta (capitolo 8).</li>
@@ -277,21 +374,21 @@ alla fotocamera viene chiesto di acquisire più lentamente invece di andare a pi
 buttare via i fotogrammi in eccesso, e in attesa i fotogrammi che non sono cambiati non vengono
 proprio analizzati. Il secondo si spegne da solo appena compare una mano — un pollice in su tenuto
 fermo è, a tutti gli effetti, una scena ferma. Si può disattivare, per misurare col misuratore del
-capitolo 16 quanto valga davvero.</p>
+capitolo 17 quanto valga davvero.</p>
 <h3>Tempi</h3>
 <p>Durata della finestra gialla di attesa e durata del pugno chiuso per fermare.</p>
 <h3>Indicatore, vibrazione, lingua</h3>
 <p>Posizione del pallino (in alto al centro o nei quattro angoli) o spegnimento; vibrazione
 all'avvio e allo stop; lingua fra italiano, inglese, spagnolo, tedesco e cinese.</p>
 
-<h2>12. La palestra</h2>
+<h2>13. La palestra</h2>
 <p>Contenuto finto dentro l'app che scorre davvero, con lo <strong>stesso identico motore</strong>
 del servizio vero. Serve a prendere la mano senza avere a che fare con Chrome o Instagram, e a
 tarare sensibilità e zona neutra guardandone l'effetto invece che a occhio: i cursori sono nella
 stessa schermata.</p>
 <p>È anche il posto giusto per confrontare i due modi di comandare, uno dopo l'altro.</p>
 
-<h2>13. Il laboratorio</h2>
+<h2>14. Il laboratorio</h2>
 <p>Si trova in <code>Impostazioni → Guida → Apri il laboratorio</code>. Registra come la
 <em>tua</em> mano appare al modello, così le soglie si possono tarare su numeri veri.</p>
 <p>Cinque prese guidate: pollice in su, pugno chiuso, mano aperta, mano in movimento, mano a
@@ -304,7 +401,40 @@ niente, si finisce per abbassare le soglie finché tutto attiva tutto.</p>
   mandarlo.</p>
 </div>
 
-<h2>14. Se qualcosa non funziona</h2>
+<h2>15. Se qualcosa non funziona</h2>
+<h3>Prima di tutto: l'app te lo dice</h3>
+<p>Dalla 0.5.2 AirScroll si accorge da solo di essersi rotto, e lo dice invece di tacere. Fino
+alla 0.5.1 poteva smettere di funzionare in silenzio: il telefono chiudeva il servizio per
+risparmiare batteria, un'altra app si prendeva la fotocamera, l'accessibilità veniva disattivata
+in un menu di sistema — da fuori erano tutti identici. Muovevi la mano e non succedeva niente.</p>
+<p>Adesso arriva una notifica su un canale suo (separato da quella di stato, così silenziarne una
+non silenzia l'altra) e compare un riquadro in Home, con lo stesso testo. Ogni guasto ha il
+pulsante che porta <em>esattamente</em> dove si risolve. I guasti riconosciuti sono sette:</p>
+<table>
+  <tr><th style="width:52mm">Cosa vedi</th><th>Cosa è successo</th></tr>
+  <tr><td><strong>AirScroll è stato chiuso</strong></td>
+      <td>Il telefono ha chiuso il servizio per risparmiare batteria. Il pulsante porta alle
+      ottimizzazioni della batteria.</td></tr>
+  <tr><td><strong>Il servizio di accessibilità è spento</strong></td>
+      <td>Android a volte lo disattiva da solo dopo un aggiornamento. La mano viene ancora vista,
+      ma non tocca più niente.</td></tr>
+  <tr><td><strong>Manca il permesso della fotocamera</strong></td>
+      <td>È stato revocato.</td></tr>
+  <tr><td><strong>Il riconoscimento non parte</strong></td>
+      <td>MediaPipe non si è avviato: nell'app trovi il rapporto tecnico completo, con un
+      pulsante per copiarlo.</td></tr>
+  <tr><td><strong>Un'altra app sta usando la fotocamera</strong></td>
+      <td>Una videochiamata, un lettore di QR. Non c'è niente da sistemare: riprende da solo, e
+      infatti questo è l'unico avviso senza pulsante.</td></tr>
+  <tr><td><strong>L'indicatore non può essere disegnato</strong></td>
+      <td>Manca il permesso di disegnare sopra le altre app. Il resto funziona.</td></tr>
+  <tr><td><strong>Il telefono può chiudere AirScroll quando vuole</strong></td>
+      <td>Compare solo <em>dopo</em> che è successo almeno una volta: prima sarebbe una
+      supposizione su quasi tutti i telefoni.</td></tr>
+</table>
+<p>Uno alla volta, di proposito: un elenco di quattro guasti non si legge e non si risolve.
+Sistemato il primo, se ce n'è un altro compare dopo.</p>
+
 <h3>Compare un riquadro rosso</h3>
 <p>Vuol dire che il riconoscitore non è partito. Sotto la frase trovi un blocco di dettagli
 tecnici e un pulsante <strong>«Copia i dettagli»</strong>: quel blocco dice quale dei tre punti
@@ -327,7 +457,7 @@ parecchi telefoni serve anche bloccare l'app nell'elenco delle app recenti.</p>
 <p>Alcune schermate rifiutano i gesti sintetici: impostazioni di sistema, richieste di permessi,
 diverse app bancarie. È una protezione di Android e non è aggirabile.</p>
 
-<h2>15. Limiti dichiarati</h2>
+<h2>16. Limiti dichiarati</h2>
 <p>Sono vincoli di Android o del riconoscimento visivo, non cose «da sistemare dopo».</p>
 <ul>
   <li><strong>La notifica non si può togliere.</strong> È la condizione che il sistema impone per
@@ -342,7 +472,7 @@ diverse app bancarie. È una protezione di Android e non è aggirabile.</p>
   <li><strong>Il consumo non è zero.</strong> Vedi il capitolo seguente.</li>
 </ul>
 
-<h2>16. Consumo di batteria</h2>
+<h2>17. Consumo di batteria</h2>
 <p>Con la fotocamera aperta si consuma: è fisica, non un difetto risolvibile. Da qui il disegno a
 tre stati, che tiene il sensore spento la maggior parte del tempo.</p>
 <p>In uso continuo, aspettati un consumo confrontabile con una videochiamata a bassa risoluzione.
@@ -362,7 +492,7 @@ stesso telefono.</p>
 <strong>Reattivo</strong> alza i fotogrammi al secondo sui telefoni capaci. Il predefinito,
 Bilanciato, è un compromesso ragionevole per la maggior parte dei telefoni.</p>
 
-<h2>17. Com'è fatto dentro</h2>
+<h2>18. Com'è fatto dentro</h2>
 <p>Utile se vuoi leggere il codice o contribuire.</p>
 <ul>
   <li><strong>Riconoscimento</strong> — MediaPipe Gesture Recognizer, in locale. Un solo modello
@@ -379,7 +509,7 @@ Bilanciato, è un compromesso ragionevole per la maggior parte dei telefoni.</p>
 </ul>
 
 <div class="piede">
-  AirScroll — Manuale d'uso, versione 1.0. Documento riferito ad AirScroll 0.5.x.<br>
+  AirScroll — Manuale d'uso, versione 2.0. Documento riferito ad AirScroll 0.7.x.<br>
   Progetto open source rilasciato sotto licenza Apache 2.0.
   Codice, versioni e segnalazioni: github.com/toninlucas8-afk/Airscroll
 </div>

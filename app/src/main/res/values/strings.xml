@@ -152,6 +152,9 @@
     <string name="gesture_move_title">Hand up and down</string>
     <string name="gesture_sides_title">Hand left and right</string>
     <string name="gesture_fist_title">Closed fist</string>
+    <string name="gesture_voice_title">V with two fingers — say it</string>
+    <string name="gesture_voice">Hold up two fingers for a moment: the microphone opens for six seconds.</string>
+    <string name="gesture_voice_info">Only if you switched voice commands on in the settings. The microphone closes on its own, and Android shows its own indicator at the top while it is open.</string>
     <string name="gesture_leave_title">Leaving the app</string>
 
     <string name="home_calibration_done_title">Calibrated</string>
@@ -388,4 +391,12 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="calibration_aspect_reach_left">Reach to the left</string>
     <string name="calibration_aspect_reach_right">Reach to the right</string>
     <string name="calibration_aspect_gestures">The two commands</string>
+
+    <!-- Voce: quando si apre il microfono, e perche' e' verificabile. -->
+    <string name="settings_voice">Voice commands</string>
+    <string name="settings_voice_hint">No wake word, and no listening in the background. The microphone opens only after you hold up a V with two fingers, stays open for six seconds, and closes on its own. Recognition happens on the phone: AirScroll has no internet permission, so the audio could not leave even if it wanted to.</string>
+    <string name="settings_voice_enable">Enable voice commands</string>
+    <string name="settings_voice_enable_hint">Needs the microphone permission. Everything else keeps working without it.</string>
+    <string name="settings_voice_commands">Try: “open Spotify”, “play my favourite songs”, “next track”, “turn the volume up”, “pause”, “stop”.</string>
+    <string name="settings_voice_unavailable">This phone has no on-device speech recognition (it needs Android 12 or newer, with the system speech model installed). Voice stays off: the only alternative would be sending your audio to a server, and that is not an alternative.</string>
 </resources>

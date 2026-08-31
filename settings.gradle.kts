@@ -34,6 +34,7 @@ include(":core:control")
 include(":core:overlay")
 include(":core:power")
 include(":core:health")
+include(":core:voice")
 include(":core:designsystem")
 
 // --- App profiles: per supportare una nuova app basta aggiungere un modulo qui ---

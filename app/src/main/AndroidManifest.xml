@@ -26,6 +26,14 @@
     <!-- Vede la mano. Le immagini restano nel processo e non vengono mai salvate. -->
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <!-- Sente i comandi vocali. Il microfono si apre solo dopo la V con due
+         dita, per pochi secondi, e il riconoscimento avviene sul telefono:
+         senza il permesso INTERNET l'audio non potrebbe uscire nemmeno
+         volendo. Il permesso e' facoltativo: senza, tutto il resto
+         funziona. -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+
     <!-- Il servizio in primo piano e' l'unico modo legittimo di usare la
          fotocamera mentre l'utente e' dentro un'altra app. -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -50,6 +58,32 @@
     <uses-feature
         android:name="android.hardware.camera.any"
         android:required="false" />
+
+    <!-- Da Android 11 un'app non vede le altre app installate se non le
+         nomina qui. Senza questo elenco, "apri Spotify" non troverebbe
+         Spotify: `getLaunchIntentForPackage` restituisce null e basta,
+         senza errori e senza spiegazioni.
+
+         E' un elenco chiuso, non `QUERY_ALL_PACKAGES`: AirScroll puo'
+         vedere solo le app che sa aprire, non l'elenco di cio' che hai
+         installato. -->
+    <queries>
+        <package android:name="com.spotify.music" />
+        <package android:name="com.google.android.youtube" />
+        <package android:name="com.google.android.apps.youtube.music" />
+        <package android:name="com.instagram.android" />
+        <package android:name="com.whatsapp" />
+        <package android:name="com.android.chrome" />
+        <package android:name="org.mozilla.firefox" />
+        <package android:name="com.google.android.apps.maps" />
+
+        <!-- Il riconoscitore vocale su dispositivo e' un servizio di
+             sistema: senza questa dichiarazione non lo si puo' nemmeno
+             interrogare per sapere se esiste. -->
+        <intent>
+            <action android:name="android.speech.RecognitionService" />
+        </intent>
+    </queries>
 
     <application
         android:name=".AirScrollApplication"
@@ -100,7 +134,7 @@
         <service
             android:name=".service.VisionForegroundService"
             android:exported="false"
-            android:foregroundServiceType="camera" />
+            android:foregroundServiceType="camera|microphone" />
 
         <service
             android:name=".service.AirScrollAccessibilityService"

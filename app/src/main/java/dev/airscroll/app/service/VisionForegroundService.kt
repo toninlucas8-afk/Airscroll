@@ -28,14 +28,21 @@ import dev.airscroll.app.bootstrap.ProfileResolver
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.app.health.HealthProbe
 import dev.airscroll.app.health.ProblemNotifier
+import dev.airscroll.app.voice.VoiceExecutor
+import dev.airscroll.app.voice.VoiceListener
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.common.model.EngineState
+import dev.airscroll.core.common.model.HandFrame
+import dev.airscroll.core.common.model.HandSignal
 import dev.airscroll.core.common.model.EngineStatus
 import dev.airscroll.core.common.model.ScrollCommand
 import dev.airscroll.core.common.model.VolumeCommand
 import dev.airscroll.core.common.runtime.AirScrollBus
 import dev.airscroll.core.gesture.GestureEngine
 import dev.airscroll.core.health.Problem
+import dev.airscroll.core.voice.VoiceCommand
+import dev.airscroll.core.voice.VoiceGate
+import dev.airscroll.core.voice.VoiceParser
 import dev.airscroll.core.overlay.StatusOverlayController
 import dev.airscroll.core.settings.AirScrollSettings
 import dev.airscroll.core.settings.effective
@@ -78,6 +85,9 @@ class VisionForegroundService : LifecycleService() {
 
     private lateinit var health: HealthProbe
     private lateinit var problems: ProblemNotifier
+    private lateinit var voiceListener: VoiceListener
+    private lateinit var voiceExecutor: VoiceExecutor
+    private val voiceGate = VoiceGate()
 
     /**
      * true quando siamo noi a spegnerci, perche' l'utente l'ha chiesto.
@@ -103,6 +113,8 @@ class VisionForegroundService : LifecycleService() {
 
         health = HealthProbe(this)
         problems = ProblemNotifier(this)
+        voiceListener = VoiceListener(this)
+        voiceExecutor = VoiceExecutor(this)
         cameraController = CameraController(this)
         overlay = StatusOverlayController(this)
         tracker = MediaPipeHandTracker(
@@ -135,6 +147,7 @@ class VisionForegroundService : LifecycleService() {
     }
 
     override fun onDestroy() {
+        voiceListener.stop()
         cameraController.release()
         tracker.stop()
         overlay.hide()
@@ -184,6 +197,16 @@ class VisionForegroundService : LifecycleService() {
                     return@collect
                 }
 
+                if (previous.voiceEnabled != updated.voiceEnabled) {
+                    // Il tipo del servizio va ridichiarato: il sistema deve
+                    // sapere che da adesso puo' esserci il microfono.
+                    if (!updated.voiceEnabled) {
+                        voiceListener.stop()
+                        voiceGate.reset()
+                    }
+                    startForegroundSafely(lastStatus)
+                }
+
                 if (previous.performanceMode != updated.performanceMode) {
                     // Cambiare delegate significa ricreare il modello: si fa solo
                     // quando serve davvero.
@@ -218,7 +241,10 @@ class VisionForegroundService : LifecycleService() {
         framesJob?.cancel()
         val current = tracker
         framesJob = lifecycleScope.launch(Dispatchers.Main.immediate) {
-            current.frames.collect { frame -> engine.onFrame(frame) }
+            current.frames.collect { frame ->
+                engine.onFrame(frame)
+                onVoiceFrame(frame)
+            }
         }
     }
 
@@ -390,17 +416,91 @@ class VisionForegroundService : LifecycleService() {
         getSystemService<NotificationManager>()?.createNotificationChannel(channel)
     }
 
+    /**
+     * Dichiara al sistema cosa sta usando questo servizio.
+     *
+     * Il microfono va dichiarato **solo** quando la voce e' accesa e il
+     * permesso c'e' davvero: dichiararlo senza permesso fa rifiutare l'avvio
+     * dal sistema, e quello che si perde non e' la voce - e' tutto AirScroll.
+     */
+    private fun foregroundTypes(): Int {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return 0
+        var types = ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
+        if (voiceAllowed()) types = types or ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE
+        return types
+    }
+
     private fun startForegroundSafely(status: EngineStatus) {
-        val type = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+        val notification = buildNotification(status)
+        val cameraOnly = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA
         } else {
             0
         }
         runCatching {
-            ServiceCompat.startForeground(this, NOTIFICATION_ID, buildNotification(status), type)
+            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, foregroundTypes())
+        }.recoverCatching {
+            // Se il microfono viene rifiutato si ripiega sulla sola fotocamera:
+            // perdere la voce e' un fastidio, perdere il servizio e' perdere
+            // l'app intera.
+            Log.w(TAG, "microfono rifiutato dal sistema: si prosegue senza")
+            ServiceCompat.startForeground(this, NOTIFICATION_ID, notification, cameraOnly)
         }.onFailure { error ->
             Log.e(TAG, "startForeground rifiutata", error)
             stopSelf()
+        }
+    }
+
+    // --- voce ---------------------------------------------------------------
+
+    private fun voiceAllowed(): Boolean = settings.voiceEnabled && hasMicrophonePermission()
+
+    private fun hasMicrophonePermission(): Boolean =
+        ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) ==
+            PackageManager.PERMISSION_GRANTED
+
+    /**
+     * Guarda se e' il momento di aprire il microfono.
+     *
+     * La decisione sta tutta in [VoiceGate], che e' provato: qui si passa solo
+     * il fatto osservato - c'e' la V, oppure no.
+     */
+    private fun onVoiceFrame(frame: HandFrame) {
+        if (!voiceAllowed()) {
+            voiceGate.reset()
+            return
+        }
+        val victory = frame.present &&
+            frame.signal == HandSignal.VICTORY &&
+            frame.signalConfidence >= VOICE_GESTURE_CONFIDENCE
+        if (voiceGate.onFrame(victory, System.currentTimeMillis())) openMicrophone()
+    }
+
+    /**
+     * Apre il microfono per una frase sola.
+     *
+     * La vibrazione non e' un vezzo: e' il segnale che il microfono si e'
+     * aperto. Insieme all'indicatore che Android mostra da solo in alto quando
+     * un'app registra, sono due modi indipendenti di sapere che si sta
+     * ascoltando - e nessuno dei due dipende dal fatto che AirScroll dica la
+     * verita'.
+     */
+    private fun openMicrophone() {
+        vibrate()
+        voiceListener.listenOnce { heard ->
+            voiceGate.close(System.currentTimeMillis())
+            val command = heard?.let(VoiceParser::parse)
+            when {
+                command == null -> Unit
+                command is VoiceCommand.Stop -> {
+                    lifecycleScope.launch {
+                        ServiceLocator.settings(this@VisionForegroundService)
+                            .setServiceEnabled(false)
+                    }
+                }
+
+                else -> if (voiceExecutor.execute(command)) vibrate()
+            }
         }
     }
 
@@ -477,6 +577,9 @@ class VisionForegroundService : LifecycleService() {
 
         /** Ogni quanto si controlla lo stato di salute. */
         private const val HEALTH_INTERVAL_MS = 2_000L
+
+        /** Quanto deve essere convinta la V per aprire il microfono. */
+        private const val VOICE_GESTURE_CONFIDENCE = 0.55f
         private const val HAPTIC_MS = 22L
 
         const val ACTION_STOP = "dev.airscroll.action.STOP"

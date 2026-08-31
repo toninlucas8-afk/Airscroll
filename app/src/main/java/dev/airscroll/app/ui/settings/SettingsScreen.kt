@@ -1,5 +1,9 @@
 package dev.airscroll.app.ui.settings
 
+import android.Manifest
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,10 +11,9 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
-import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -39,21 +42,23 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.airscroll.app.R
 import dev.airscroll.app.ui.MainViewModel
-import dev.airscroll.app.util.AppLanguage
 import dev.airscroll.app.ui.components.ChoiceChips
 import dev.airscroll.app.ui.components.LabeledSlider
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.SwitchRow
+import dev.airscroll.app.util.AirScrollPermissions
+import dev.airscroll.app.util.AppLanguage
+import dev.airscroll.app.util.BundledDocument
+import dev.airscroll.app.util.BundledDocuments
+import dev.airscroll.app.voice.VoiceListener
 import dev.airscroll.apps.api.AppProfileRegistry
 import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HorizontalAction
-import dev.airscroll.app.util.BundledDocument
-import dev.airscroll.app.util.BundledDocuments
 import dev.airscroll.core.common.model.IndicatorCorner
+import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.common.model.SituationMode
-import dev.airscroll.core.common.model.PerformanceMode
 import kotlin.math.roundToInt
 
 @Composable
@@ -68,6 +73,13 @@ fun SettingsScreen(
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     var newPackage by remember { mutableStateOf("") }
+    // La domanda si fa una volta sola: la risposta non cambia mentre la
+    // schermata e' aperta, e interrogare il sistema a ogni ricomposizione
+    // sarebbe lavoro sprecato.
+    val voiceAvailable = remember { VoiceListener(context).isAvailable() }
+    val microphoneLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted -> viewModel.setVoiceEnabled(granted) }
     val profiles = remember(settings.customPackages) { AppProfileRegistry.all() }
 
     Column(
@@ -225,6 +237,47 @@ fun SettingsScreen(
                 checked = settings.hapticsEnabled,
                 onCheckedChange = viewModel::setHapticsEnabled,
             )
+        }
+
+        SectionCard(title = stringResource(R.string.settings_voice)) {
+            Text(
+                text = stringResource(R.string.settings_voice_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            if (voiceAvailable) {
+                SwitchRow(
+                    title = stringResource(R.string.settings_voice_enable),
+                    subtitle = stringResource(R.string.settings_voice_enable_hint),
+                    checked = settings.voiceEnabled,
+                    onCheckedChange = { wanted ->
+                        // Il permesso si chiede solo quando serve, cioe' quando
+                        // qualcuno accende l'interruttore: chiederlo all'avvio
+                        // di un'app che magari la voce non la usera' mai e' il
+                        // modo migliore per farselo negare.
+                        if (wanted && !AirScrollPermissions.hasMicrophone(context)) {
+                            microphoneLauncher.launch(Manifest.permission.RECORD_AUDIO)
+                        } else {
+                            viewModel.setVoiceEnabled(wanted)
+                        }
+                    },
+                )
+                Text(
+                    text = stringResource(R.string.settings_voice_commands),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            } else {
+                // Detto chiaramente invece di mostrare un interruttore che non
+                // farebbe niente: senza riconoscitore su dispositivo l'unica
+                // alternativa sarebbe mandare l'audio a un server, e non e'
+                // un'alternativa.
+                Text(
+                    text = stringResource(R.string.settings_voice_unavailable),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
         }
 
         SectionCard(title = stringResource(R.string.settings_apps)) {

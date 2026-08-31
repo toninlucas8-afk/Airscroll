@@ -118,6 +118,9 @@
     <string name="gesture_move_title">手上下移动</string>
     <string name="gesture_sides_title">手左右移动</string>
     <string name="gesture_fist_title">握拳</string>
+    <string name="gesture_voice_title">两指比 V — 用说的</string>
+    <string name="gesture_voice">举起两根手指片刻：麦克风会打开六秒。</string>
+    <string name="gesture_voice_info">仅在你于设置中开启语音命令后有效。麦克风会自动关闭，打开期间 Android 会在顶部显示它自己的指示标志。</string>
     <string name="gesture_leave_title">离开应用</string>
     <string name="home_calibration_done_title">已校准</string>
     <string name="home_calibration_missing_title">尚未校准</string>
@@ -337,4 +340,12 @@
     <string name="calibration_aspect_reach_left">向左的幅度</string>
     <string name="calibration_aspect_reach_right">向右的幅度</string>
     <string name="calibration_aspect_gestures">两个命令手势</string>
+
+    <!-- Voce: quando si apre il microfono, e perche' e' verificabile. -->
+    <string name="settings_voice">语音命令</string>
+    <string name="settings_voice_hint">没有唤醒词，也不会在后台一直听。只有当你用两根手指比出 V 之后，麦克风才会打开，保持六秒后自动关闭。识别在手机本地完成：AirScroll 没有网络权限，音频即便想出去也出不去。</string>
+    <string name="settings_voice_enable">启用语音命令</string>
+    <string name="settings_voice_enable_hint">需要麦克风权限。没有它，其余功能照常工作。</string>
+    <string name="settings_voice_commands">试试：“打开 Spotify”“播放我喜欢的歌”“下一首”“调大音量”“暂停”“关闭”。</string>
+    <string name="settings_voice_unavailable">这台手机没有设备端语音识别（需要 Android 12 或更高版本，并已安装系统语音模型）。语音将保持关闭：唯一的替代方式是把你的音频发到服务器，而那不算替代方式。</string>
 </resources>

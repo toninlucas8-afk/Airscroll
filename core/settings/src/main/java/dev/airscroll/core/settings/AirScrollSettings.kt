@@ -129,6 +129,15 @@ data class AirScrollSettings(
      */
     val powerSaving: Boolean = true,
 
+    /**
+     * I comandi vocali.
+     *
+     * Spento di partenza, e va acceso a mano: e' l'unica scelta accettabile per
+     * qualcosa che apre un microfono. Anche acceso, il microfono si apre solo
+     * dopo la V con due dita e per pochi secondi - vedi `VoiceGate`.
+     */
+    val voiceEnabled: Boolean = false,
+
     val indicatorEnabled: Boolean = true,
     val indicatorCorner: IndicatorCorner = IndicatorCorner.TOP_CENTER,
     val hapticsEnabled: Boolean = true,

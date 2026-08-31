@@ -5,6 +5,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.rotate
 import kotlin.math.abs
 
 /**
@@ -168,4 +169,59 @@ fun DrawScope.drawThumbUpGlyph(
             cornerRadius = CornerRadius(palmWidth * 0.03f),
         )
     }
+}
+
+/**
+ * La V con due dita: un pugno con indice e medio alzati e divaricati.
+ *
+ * E' il gesto che apre il microfono, e nella legenda deve distinguersi a colpo
+ * d'occhio dagli altri due gesti "tenuti" - il pollice e il pugno. La
+ * distinzione sta tutta nella sagoma in alto: due dita separate e inclinate,
+ * non una sola e non un blocco pieno.
+ *
+ * Le proporzioni sono state scelte guardando il disegno alla dimensione vera
+ * di 64 px, non a schermo intero: la prima versione aveva le dita cosi' lunghe
+ * da uscire dal riquadro, e due solchi sul pugno che a quella dimensione
+ * sembravano bottoni invece che dita piegate. Sono stati tolti - a 64 px conta
+ * la sagoma, e i dettagli che non si leggono fanno solo rumore.
+ */
+fun DrawScope.drawVictoryGlyph(
+    center: Offset,
+    palmWidth: Float,
+    color: Color,
+) {
+    val fistWidth = palmWidth * 0.76f
+    val fistHeight = palmWidth * 0.60f
+    val fistTop = center.y - fistHeight * 0.10f
+    val fingerWidth = palmWidth * 0.17f
+    val fingerLength = palmWidth * 0.58f
+
+    // Le due dita per prime: il pugno disegnato sopra le copre alla base, e
+    // cosi' risultano attaccate alla mano invece che appoggiate sopra.
+    listOf(-0.28f to -16f, 0.22f to 16f).forEach { (offset, tilt) ->
+        val x = center.x + palmWidth * offset
+        rotate(degrees = tilt, pivot = Offset(x, fistTop)) {
+            drawRoundRect(
+                color = color,
+                topLeft = Offset(x - fingerWidth / 2f, fistTop - fingerLength),
+                size = Size(fingerWidth, fingerLength + fistHeight * 0.4f),
+                cornerRadius = CornerRadius(fingerWidth / 2f),
+            )
+        }
+    }
+
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - fistWidth / 2f, fistTop),
+        size = Size(fistWidth, fistHeight),
+        cornerRadius = CornerRadius(palmWidth * 0.26f),
+    )
+
+    // Il polso, che tiene insieme la sagoma: senza, il pugno galleggia.
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - fistWidth * 0.30f, fistTop + fistHeight * 0.92f),
+        size = Size(fistWidth * 0.60f, palmWidth * 0.16f),
+        cornerRadius = CornerRadius(palmWidth * 0.07f),
+    )
 }

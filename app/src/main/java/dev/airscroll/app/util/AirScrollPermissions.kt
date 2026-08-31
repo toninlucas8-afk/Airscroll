@@ -39,6 +39,16 @@ object AirScrollPermissions {
         ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
             PackageManager.PERMISSION_GRANTED
 
+    /**
+     * Il permesso del microfono.
+     *
+     * Facoltativo: senza, tutto AirScroll funziona tranne i comandi vocali.
+     * Non compare fra gli `essentialsGranted` per questo motivo.
+     */
+    fun hasMicrophone(context: Context): Boolean =
+        ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) ==
+            PackageManager.PERMISSION_GRANTED
+
     fun hasNotifications(context: Context): Boolean =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             ContextCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) ==

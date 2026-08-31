@@ -118,6 +118,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setMaxVolumeSteps(value: Float) = launchEdit { repository.setMaxVolumeStepsPerSec(value) }
     fun setPowerSaving(value: Boolean) = launchEdit { repository.setPowerSaving(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
+    fun setVoiceEnabled(value: Boolean) = launchEdit { repository.setVoiceEnabled(value) }
     fun setScrollMode(mode: ScrollMode) = launchEdit { repository.setScrollMode(mode) }
 
     fun setIndicatorCorner(corner: IndicatorCorner) = launchEdit { repository.setIndicatorCorner(corner) }

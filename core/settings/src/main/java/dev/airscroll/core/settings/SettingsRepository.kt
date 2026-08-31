@@ -90,6 +90,8 @@ class SettingsRepository(context: Context) {
 
     suspend fun setIndicatorEnabled(value: Boolean) = edit { it[Keys.INDICATOR_ENABLED] = value }
 
+    suspend fun setVoiceEnabled(value: Boolean) = edit { it[Keys.VOICE_ENABLED] = value }
+
     suspend fun setIndicatorCorner(corner: IndicatorCorner) =
         edit { it[Keys.INDICATOR_CORNER] = corner.name }
 
@@ -144,6 +146,7 @@ class SettingsRepository(context: Context) {
             serviceEnabled = this[Keys.SERVICE_ENABLED] ?: defaults.serviceEnabled,
             onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: defaults.onboardingCompleted,
             systemKills = this[Keys.SYSTEM_KILLS] ?: defaults.systemKills,
+            voiceEnabled = this[Keys.VOICE_ENABLED] ?: defaults.voiceEnabled,
             scrollMode = enumOrDefault(this[Keys.SCROLL_MODE], defaults.scrollMode),
             distanceProfile = enumOrDefault(this[Keys.DISTANCE_PROFILE], defaults.distanceProfile),
             performanceMode = enumOrDefault(this[Keys.PERFORMANCE_MODE], defaults.performanceMode),
@@ -210,6 +213,7 @@ class SettingsRepository(context: Context) {
         val MAX_VOLUME_STEPS = floatPreferencesKey("max_volume_steps")
         val POWER_SAVING = booleanPreferencesKey("power_saving")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
+        val VOICE_ENABLED = booleanPreferencesKey("voice_enabled")
         val SCROLL_MODE = stringPreferencesKey("scroll_mode")
         val INDICATOR_CORNER = stringPreferencesKey("indicator_corner")
         val HAPTICS_ENABLED = booleanPreferencesKey("haptics_enabled")

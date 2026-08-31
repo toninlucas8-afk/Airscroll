@@ -118,6 +118,9 @@
     <string name="gesture_move_title">Hand hoch und runter</string>
     <string name="gesture_sides_title">Hand nach rechts und links</string>
     <string name="gesture_fist_title">Geschlossene Faust</string>
+    <string name="gesture_voice_title">V mit zwei Fingern - sag es</string>
+    <string name="gesture_voice">Halte zwei Finger kurz hoch: Das Mikrofon öffnet sich für sechs Sekunden.</string>
+    <string name="gesture_voice_info">Nur wenn du die Sprachbefehle in den Einstellungen eingeschaltet hast. Das Mikrofon schließt sich von selbst, und Android zeigt oben seine eigene Anzeige, solange es offen ist.</string>
     <string name="gesture_leave_title">Die App verlassen</string>
     <string name="home_calibration_done_title">Kalibriert</string>
     <string name="home_calibration_missing_title">Noch nicht kalibriert</string>
@@ -337,4 +340,12 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="calibration_aspect_reach_left">Reichweite nach links</string>
     <string name="calibration_aspect_reach_right">Reichweite nach rechts</string>
     <string name="calibration_aspect_gestures">Die zwei Befehle</string>
+
+    <!-- Voce: quando si apre il microfono, e perche' e' verificabile. -->
+    <string name="settings_voice">Sprachbefehle</string>
+    <string name="settings_voice_hint">Kein Aktivierungswort und kein Mithören im Hintergrund. Das Mikrofon öffnet sich nur nach dem V-Zeichen mit zwei Fingern, bleibt sechs Sekunden offen und schließt sich von selbst. Die Erkennung läuft auf dem Telefon: AirScroll hat keine Netzwerkberechtigung, das Audio könnte also gar nicht hinaus.</string>
+    <string name="settings_voice_enable">Sprachbefehle einschalten</string>
+    <string name="settings_voice_enable_hint">Benötigt die Mikrofon-Berechtigung. Alles andere funktioniert auch ohne.</string>
+    <string name="settings_voice_commands">Probier: „öffne Spotify“, „spiel meine Lieblingslieder“, „nächstes Lied“, „lauter“, „pause“, „aus“.</string>
+    <string name="settings_voice_unavailable">Dieses Telefon hat keine Spracherkennung auf dem Gerät (nötig sind Android 12 oder neuer und das installierte System-Sprachmodell). Die Sprache bleibt aus: Die einzige Alternative wäre, dein Audio an einen Server zu schicken - und das ist keine Alternative.</string>
 </resources>

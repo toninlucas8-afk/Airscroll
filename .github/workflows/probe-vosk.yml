@@ -1,0 +1,74 @@
+# Sonda di supporto, non fa parte della build.
+#
+# Prima di decidere con cosa fare il riconoscimento vocale offline, si misura
+# invece di scommettere. La domanda e' la stessa che ci e' gia' costata quattro
+# versioni pubblicate e inservibili con MediaPipe: le librerie native sono
+# allineate a 16 KB? Dal 2025 i telefoni Android con pagine di memoria da 16 KB
+# non riescono ad aprire un `.so` allineato a 4 KB, e il fallimento arriva come
+# una banale eccezione a runtime, dentro l'APK gia' pubblicato.
+#
+# Qui non si compila niente: si scarica l'AAR e si legge l'intestazione ELF.
+name: Sonda Vosk
+
+on:
+  workflow_dispatch:
+    inputs:
+      versions:
+        description: "Versioni di vosk-android da sondare, separate da spazio"
+        required: false
+        default: "0.3.32 0.3.38 0.3.45 0.3.47 0.3.70"
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Scarica e ispeziona
+        shell: bash
+        run: |
+          set -u
+          mkdir -p /tmp/probe && cd /tmp/probe
+          for v in ${{ github.event.inputs.versions }}; do
+            url="https://repo1.maven.org/maven2/com/alphacephei/vosk-android/$v/vosk-android-$v.aar"
+            code=$(curl -sSL -o "$v.aar" -w '%{http_code}' "$url" || echo 000)
+            if [ "$code" != "200" ]; then
+              echo "$v -> NON DISPONIBILE (HTTP $code)"
+              rm -f "$v.aar"
+              continue
+            fi
+            rm -rf "x$v" && mkdir "x$v"
+            unzip -q -o "$v.aar" -d "x$v" || true
+            echo "--- $v: librerie trovate ---"
+            find "x$v" -name '*.so' -path '*arm64*' | while read -r so; do
+              python3 - "$v" "$so" <<'PY'
+          import struct, sys
+          version, path = sys.argv[1], sys.argv[2]
+          d = open(path, 'rb').read()
+          phoff = struct.unpack_from('<Q', d, 0x20)[0]
+          entsize = struct.unpack_from('<H', d, 0x36)[0]
+          num = struct.unpack_from('<H', d, 0x38)[0]
+          aligns = set()
+          for i in range(num):
+              o = phoff + i * entsize
+              if struct.unpack_from('<I', d, o)[0] == 1:  # PT_LOAD
+                  aligns.add(struct.unpack_from('<Q', d, o + 48)[0])
+          worst = min(aligns) if aligns else 0
+          verdict = "OK 16 KB" if worst >= 16384 else "SOLO 4 KB - inservibile sui telefoni a 16 KB"
+          nome = path.rsplit('/', 1)[-1]
+          print(f"{version} {nome} -> allineamento {[hex(a) for a in sorted(aligns)]}  {len(d)} byte  {verdict}")
+          PY
+            done
+          done
+
+      - name: Peso del modello italiano
+        shell: bash
+        run: |
+          set -u
+          # La dimensione decide se il modello puo' stare dentro l'APK o se va
+          # scaricato a parte - e scaricarlo a parte, in un'app che non ha il
+          # permesso di rete, non e' un'opzione.
+          for m in vosk-model-small-it-0.22 vosk-model-it-0.22; do
+            url="https://alphacephei.com/vosk/models/$m.zip"
+            code=$(curl -sSLI -o /dev/null -w '%{http_code}' "$url" || echo 000)
+            bytes=$(curl -sSLI "$url" | tr -d '\r' | awk 'tolower($1)=="content-length:"{print $2}' | tail -1)
+            echo "$m -> HTTP $code, ${bytes:-sconosciuto} byte"
+          done
