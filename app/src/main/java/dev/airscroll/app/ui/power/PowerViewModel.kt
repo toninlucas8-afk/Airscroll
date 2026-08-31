@@ -17,7 +17,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 /**
@@ -135,7 +134,6 @@ class PowerViewModel(application: Application) : AndroidViewModel(application) {
         val samples = ArrayList<PowerSample>(PHASE_SECONDS * SAMPLES_PER_SECOND)
         val total = PHASE_SECONDS * SAMPLES_PER_SECOND
         repeat(total) { index ->
-            if (!viewModelScope.isActive) return@repeat
             probe.sample()?.let { samples.add(it) }
             _state.value = _state.value.copy(
                 progress = (index + 1f) / total,

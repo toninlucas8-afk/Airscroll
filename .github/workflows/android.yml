@@ -35,6 +35,9 @@ jobs:
       - name: Kotlin sanity check
         run: python3 tools/check_kotlin_sanity.py
 
+      - name: Verify every module with tests can run them
+        run: python3 tools/check_test_wiring.py
+
       - name: Unit tests
         run: ./gradlew --no-daemon test
 

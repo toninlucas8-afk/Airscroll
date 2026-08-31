@@ -25,4 +25,6 @@ dependencies {
     api(project(":core:common"))
     implementation(libs.androidx.core.ktx)
     api(libs.androidx.datastore.preferences)
+
+    testImplementation(libs.junit)
 }
