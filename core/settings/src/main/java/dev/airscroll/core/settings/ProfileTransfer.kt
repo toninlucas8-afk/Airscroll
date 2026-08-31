@@ -44,6 +44,9 @@ object ProfileTransfer {
             add("cal_portata_giu = ${calibration.reachDown}")
             add("cal_portata_sinistra = ${calibration.reachLeft}")
             add("cal_portata_destra = ${calibration.reachRight}")
+            // Solo per chi legge il file: non viene riletto all'import. Vedi
+            // sotto il perche'.
+            add("# misurata con AirScroll ${calibration.calibratedVersion.ifBlank { "?" }}")
             add("")
             add("# --- come la mano comanda ---")
             add("modo = ${settings.scrollMode.name}")
@@ -101,6 +104,13 @@ object ProfileTransfer {
             // La data e' di questo import, non del file: dice quando questo
             // telefono ha ricevuto il profilo, che e' l'unica cosa vera.
             calibratedAtMillis = current.calibration.calibratedAtMillis,
+            // Il file non porta la versione: chi lo scrive e chi lo legge
+            // possono essere due AirScroll diversi. A marcare il profilo
+            // importato ci pensa `SettingsRepository.applyProfile`, con la
+            // versione che sta girando adesso - cosi' CalibrationVersionGate
+            // non cancella al primo riavvio quello che l'utente ha appena
+            // scelto di importare.
+            calibratedVersion = "",
         ).withDerivedRanges()
 
         return current.copy(

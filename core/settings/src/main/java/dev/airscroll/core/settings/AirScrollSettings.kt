@@ -50,6 +50,14 @@ data class CalibrationProfile(
     /** Tremolio residuo con la mano ferma: da qui esce la zona neutra. */
     val tremor: Float = DEFAULT_TREMOR,
     val calibratedAtMillis: Long = 0L,
+
+    /**
+     * Con che versione di AirScroll e' stata misurata.
+     *
+     * Vuota vuol dire "non si sa": prima installazione, oppure un profilo
+     * arrivato da un file. Serve solo a [CalibrationVersionGate].
+     */
+    val calibratedVersion: String = "",
 ) {
 
     /**
@@ -172,6 +180,25 @@ data class AirScrollSettings(
      * ottimizzazioni della batteria di una cosa che non hanno fatto.
      */
     val rebooted: Boolean = false,
+
+    /**
+     * Ogni versione nuova riparte da una calibrazione pulita.
+     *
+     * Acceso di partenza. Vedi [CalibrationVersionGate] per il perche': in
+     * breve, i numeri della calibrazione hanno cambiato significato piu' volte
+     * fra una versione e l'altra, e tenerne di vecchi dentro un motore nuovo
+     * fa cercare nel codice un difetto che sta nei dati.
+     */
+    val recalibrateOnUpdate: Boolean = true,
+
+    /**
+     * La calibrazione e' stata azzerata da un aggiornamento, e non e' ancora
+     * stata rifatta.
+     *
+     * Esiste solo per poterlo **dire**. Un'app che cancella qualcosa in
+     * silenzio e poi si comporta peggio e' un'app che sembra rotta.
+     */
+    val calibrationResetByUpdate: Boolean = false,
 
     val calibration: CalibrationProfile = CalibrationProfile.Default,
 ) {

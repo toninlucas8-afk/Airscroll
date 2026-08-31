@@ -394,4 +394,12 @@ Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y 
     <string name="flight_send">¿Algo no ha funcionado? Envía los últimos 2 minutos</string>
     <string name="flight_file_subject">AirScroll — últimos %1$d segundos</string>
     <string name="flight_empty">Todavía no hay nada que enviar: usa AirScroll un momento</string>
+
+    <!-- Ogni versione nuova riparte da una calibrazione pulita -->
+    <string name="home_calibration_reset_title">La calibración vuelve a empezar de cero</string>
+    <string name="home_calibration_reset_body">Esta es una versión nueva de AirScroll, así que se ha borrado la calibración anterior. No es una avería: los números que mide la calibración han cambiado de significado más de una vez entre versiones, y conservar los viejos dentro de un motor nuevo hace que la aplicación parezca rota por un motivo que no está en el código. Dos minutos y vuelve a estar medida sobre tu mano.</string>
+    <string name="action_understood">Entendido</string>
+    <string name="settings_recalibrate_on_update">Recalibrar tras cada actualización</string>
+    <string name="settings_recalibrate_on_update_hint">Cada versión nueva empieza con una calibración limpia, y te lo dice. Merece la pena mientras salgan versiones cada pocos días; cuando se espacien, lo apagas desde aquí sin esperar una publicación aparte.</string>
+    <string name="settings_calibration_measured_with">Medida con la versión %1$s.</string>
 </resources>

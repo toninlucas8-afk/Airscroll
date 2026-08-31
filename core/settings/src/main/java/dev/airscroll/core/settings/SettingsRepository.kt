@@ -64,7 +64,10 @@ class SettingsRepository(context: Context) {
      * stato fatto, il conteggio delle chiusure di sistema, il segno del
      * riavvio. Sono fatti di questo telefono, non scelte da trasferire.
      */
-    suspend fun applyProfile(profile: AirScrollSettings) = edit { prefs ->
+    suspend fun applyProfile(
+        profile: AirScrollSettings,
+        currentVersion: String,
+    ) = edit { prefs ->
         prefs[Keys.SCROLL_MODE] = profile.scrollMode.name
         prefs[Keys.SENSITIVITY] = profile.sensitivity
         prefs[Keys.NEUTRAL_ZONE_SCALE] = profile.neutralZoneScale
@@ -92,6 +95,13 @@ class SettingsRepository(context: Context) {
         prefs[Keys.CAL_REACH_LEFT] = calibration.reachLeft
         prefs[Keys.CAL_REACH_RIGHT] = calibration.reachRight
         prefs[Keys.CAL_AT] = System.currentTimeMillis()
+        // Il profilo importato viene marcato con la versione che sta girando
+        // **adesso**, non con quella che l'ha misurato. Altrimenti al primo
+        // riavvio CalibrationVersionGate cancellerebbe quello che l'utente ha
+        // appena scelto di importare: importare e' una decisione, non un
+        // aggiornamento che ti succede addosso.
+        prefs[Keys.CAL_VERSION] = currentVersion
+        prefs[Keys.CAL_RESET_BY_UPDATE] = false
     }
 
     /** Segna che il telefono e' stato riavviato. Lo scrive il ricevitore d'avvio. */
@@ -176,9 +186,62 @@ class SettingsRepository(context: Context) {
         prefs[Keys.CAL_REACH_RIGHT] = profile.reachRight
         prefs[Keys.CAL_TREMOR] = profile.tremor
         prefs[Keys.CAL_AT] = profile.calibratedAtMillis
+        prefs[Keys.CAL_VERSION] = profile.calibratedVersion
+        // Rifatta la calibrazione, l'avviso "l'aggiornamento te l'ha azzerata"
+        // non ha piu' niente da dire.
+        prefs[Keys.CAL_RESET_BY_UPDATE] = false
     }
 
     suspend fun clearCalibration() = saveCalibration(CalibrationProfile.Default)
+
+    suspend fun setRecalibrateOnUpdate(value: Boolean) =
+        edit { it[Keys.RECALIBRATE_ON_UPDATE] = value }
+
+    /** Chiude l'avviso senza rifare la calibrazione: e' una scelta legittima. */
+    suspend fun dismissCalibrationResetNotice() =
+        edit { it[Keys.CAL_RESET_BY_UPDATE] = false }
+
+    /**
+     * Azzera la calibrazione se e' stata misurata da un'altra versione.
+     *
+     * Si chiama all'avvio dell'app, una volta sola. Legge e scrive dentro la
+     * **stessa** modifica: se leggesse prima e scrivesse dopo, una calibrazione
+     * salvata in mezzo verrebbe cancellata subito dopo essere stata fatta.
+     *
+     * @return vero se ha azzerato qualcosa.
+     */
+    suspend fun applyVersionGate(currentVersion: String): Boolean {
+        var azzerata = false
+        dataStore.edit { prefs ->
+            val serve = CalibrationVersionGate.shouldReset(
+                calibratedVersion = prefs[Keys.CAL_VERSION].orEmpty(),
+                currentVersion = currentVersion,
+                calibrationCompleted = prefs[Keys.CAL_DONE] ?: false,
+                enabled = prefs[Keys.RECALIBRATE_ON_UPDATE]
+                    ?: AirScrollSettings.Default.recalibrateOnUpdate,
+            )
+            if (!serve) return@edit
+            val pulita = CalibrationProfile.Default
+            prefs[Keys.CAL_DONE] = pulita.completed
+            prefs[Keys.CAL_HAND_SPAN] = pulita.referenceHandSpan
+            prefs[Keys.CAL_VERTICAL] = pulita.verticalRange
+            prefs[Keys.CAL_HORIZONTAL] = pulita.horizontalRange
+            prefs[Keys.CAL_REACH_UP] = pulita.reachUp
+            prefs[Keys.CAL_REACH_DOWN] = pulita.reachDown
+            prefs[Keys.CAL_REACH_LEFT] = pulita.reachLeft
+            prefs[Keys.CAL_REACH_RIGHT] = pulita.reachRight
+            prefs[Keys.CAL_TREMOR] = pulita.tremor
+            prefs[Keys.CAL_AT] = 0L
+            // Vuota: non c'e' piu' nessuna calibrazione, quindi non c'e'
+            // nessuna versione che l'abbia misurata. Al prossimo avvio il
+            // cancello non riscatta perche' `cal_done` e' falso, non perche'
+            // la versione e' vuota.
+            prefs[Keys.CAL_VERSION] = ""
+            prefs[Keys.CAL_RESET_BY_UPDATE] = true
+            azzerata = true
+        }
+        return azzerata
+    }
 
     private suspend fun edit(block: (MutablePreferences) -> Unit) {
         dataStore.edit { preferences -> block(preferences) }
@@ -191,6 +254,9 @@ class SettingsRepository(context: Context) {
             onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: defaults.onboardingCompleted,
             systemKills = this[Keys.SYSTEM_KILLS] ?: defaults.systemKills,
             rebooted = this[Keys.REBOOTED] ?: defaults.rebooted,
+            recalibrateOnUpdate = this[Keys.RECALIBRATE_ON_UPDATE] ?: defaults.recalibrateOnUpdate,
+            calibrationResetByUpdate = this[Keys.CAL_RESET_BY_UPDATE]
+                ?: defaults.calibrationResetByUpdate,
             voiceEnabled = this[Keys.VOICE_ENABLED] ?: defaults.voiceEnabled,
             scrollMode = enumOrDefault(this[Keys.SCROLL_MODE], defaults.scrollMode),
             distanceProfile = enumOrDefault(this[Keys.DISTANCE_PROFILE], defaults.distanceProfile),
@@ -236,6 +302,7 @@ class SettingsRepository(context: Context) {
                     ?: this[Keys.CAL_HORIZONTAL] ?: CalibrationProfile.DEFAULT_HORIZONTAL_RANGE,
                 tremor = this[Keys.CAL_TREMOR] ?: CalibrationProfile.DEFAULT_TREMOR,
                 calibratedAtMillis = this[Keys.CAL_AT] ?: 0L,
+                calibratedVersion = this[Keys.CAL_VERSION].orEmpty(),
             ),
         )
     }
@@ -277,6 +344,9 @@ class SettingsRepository(context: Context) {
         val CAL_REACH_LEFT = floatPreferencesKey("cal_reach_left")
         val CAL_REACH_RIGHT = floatPreferencesKey("cal_reach_right")
         val CAL_AT = longPreferencesKey("cal_at")
+        val CAL_VERSION = stringPreferencesKey("cal_version")
+        val RECALIBRATE_ON_UPDATE = booleanPreferencesKey("recalibrate_on_update")
+        val CAL_RESET_BY_UPDATE = booleanPreferencesKey("cal_reset_by_update")
         val SYSTEM_KILLS = intPreferencesKey("system_kills")
         val REBOOTED = booleanPreferencesKey("rebooted")
     }

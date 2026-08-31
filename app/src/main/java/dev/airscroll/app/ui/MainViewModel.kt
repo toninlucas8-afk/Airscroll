@@ -3,6 +3,7 @@ package dev.airscroll.app.ui
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import dev.airscroll.app.BuildConfig
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.app.health.HealthProbe
 import dev.airscroll.app.service.VisionForegroundService
@@ -132,7 +133,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun importProfile(uri: Uri, onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
             val letto = ProfileFiles.read(getApplication(), uri, settings.value)
-            if (letto != null) repository.applyProfile(letto)
+            if (letto != null) repository.applyProfile(letto, BuildConfig.VERSION_NAME)
             onResult(letto != null)
         }
     }
@@ -147,6 +148,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun removeCustomPackage(name: String) = launchEdit { repository.removeCustomPackage(name) }
     fun completeOnboarding() = launchEdit { repository.setOnboardingCompleted(true) }
     fun clearCalibration() = launchEdit { repository.clearCalibration() }
+    fun setRecalibrateOnUpdate(value: Boolean) =
+        launchEdit { repository.setRecalibrateOnUpdate(value) }
+    fun dismissCalibrationResetNotice() =
+        launchEdit { repository.dismissCalibrationResetNotice() }
 
     private fun launchEdit(block: suspend () -> Unit) {
         viewModelScope.launch { block() }

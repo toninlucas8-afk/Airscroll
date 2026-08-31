@@ -445,4 +445,12 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="flight_send">Something went wrong? Send the last 2 minutes</string>
     <string name="flight_file_subject">AirScroll — last %1$d seconds</string>
     <string name="flight_empty">Nothing recorded yet: use AirScroll for a moment first</string>
+
+    <!-- Ogni versione nuova riparte da una calibrazione pulita -->
+    <string name="home_calibration_reset_title">Calibration restarted from scratch</string>
+    <string name="home_calibration_reset_body">This is a new version of AirScroll, so the previous calibration has been cleared. It is not a fault: the numbers calibration measures have changed meaning more than once between versions, and old ones inside a new engine make the app feel broken for a reason that is not in the code. Two minutes and it is measured on your hand again.</string>
+    <string name="action_understood">Got it</string>
+    <string name="settings_recalibrate_on_update">Recalibrate after every update</string>
+    <string name="settings_recalibrate_on_update_hint">Every new version starts from a clean calibration, and says so. It is worth having while versions come out every few days; when they slow down, switch it off here, without waiting for a release just for that.</string>
+    <string name="settings_calibration_measured_with">Measured with version %1$s.</string>
 </resources>

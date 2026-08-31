@@ -425,4 +425,12 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="flight_send">Qualcosa non ha funzionato? Manda gli ultimi 2 minuti</string>
     <string name="flight_file_subject">AirScroll — ultimi %1$d secondi</string>
     <string name="flight_empty">Non c\'è ancora niente da mandare: usa AirScroll un momento</string>
+
+    <!-- Ogni versione nuova riparte da una calibrazione pulita -->
+    <string name="home_calibration_reset_title">La calibrazione è ripartita da zero</string>
+    <string name="home_calibration_reset_body">Questa è una versione nuova di AirScroll, quindi la calibrazione di prima è stata azzerata. Non è un guasto: i numeri che la calibrazione misura hanno cambiato significato più di una volta fra una versione e l\'altra, e tenerne di vecchi dentro un motore nuovo fa sembrare rotta l\'app per un motivo che nel codice non c\'è. Due minuti e torna misurata sulla tua mano.</string>
+    <string name="action_understood">Ho capito</string>
+    <string name="settings_recalibrate_on_update">Ricalibra a ogni aggiornamento</string>
+    <string name="settings_recalibrate_on_update_hint">Ogni versione nuova riparte da una calibrazione pulita, e te lo dice. Ha senso finché le versioni escono ogni pochi giorni; quando rallenteranno lo spegni da qui, senza aspettare una versione apposta.</string>
+    <string name="settings_calibration_measured_with">Misurata con la versione %1$s.</string>
 </resources>

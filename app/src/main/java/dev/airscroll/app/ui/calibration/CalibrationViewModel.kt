@@ -5,6 +5,7 @@ import androidx.camera.core.Preview
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.viewModelScope
+import dev.airscroll.app.BuildConfig
 import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.core.camera.CameraController
@@ -151,7 +152,15 @@ class CalibrationViewModel(application: Application) : AndroidViewModel(applicat
     fun save(onSaved: () -> Unit) {
         val profile = machine.state.profile
             .withDerivedRanges()
-            .copy(completed = true, calibratedAtMillis = System.currentTimeMillis())
+            .copy(
+                completed = true,
+                calibratedAtMillis = System.currentTimeMillis(),
+                // Firmata con la versione che l'ha misurata: e' quello che
+                // permette a CalibrationVersionGate di sapere, al prossimo
+                // avvio, se questi numeri parlano ancora la stessa lingua del
+                // motore che li usa.
+                calibratedVersion = BuildConfig.VERSION_NAME,
+            )
         viewModelScope.launch {
             repository.saveCalibration(profile)
             onSaved()
@@ -165,6 +174,7 @@ class CalibrationViewModel(application: Application) : AndroidViewModel(applicat
                 CalibrationProfile.Default.copy(
                     completed = true,
                     calibratedAtMillis = System.currentTimeMillis(),
+                    calibratedVersion = BuildConfig.VERSION_NAME,
                 )
             )
             onSaved()

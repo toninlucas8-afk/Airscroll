@@ -402,9 +402,29 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+            if (settings.calibration.completed && settings.calibration.calibratedVersion.isNotBlank()) {
+                // Non e' un dettaglio da nerd: e' l'unica cosa che rende
+                // prevedibile l'interruttore qui sotto. Senza, "riparte a ogni
+                // aggiornamento" resta una promessa che l'utente non puo'
+                // verificare.
+                Text(
+                    text = stringResource(
+                        R.string.settings_calibration_measured_with,
+                        settings.calibration.calibratedVersion,
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+            }
             OutlinedButton(onClick = { viewModel.clearCalibration() }) {
                 Text(stringResource(R.string.action_reset_calibration))
             }
+            SwitchRow(
+                title = stringResource(R.string.settings_recalibrate_on_update),
+                subtitle = stringResource(R.string.settings_recalibrate_on_update_hint),
+                checked = settings.recalibrateOnUpdate,
+                onCheckedChange = { viewModel.setRecalibrateOnUpdate(it) },
+            )
         }
 
         SectionCard(title = stringResource(R.string.settings_language)) {

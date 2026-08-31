@@ -394,4 +394,12 @@
     <string name="flight_send">有什么没起作用？发送最近 2 分钟</string>
     <string name="flight_file_subject">AirScroll — 最近 %1$d 秒</string>
     <string name="flight_empty">还没有可发送的内容：先用一会儿 AirScroll</string>
+
+    <!-- Ogni versione nuova riparte da una calibrazione pulita -->
+    <string name="home_calibration_reset_title">校准已从头开始</string>
+    <string name="home_calibration_reset_body">这是 AirScroll 的新版本，因此之前的校准已被清除。这不是故障：校准所测量的数值在不同版本之间多次改变了含义，把旧数值放进新引擎里，会让应用看起来出了问题，而原因并不在代码里。花两分钟，它就会重新按你的手来测量。</string>
+    <string name="action_understood">知道了</string>
+    <string name="settings_recalibrate_on_update">每次更新后重新校准</string>
+    <string name="settings_recalibrate_on_update_hint">每个新版本都从干净的校准开始，并会明确告诉你。在版本几天一发布的阶段这很有用；等发布节奏放缓，你可以在这里关掉它，不必等待新的版本。</string>
+    <string name="settings_calibration_measured_with">使用版本 %1$s 测量。</string>
 </resources>

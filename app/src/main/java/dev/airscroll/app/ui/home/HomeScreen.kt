@@ -33,6 +33,7 @@ import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material.icons.filled.School
 import androidx.compose.material.icons.filled.SportsMartialArts
 import androidx.compose.material.icons.filled.Straighten
+import androidx.compose.material.icons.filled.Update
 import androidx.compose.material.icons.filled.Tune
 import androidx.compose.material.icons.filled.WarningAmber
 import androidx.compose.material3.Button
@@ -220,6 +221,20 @@ fun HomeScreen(
         )
 
         SectionCard(title = stringResource(R.string.home_calibration_title)) {
+            // L'aggiornamento ha azzerato la calibrazione: qui si dice, invece
+            // di lasciare all'utente il compito di accorgersene dal fatto che
+            // AirScroll e' tornato a scorrere come il primo giorno.
+            if (settings.calibrationResetByUpdate) {
+                IconRow(
+                    icon = Icons.Filled.Update,
+                    title = stringResource(R.string.home_calibration_reset_title),
+                    body = stringResource(R.string.home_calibration_reset_body),
+                    tint = MaterialTheme.colorScheme.tertiary,
+                )
+                TextButton(onClick = { viewModel.dismissCalibrationResetNotice() }) {
+                    Text(stringResource(R.string.action_understood))
+                }
+            }
             IconRow(
                 icon = Icons.Filled.Straighten,
                 title = if (settings.calibration.completed) {

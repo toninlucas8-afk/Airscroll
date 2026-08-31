@@ -394,4 +394,12 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="flight_send">Etwas hat nicht funktioniert? Sende die letzten 2 Minuten</string>
     <string name="flight_file_subject">AirScroll - letzte %1$d Sekunden</string>
     <string name="flight_empty">Noch nichts aufgezeichnet: benutze AirScroll kurz</string>
+
+    <!-- Ogni versione nuova riparte da una calibrazione pulita -->
+    <string name="home_calibration_reset_title">Die Kalibrierung beginnt wieder bei null</string>
+    <string name="home_calibration_reset_body">Das ist eine neue Version von AirScroll, deshalb wurde die bisherige Kalibrierung gelöscht. Das ist kein Fehler: Die Werte, die die Kalibrierung misst, haben zwischen den Versionen mehrfach ihre Bedeutung geändert, und alte Werte in einer neuen Engine lassen die App kaputt wirken, obwohl die Ursache nicht im Code steckt. Zwei Minuten, und sie ist wieder auf deine Hand gemessen.</string>
+    <string name="action_understood">Verstanden</string>
+    <string name="settings_recalibrate_on_update">Nach jedem Update neu kalibrieren</string>
+    <string name="settings_recalibrate_on_update_hint">Jede neue Version startet mit einer sauberen Kalibrierung und sagt es dir. Das lohnt sich, solange alle paar Tage eine Version erscheint; wenn es ruhiger wird, schaltest du es hier aus, ohne auf ein eigenes Release zu warten.</string>
+    <string name="settings_calibration_measured_with">Mit Version %1$s gemessen.</string>
 </resources>
