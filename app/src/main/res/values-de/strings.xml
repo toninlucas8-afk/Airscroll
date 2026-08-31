@@ -239,4 +239,9 @@
     <string name="gesture_sides_info">Immer nur eine Achse: beim Scrollen kannst du die Lautstärke nicht versehentlich ändern, und die andere Achse muss deutlich gewinnen, um zu übernehmen. Die waagerechte Achse lässt sich in den Einstellungen ganz abschalten.</string>
     <string name="gesture_fist_info">Zwei Sekunden, damit du nicht versehentlich stoppst. Einstellbar unter Einstellungen → Zeiten. Öffnest du die Hand vor Ablauf der zwei Sekunden, wird der Stopp abgebrochen.</string>
     <string name="gesture_leave_info">Auch das gelbe Fenster schließt sich nach etwa sechs Sekunden ohne Daumen hoch von selbst, und die Kamera geht aus. Um es zu öffnen, ohne die App zu verlassen, tippe in der AirScroll-Benachrichtigung auf “Hand suchen”.</string>
+    <string name="settings_scroll_mode">Wie deine Hand das Scrollen steuert</string>
+    <string name="scroll_mode_follow">Direkter Griff</string>
+    <string name="scroll_mode_follow_body">Die Seite geht dorthin, wo du die Hand hinbewegst, und bleibt dort — als würdest du sie ziehen. Schiebst du weiter, scrollt sie weiter; ziehst du die Hand ruckartig zurück, läuft sie aus.</string>
+    <string name="scroll_mode_speed">Joystick</string>
+    <string name="scroll_mode_speed_body">Die Hand bestimmt die Geschwindigkeit: je weiter von der Mitte, desto schneller, und es läuft weiter, bis du zurückkommst. So war es bis Version 0.4.5.</string>
 </resources>

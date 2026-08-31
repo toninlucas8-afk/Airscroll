@@ -3,6 +3,7 @@ package dev.airscroll.core.gesture
 import dev.airscroll.apps.api.ScrollTuning
 import dev.airscroll.core.common.model.HandFrame
 import dev.airscroll.core.common.model.HandSignal
+import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.settings.AirScrollSettings
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue
@@ -11,7 +12,12 @@ import kotlin.math.abs
 
 class MotionMapperTest {
 
+    // Il predefinito e' l'aggancio diretto. I test che descrivono il modello a
+    // velocita' usano esplicitamente `aVelocita`: sono proprieta' di quel
+    // modello, non dell'app in generale, e confonderle era il motivo per cui
+    // sono diventati rossi appena e' cambiato il predefinito.
     private val settings = AirScrollSettings.Default
+    private val aVelocita = settings.copy(scrollMode = ScrollMode.SPEED)
     private val tuning = ScrollTuning.Default
 
     private fun frame(
@@ -66,7 +72,7 @@ class MotionMapperTest {
             // Piu' fotogrammi per lasciare che il filtro raggiunga il valore.
             repeat(12) {
                 timestamp += 40
-                speed = abs(mapper.map(frame(timestamp, y = target), timestamp, settings, tuning)
+                speed = abs(mapper.map(frame(timestamp, y = target), timestamp, aVelocita, tuning)
                     .scrollVelocityPxPerSec)
             }
             return speed
@@ -78,7 +84,7 @@ class MotionMapperTest {
 
         assertTrue("$small -> $medium", medium > small)
         assertTrue("$medium -> $large", large > medium)
-        assertTrue("il massimo non va superato", large <= settings.maxScrollSpeedPxPerSec + 1f)
+        assertTrue("il massimo non va superato", large <= aVelocita.maxScrollSpeedPxPerSec + 1f)
     }
 
     @Test
@@ -180,18 +186,8 @@ class MotionMapperTest {
      * a regime. Il movimento e' graduale perche' il filtro anti-tremolio ha
      * bisogno di qualche fotogramma per seguirlo.
      */
-    private fun velocitaDopoMovimento(ancora: Float, delta: Float): Float {
-        val mapper = MotionMapper()
-        mapper.anchorTo(frame(0, y = ancora), 0)
-        var timestamp = 0L
-        var ultima = 0f
-        repeat(25) {
-            timestamp += 40
-            val output = mapper.map(frame(timestamp, y = ancora + delta), timestamp, settings, tuning)
-            ultima = output.scrollVelocityPxPerSec
-        }
-        return ultima
-    }
+    private fun velocitaDopoMovimento(ancora: Float, delta: Float): Float =
+        velocitaConImpostazioni(aVelocita, ancora, delta)
 
     // --- Portata per direzione ---------------------------------------------
 
@@ -205,7 +201,7 @@ class MotionMapperTest {
      */
     @Test
     fun `usa la portata misurata di quella direzione, non una media`() {
-        val asimmetrica = settings.copy(
+        val asimmetrica = aVelocita.copy(
             calibration = settings.calibration.copy(
                 reachUp = 0.24f,
                 reachDown = 0.08f,
@@ -247,5 +243,50 @@ class MotionMapperTest {
             ultima = output.scrollVelocityPxPerSec
         }
         return ultima
+    }
+
+    // --- Aggancio diretto ---------------------------------------------------
+
+    /**
+     * La proprieta' che distingue i due modelli, vista dal motore intero.
+     *
+     * Con la levetta, tenere la mano ferma spostata significa scorrere per
+     * sempre. Con l'aggancio diretto significa che il contenuto e' arrivato
+     * dove hai messo la mano, e li' si ferma.
+     */
+    @Test
+    fun `in aggancio diretto la mano ferma fa fermare il contenuto`() {
+        val mapper = MotionMapper()
+        mapper.anchorTo(frame(0, y = 0.5f), 0)
+        var timestamp = 0L
+        var primoTratto = 0f
+        var secondoTratto = 0f
+        repeat(40) { indice ->
+            timestamp += 40
+            val v = mapper.map(frame(timestamp, y = 0.42f), timestamp, settings, tuning)
+                .scrollVelocityPxPerSec
+            if (indice < 12) primoTratto += abs(v) * 0.04f else secondoTratto += abs(v) * 0.04f
+        }
+        assertTrue("all'inizio deve muoversi: $primoTratto px", primoTratto > 150f)
+        assertTrue(
+            "poi deve fermarsi, non continuare: ancora $secondoTratto px",
+            secondoTratto < primoTratto * 0.25f,
+        )
+    }
+
+    /** Spingendo a fondo, invece, deve continuare: serve per le pagine lunghe. */
+    @Test
+    fun `in aggancio diretto spingendo a fondo lo scorrimento continua`() {
+        val mapper = MotionMapper()
+        mapper.anchorTo(frame(0, y = 0.5f), 0)
+        var timestamp = 0L
+        var tardi = 0f
+        repeat(40) { indice ->
+            timestamp += 40
+            val v = mapper.map(frame(timestamp, y = 0.10f), timestamp, settings, tuning)
+                .scrollVelocityPxPerSec
+            if (indice >= 25) tardi += abs(v) * 0.04f
+        }
+        assertTrue("deve continuare a scorrere: $tardi px nell'ultimo tratto", tardi > 400f)
     }
 }

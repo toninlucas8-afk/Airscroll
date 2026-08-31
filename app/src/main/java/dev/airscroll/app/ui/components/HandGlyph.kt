@@ -101,42 +101,71 @@ fun DrawScope.drawFistGlyph(
 }
 
 /**
- * Pollice in su: il pugno con il solo pollice disteso verso l'alto.
+ * Pollice in su: un pugno con il pollice disteso verso l'alto.
  *
- * E' il gesto di attivazione, quello che l'utente deve imparare per primo.
+ * E' il gesto di attivazione, il primo che l'utente deve imparare, e per questo
+ * e' l'unico che non puo' permettersi di essere ambiguo.
+ *
+ * La prima versione non si leggeva: il pollice era una barretta staccata
+ * accanto a un rettangolo arrotondato, e alla prova su telefono e' arrivato il
+ * verdetto giusto - "non sembra per niente un pollice". Ricostruita dalla
+ * sagoma invece che dai dettagli, perche' a 64 px la sagoma e' l'unica cosa
+ * che si vede:
+ *
+ * - il **polso** sotto il pugno: senza, un pugno resta un blocco qualunque;
+ * - il **pugno** leggermente piu' largo che alto;
+ * - il **pollice** che esce dal lato e si sovrappone al pugno, cosi' e'
+ *   attaccato invece che appoggiato accanto;
+ * - due **tacche** delle dita piegate, disegnate nel colore dello sfondo:
+ *   sopra un pieno dello stesso colore, un solco e' l'unico modo per farle
+ *   vedere.
+ *
+ * @param gap colore dello sfondo su cui il disegno viene posato, per le tacche.
  */
 fun DrawScope.drawThumbUpGlyph(
     center: Offset,
     palmWidth: Float,
     color: Color,
+    gap: Color,
 ) {
-    val palmHeight = palmWidth * 0.92f
+    val fistWidth = palmWidth * 0.84f
+    val fistHeight = palmWidth * 0.72f
+    val fistX = center.x - palmWidth * 0.30f
+    val fistY = center.y - palmWidth * 0.16f
+
+    // Il polso va disegnato per primo: gli sta dietro.
     drawRoundRect(
         color = color,
-        topLeft = Offset(center.x - palmWidth * 0.42f, center.y - palmHeight * 0.34f),
-        size = Size(palmWidth * 0.84f, palmHeight * 0.86f),
-        cornerRadius = CornerRadius(palmWidth * 0.28f),
+        topLeft = Offset(fistX + fistWidth * 0.14f, fistY + fistHeight * 0.78f),
+        size = Size(fistWidth * 0.62f, palmWidth * 0.30f),
+        cornerRadius = CornerRadius(palmWidth * 0.10f),
     )
 
-    val fingerWidth = palmWidth * 0.16f
-    for (index in 0..2) {
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(fistX, fistY),
+        size = Size(fistWidth, fistHeight),
+        cornerRadius = CornerRadius(palmWidth * 0.24f),
+    )
+
+    val thumbWidth = palmWidth * 0.30f
+    val thumbHeight = palmWidth * 0.66f
+    drawRoundRect(
+        color = color,
+        topLeft = Offset(center.x - palmWidth * 0.42f, fistY - thumbHeight + palmWidth * 0.18f),
+        size = Size(thumbWidth, thumbHeight),
+        cornerRadius = CornerRadius(thumbWidth / 2f),
+    )
+
+    for (index in 0..1) {
         drawRoundRect(
-            color = color.copy(alpha = 0.45f),
+            color = gap,
             topLeft = Offset(
-                center.x - palmWidth * 0.30f + index * palmWidth * 0.22f,
-                center.y - palmHeight * 0.22f,
+                fistX + fistWidth * 0.40f,
+                fistY + fistHeight * (0.30f + 0.30f * index),
             ),
-            size = Size(fingerWidth, palmHeight * 0.16f),
-            cornerRadius = CornerRadius(fingerWidth / 2f),
+            size = Size(fistWidth * 0.48f, palmWidth * 0.055f),
+            cornerRadius = CornerRadius(palmWidth * 0.03f),
         )
     }
-
-    // Il pollice, che esce dal lato e punta in su: e' cio' che rende il gesto
-    // leggibile, quindi e' l'elemento piu' lungo del disegno.
-    drawRoundRect(
-        color = color,
-        topLeft = Offset(center.x - palmWidth * 0.62f, center.y - palmHeight * 0.86f),
-        size = Size(palmWidth * 0.26f, palmHeight * 0.72f),
-        cornerRadius = CornerRadius(palmWidth * 0.13f),
-    )
 }

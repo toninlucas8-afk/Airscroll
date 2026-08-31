@@ -270,4 +270,9 @@
     <string name="gesture_sides_info">Un asse alla volta: mentre scorri non puoi cambiare volume per sbaglio, e per rubare il comando l\'altro asse deve vincere di un buon margine. L\'asse orizzontale si può anche spegnere del tutto dalle impostazioni.</string>
     <string name="gesture_fist_info">Due secondi, per non fermarti per sbaglio. Si regola da Impostazioni → Tempi. Se riapri la mano prima dei due secondi, lo stop si annulla.</string>
     <string name="gesture_leave_info">Anche la finestra gialla si chiude da sola dopo circa sei secondi senza pollice in su, e la fotocamera si spegne. Per riaprirla senza uscire dall\'app, tocca “Cerca la mano” sulla notifica di AirScroll.</string>
+    <string name="settings_scroll_mode">Come la mano comanda lo scorrimento</string>
+    <string name="scroll_mode_follow">Aggancio diretto</string>
+    <string name="scroll_mode_follow_body">La pagina va dove metti la mano e ci resta, come se la stessi trascinando. Spingi oltre e continua a scorrere; riporta la mano di scatto e prosegue rallentando.</string>
+    <string name="scroll_mode_speed">Levetta</string>
+    <string name="scroll_mode_speed_body">La mano decide la velocità: più sei lontano dal centro, più scorre veloce, e continua finché non torni indietro. È come funzionava fino alla versione 0.4.5.</string>
 </resources>

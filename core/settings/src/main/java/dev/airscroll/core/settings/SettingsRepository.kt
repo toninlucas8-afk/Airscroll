@@ -16,6 +16,7 @@ import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.PerformanceMode
+import dev.airscroll.core.common.model.ScrollMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -66,6 +67,8 @@ class SettingsRepository(context: Context) {
 
     suspend fun setMaxVolumeStepsPerSec(value: Float) =
         edit { it[Keys.MAX_VOLUME_STEPS] = value.coerceIn(1f, 15f) }
+
+    suspend fun setScrollMode(mode: ScrollMode) = edit { it[Keys.SCROLL_MODE] = mode.name }
 
     suspend fun setIndicatorEnabled(value: Boolean) = edit { it[Keys.INDICATOR_ENABLED] = value }
 
@@ -122,6 +125,7 @@ class SettingsRepository(context: Context) {
         return AirScrollSettings(
             serviceEnabled = this[Keys.SERVICE_ENABLED] ?: defaults.serviceEnabled,
             onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: defaults.onboardingCompleted,
+            scrollMode = enumOrDefault(this[Keys.SCROLL_MODE], defaults.scrollMode),
             distanceProfile = enumOrDefault(this[Keys.DISTANCE_PROFILE], defaults.distanceProfile),
             performanceMode = enumOrDefault(this[Keys.PERFORMANCE_MODE], defaults.performanceMode),
             sensitivity = this[Keys.SENSITIVITY] ?: defaults.sensitivity,
@@ -179,6 +183,7 @@ class SettingsRepository(context: Context) {
         val HORIZONTAL_ACTION = stringPreferencesKey("horizontal_action")
         val MAX_VOLUME_STEPS = floatPreferencesKey("max_volume_steps")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
+        val SCROLL_MODE = stringPreferencesKey("scroll_mode")
         val INDICATOR_CORNER = stringPreferencesKey("indicator_corner")
         val HAPTICS_ENABLED = booleanPreferencesKey("haptics_enabled")
         val WAITING_WINDOW_MS = longPreferencesKey("waiting_window_ms")

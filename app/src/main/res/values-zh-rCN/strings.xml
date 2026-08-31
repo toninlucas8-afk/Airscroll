@@ -239,4 +239,9 @@
     <string name="gesture_sides_info">一次只用一个轴：滚动时不会误改音量，另一个轴要明显占优才能接管。水平轴也可以在设置里完全关掉。</string>
     <string name="gesture_fist_info">两秒，避免误停。可在「设置 → 时间」里调整。如果不到两秒就松开手，停止会被取消。</string>
     <string name="gesture_leave_info">黄色窗口在大约六秒没有竖起拇指后也会自动关闭，相机随之关闭。想不退出应用就重新打开它，点一下 AirScroll 通知上的“寻找手部”。</string>
+    <string name="settings_scroll_mode">手如何控制滚动</string>
+    <string name="scroll_mode_follow">直接抓取</string>
+    <string name="scroll_mode_follow_body">页面跟着你的手走，并停在那里，就像你在拖动它。再往前推就会继续滚动；把手快速收回，页面会继续滑行并减速。</string>
+    <string name="scroll_mode_speed">摇杆</string>
+    <string name="scroll_mode_speed_body">由手决定速度：离中心越远滚得越快，并一直持续到你把手收回。这是 0.4.5 版之前的方式。</string>
 </resources>

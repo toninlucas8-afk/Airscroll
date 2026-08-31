@@ -290,4 +290,9 @@
     <string name="gesture_sides_info">One axis at a time: while you are scrolling you cannot change the volume by accident, and the other axis has to win by a clear margin to take over. The horizontal axis can also be switched off entirely in Settings.</string>
     <string name="gesture_fist_info">Two seconds, so you do not stop by accident. Adjustable in Settings → Timings. Opening your hand before the two seconds are up cancels the stop.</string>
     <string name="gesture_leave_info">The amber window also closes on its own after about six seconds without a thumbs up, and the camera goes off. To reopen it without leaving the app, tap “Look for the hand” on the AirScroll notification.</string>
+    <string name="settings_scroll_mode">How your hand controls scrolling</string>
+    <string name="scroll_mode_follow">Direct grab</string>
+    <string name="scroll_mode_follow_body">The page goes where you put your hand and stays there, as if you were dragging it. Push further and it keeps scrolling; flick your hand back and it carries on and slows down.</string>
+    <string name="scroll_mode_speed">Joystick</string>
+    <string name="scroll_mode_speed_body">Your hand sets the speed: the further from centre, the faster it scrolls, and it keeps going until you come back. This is how it worked up to version 0.4.5.</string>
 </resources>

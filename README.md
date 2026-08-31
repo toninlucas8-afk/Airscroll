@@ -22,14 +22,45 @@ si installa l'APK.
 | Attivo | verde | aperta, ~22 fps | La mano guida lo scorrimento. |
 
 - **Pollice in su** tenuto ~0,4 s → si attiva.
-- **Mano su / giù** → la pagina segue il movimento. Non ci sono scatti: è un
-  trascinamento continuo. Più ti allontani dal centro, più accelera.
+- **Mano su / giù** → la pagina segue il movimento, con un trascinamento
+  continuo e senza scatti.
 - **Mano a destra / sinistra** → volume, anch'esso progressivo. Un asse alla
   volta, con isteresi: scorrendo non cambi il volume per sbaglio.
 - **Pugno chiuso** per ~2 s → stop. Anche uscire dall'app ferma tutto e chiude
   la fotocamera.
 - I micro-tremolii vengono assorbiti da una **zona neutra** ricavata dalla
   calibrazione, non da un numero deciso a tavolino.
+
+### Aggancio diretto, non una levetta
+
+Fino alla 0.4.5 la mano era una levetta analogica: posizione della mano →
+*velocità* di scorrimento. Funziona, ma non dà mai la sensazione di toccare il
+contenuto, perché **la pagina non sta mai dove sta la mano**.
+
+Dalla 0.5.0 il modello predefinito è l'**aggancio diretto**: lo spostamento
+della mano diventa spostamento del contenuto. Muovi di dieci centimetri, la
+pagina si sposta di tanto e si ferma lì.
+
+La sola manipolazione diretta però non basterebbe, per due motivi concreti: il
+dito invisibile ha una corsa finita sullo schermo, e in aria non esiste
+"staccare il dito" — una mano che torna indietro riporterebbe indietro anche il
+contenuto. Da qui i tre pezzi che insieme fanno il gesto completo:
+
+1. **Zona diretta** (fino al 55% dell'escursione): il contenuto insegue la
+   posizione della mano. È qui che vive la precisione.
+2. **Zona di spinta** (oltre): si aggiunge una velocità continua che cresce con
+   quanto spingi. Serve ad attraversare le pagine lunghe senza cambiare gesto.
+3. **Riaggancio nella zona neutra**: tornando a riposo il punto di riferimento
+   si sposta sul contenuto attuale. È l'equivalente aereo di staccare il dito:
+   la bracciata di ritorno non disfa quella di andata.
+
+Più l'**inerzia**: se la mano rientra a riposo *di scatto*, il contenuto
+prosegue e rallenta, come un colpo di dito. Se rientra piano, si ferma dove sta.
+Quella differenza è l'unica cosa che distingue un gesto voluto da un braccio che
+si riposa.
+
+La levetta resta disponibile in **Impostazioni → Movimento**: è un cambiamento
+molto soggettivo, e chi lo prova deve poter dire *quale dei due* preferisce.
 
 ### La calibrazione
 

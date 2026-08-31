@@ -9,6 +9,7 @@ import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HandFrame
 import dev.airscroll.core.common.model.HandSignal
 import dev.airscroll.core.common.model.HorizontalAction
+import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.settings.AirScrollSettings
 import kotlin.math.abs
 import kotlin.math.sign
@@ -39,6 +40,7 @@ class MotionMapper {
     private val xFilter = OneEuroFilter(minCutoff = 1.0f, beta = 1.5f)
     private val yFilter = OneEuroFilter(minCutoff = 1.0f, beta = 1.5f)
     private val spanEma = Ema(alpha = 0.12f)
+    private val follow = FollowController()
 
     private var anchorX = 0.5f
     private var anchorY = 0.5f
@@ -64,6 +66,7 @@ class MotionMapper {
         inNeutral = true
         volumeAccumulator = 0f
         lockedAxis = MotionAxis.NONE
+        follow.reset()
         spanEma.reset()
         if (frame.handSpan > 0f) spanEma.update(frame.handSpan)
     }
@@ -78,6 +81,7 @@ class MotionMapper {
         inNeutral = false
         volumeAccumulator = 0f
         lockedAxis = MotionAxis.NONE
+        follow.reset()
     }
 
     fun map(
@@ -124,6 +128,8 @@ class MotionMapper {
         if (frame.signal == HandSignal.CLOSED_FIST) {
             driftAnchor(x, y, dtSeconds, nowMs, forced = true)
             lockedAxis = MotionAxis.NONE
+            // Il pugno e' il gesto di uscita: si ferma davvero, senza inerzia.
+            follow.reset()
             return MotionOutput(gain = gain)
         }
 
@@ -140,7 +146,15 @@ class MotionMapper {
         if (lockedAxis == MotionAxis.NONE) {
             driftAnchor(x, y, dtSeconds, nowMs, forced = false)
             volumeAccumulator = 0f
-            return MotionOutput(gain = gain, axis = MotionAxis.NONE)
+            // La zona neutra non e' piu' solo "fermo": in aggancio diretto e'
+            // dove il dito si stacca e, se il rientro e' stato di scatto, dove
+            // il contenuto prosegue per inerzia.
+            val coasting = release(settings, tuning, dtSeconds, nowMs)
+            return MotionOutput(
+                scrollVelocityPxPerSec = coasting,
+                gain = gain,
+                axis = MotionAxis.NONE,
+            )
         }
 
         inNeutral = false
@@ -152,14 +166,27 @@ class MotionMapper {
                 val room = if (deltaY > 0f) anchorY - FRAME_EDGE else (1f - FRAME_EDGE) - anchorY
                 val range = if (deltaY > 0f) reachUp else reachDown
                 val excursion = excursion(abs(deltaY), verticalExcess, range, neutral, room, gain)
-                var speed = settings.maxScrollSpeedPxPerSec *
-                    tuning.speedMultiplier *
-                    progressiveResponse(excursion, tuning.curveGamma)
-                if (speed < MIN_SCROLL_SPEED) speed = MIN_SCROLL_SPEED
-
                 // Mano in alto -> il dito invisibile sale -> la pagina scende.
-                var velocity = -sign(deltaY) * speed
-                if (settings.invertScroll != tuning.invertScroll) velocity = -velocity
+                var direction = -sign(deltaY)
+                if (settings.invertScroll != tuning.invertScroll) direction = -direction
+
+                val velocity = when (settings.scrollMode) {
+                    ScrollMode.SPEED -> {
+                        var speed = maxSpeed(settings, tuning) *
+                            progressiveResponse(excursion, tuning.curveGamma)
+                        if (speed < MIN_SCROLL_SPEED) speed = MIN_SCROLL_SPEED
+                        direction * speed
+                    }
+
+                    ScrollMode.FOLLOW -> follow.update(
+                        excursion = direction * excursion,
+                        engaged = true,
+                        dtSeconds = dtSeconds,
+                        spanPx = FollowController.DEFAULT_SPAN_PX * tuning.speedMultiplier,
+                        maxSpeed = maxSpeed(settings, tuning),
+                        nowMs = nowMs,
+                    )
+                }
 
                 MotionOutput(
                     scrollVelocityPxPerSec = velocity,
@@ -178,11 +205,41 @@ class MotionMapper {
                 volumeAccumulator += stepsPerSecond * dtSeconds
                 val whole = volumeAccumulator.toInt()
                 volumeAccumulator -= whole
-                MotionOutput(volumeSteps = whole, gain = gain, axis = MotionAxis.HORIZONTAL)
+                // Mentre si cambia volume il dito verticale e' staccato: il
+                // contenuto resta dove sta invece di riportarsi indietro.
+                val coasting = release(settings, tuning, dtSeconds, nowMs)
+                MotionOutput(
+                    scrollVelocityPxPerSec = coasting,
+                    volumeSteps = whole,
+                    gain = gain,
+                    axis = MotionAxis.HORIZONTAL,
+                )
             }
 
             MotionAxis.NONE -> MotionOutput(gain = gain)
         }
+    }
+
+    private fun maxSpeed(settings: AirScrollSettings, tuning: ScrollTuning): Float =
+        settings.maxScrollSpeedPxPerSec * tuning.speedMultiplier
+
+    /** Stacca il dito invisibile e restituisce l'eventuale inerzia residua. */
+    private fun release(
+        settings: AirScrollSettings,
+        tuning: ScrollTuning,
+        dtSeconds: Float,
+        nowMs: Long,
+    ): Float = if (settings.scrollMode == ScrollMode.FOLLOW) {
+        follow.update(
+            excursion = 0f,
+            engaged = false,
+            dtSeconds = dtSeconds,
+            spanPx = FollowController.DEFAULT_SPAN_PX * tuning.speedMultiplier,
+            maxSpeed = maxSpeed(settings, tuning),
+            nowMs = nowMs,
+        )
+    } else {
+        0f
     }
 
     /**

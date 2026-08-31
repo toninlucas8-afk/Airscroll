@@ -48,6 +48,7 @@ import dev.airscroll.apps.api.AppProfileRegistry
 import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
+import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.common.model.PerformanceMode
 import kotlin.math.roundToInt
 
@@ -77,6 +78,21 @@ fun SettingsScreen(
         )
 
         SectionCard(title = stringResource(R.string.settings_movement)) {
+            // La scelta del modello sta per prima perche' e' quella che cambia
+            // tutto il resto: gli stessi cursori si comportano diversamente.
+            Text(
+                text = stringResource(R.string.settings_scroll_mode),
+                style = MaterialTheme.typography.bodyLarge,
+            )
+            ScrollMode.entries.forEach { mode ->
+                DistanceOption(
+                    title = stringResource(scrollModeLabel(mode)),
+                    body = stringResource(scrollModeDescription(mode)),
+                    selected = settings.scrollMode == mode,
+                    onSelect = { viewModel.setScrollMode(mode) },
+                )
+            }
+
             Text(
                 text = stringResource(R.string.settings_distance),
                 style = MaterialTheme.typography.bodyLarge,
@@ -386,6 +402,18 @@ private fun horizontalLabel(action: HorizontalAction): Int = when (action) {
 }
 
 @androidx.annotation.StringRes
+@androidx.annotation.StringRes
+private fun scrollModeLabel(mode: ScrollMode): Int = when (mode) {
+    ScrollMode.FOLLOW -> R.string.scroll_mode_follow
+    ScrollMode.SPEED -> R.string.scroll_mode_speed
+}
+
+@androidx.annotation.StringRes
+private fun scrollModeDescription(mode: ScrollMode): Int = when (mode) {
+    ScrollMode.FOLLOW -> R.string.scroll_mode_follow_body
+    ScrollMode.SPEED -> R.string.scroll_mode_speed_body
+}
+
 private fun cornerLabel(corner: IndicatorCorner): Int = when (corner) {
     IndicatorCorner.TOP_CENTER -> R.string.corner_top_center
     IndicatorCorner.TOP_START -> R.string.corner_top_start

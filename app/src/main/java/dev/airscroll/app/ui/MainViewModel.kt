@@ -11,6 +11,7 @@ import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.EngineStatus
 import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
+import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.runtime.AirScrollBus
 import dev.airscroll.core.settings.AirScrollSettings
@@ -73,6 +74,8 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setHorizontalAction(action: HorizontalAction) = launchEdit { repository.setHorizontalAction(action) }
     fun setMaxVolumeSteps(value: Float) = launchEdit { repository.setMaxVolumeStepsPerSec(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
+    fun setScrollMode(mode: ScrollMode) = launchEdit { repository.setScrollMode(mode) }
+
     fun setIndicatorCorner(corner: IndicatorCorner) = launchEdit { repository.setIndicatorCorner(corner) }
     fun setHapticsEnabled(value: Boolean) = launchEdit { repository.setHapticsEnabled(value) }
     fun setWaitingWindow(ms: Long) = launchEdit { repository.setWaitingWindowMs(ms) }

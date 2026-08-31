@@ -239,4 +239,9 @@
     <string name="gesture_sides_info">Un eje a la vez: mientras te desplazas no puedes cambiar el volumen sin querer, y para robar el mando el otro eje tiene que ganar por un buen margen. El eje horizontal se puede apagar del todo en los ajustes.</string>
     <string name="gesture_fist_info">Dos segundos, para no parar sin querer. Se ajusta en Ajustes → Tiempos. Si abres la mano antes de los dos segundos, la parada se cancela.</string>
     <string name="gesture_leave_info">La ventana ámbar también se cierra sola tras unos seis segundos sin pulgar arriba, y la cámara se apaga. Para reabrirla sin salir de la app, toca “Buscar la mano” en la notificación de AirScroll.</string>
+    <string name="settings_scroll_mode">Cómo controla el desplazamiento tu mano</string>
+    <string name="scroll_mode_follow">Agarre directo</string>
+    <string name="scroll_mode_follow_body">La página va donde pones la mano y se queda ahí, como si la arrastraras. Empuja más allá y sigue desplazándose; retira la mano de golpe y continúa frenando.</string>
+    <string name="scroll_mode_speed">Palanca</string>
+    <string name="scroll_mode_speed_body">La mano decide la velocidad: cuanto más lejos del centro, más rápido se desplaza, y sigue hasta que vuelves. Así funcionaba hasta la versión 0.4.5.</string>
 </resources>

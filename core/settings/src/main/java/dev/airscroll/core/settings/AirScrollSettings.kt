@@ -4,6 +4,7 @@ import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.PerformanceMode
+import dev.airscroll.core.common.model.ScrollMode
 
 /**
  * Risultato della calibrazione iniziale, quella "stile Face ID".
@@ -73,6 +74,16 @@ data class CalibrationProfile(
 data class AirScrollSettings(
     val serviceEnabled: Boolean = false,
     val onboardingCompleted: Boolean = false,
+
+    /**
+     * Come la mano comanda lo scorrimento.
+     *
+     * Predefinito l'aggancio diretto, che e' il modello che si vuole. La
+     * levetta resta scegliibile perche' e' un cambiamento molto soggettivo e
+     * chi lo prova deve poter dire *quale dei due* preferisce, non solo che il
+     * nuovo non gli piace.
+     */
+    val scrollMode: ScrollMode = ScrollMode.FOLLOW,
 
     val distanceProfile: DistanceProfile = DistanceProfile.AUTO,
     val performanceMode: PerformanceMode = PerformanceMode.BALANCED,

@@ -52,31 +52,31 @@ fun GestureLegend(modifier: Modifier = Modifier) {
             title = stringResource(R.string.gesture_thumb_up_title),
             what = stringResource(R.string.gesture_thumb_up),
             detail = stringResource(R.string.gesture_thumb_up_info),
-        ) { phase, accent, muted -> drawThumbUpHold(phase, accent, muted) }
+        ) { phase, colors -> drawThumbUpHold(phase, colors) }
 
         LegendEntry(
             title = stringResource(R.string.gesture_move_title),
             what = stringResource(R.string.gesture_move),
             detail = stringResource(R.string.gesture_move_info),
-        ) { phase, accent, muted -> drawVerticalMove(phase, accent, muted) }
+        ) { phase, colors -> drawVerticalMove(phase, colors) }
 
         LegendEntry(
             title = stringResource(R.string.gesture_sides_title),
             what = stringResource(R.string.gesture_sides),
             detail = stringResource(R.string.gesture_sides_info),
-        ) { phase, accent, muted -> drawHorizontalMove(phase, accent, muted) }
+        ) { phase, colors -> drawHorizontalMove(phase, colors) }
 
         LegendEntry(
             title = stringResource(R.string.gesture_fist_title),
             what = stringResource(R.string.gesture_fist),
             detail = stringResource(R.string.gesture_fist_info),
-        ) { phase, accent, muted -> drawFistHold(phase, accent, muted) }
+        ) { phase, colors -> drawFistHold(phase, colors) }
 
         LegendEntry(
             title = stringResource(R.string.gesture_leave_title),
             what = stringResource(R.string.gesture_leave),
             detail = stringResource(R.string.gesture_leave_info),
-        ) { phase, accent, muted -> drawLeaveApp(phase, accent, muted) }
+        ) { phase, colors -> drawLeaveApp(phase, colors) }
     }
 }
 
@@ -85,10 +85,16 @@ private fun LegendEntry(
     title: String,
     what: String,
     detail: String,
-    draw: DrawScope.(phase: Float, accent: Color, muted: Color) -> Unit,
+    draw: DrawScope.(phase: Float, colors: LegendColors) -> Unit,
 ) {
-    val accent = MaterialTheme.colorScheme.primary
-    val muted = MaterialTheme.colorScheme.outline.copy(alpha = 0.40f)
+    val colors = LegendColors(
+        accent = MaterialTheme.colorScheme.primary,
+        muted = MaterialTheme.colorScheme.outline.copy(alpha = 0.40f),
+        // Le tacche delle dita piegate si disegnano nel colore della scheda:
+        // sopra un pieno dello stesso colore, un solco e' l'unico modo per
+        // vederle.
+        surface = MaterialTheme.colorScheme.surfaceVariant,
+    )
 
     val transition = rememberInfiniteTransition(label = title)
     val phase by transition.animateFloat(
@@ -99,7 +105,7 @@ private fun LegendEntry(
     )
 
     Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-        Canvas(Modifier.size(TILE)) { draw(phase, accent, muted) }
+        Canvas(Modifier.size(TILE)) { draw(phase, colors) }
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(3.dp)) {
             Text(text = title, style = MaterialTheme.typography.titleSmall)
             Text(
@@ -119,14 +125,14 @@ private fun LegendEntry(
 // --- I cinque disegni -------------------------------------------------------
 
 /** Pollice in su, con l'arco che si riempie: il gesto va **tenuto**. */
-private fun DrawScope.drawThumbUpHold(phase: Float, accent: Color, muted: Color) {
+private fun DrawScope.drawThumbUpHold(phase: Float, colors: LegendColors) {
     val center = Offset(size.width / 2f, size.height / 2f)
     val radius = min(size.width, size.height) / 2f * 0.92f
     val hold = ((phase - 0.15f) / 0.55f).coerceIn(0f, 1f)
 
-    drawCircle(color = muted, radius = radius, center = center, style = Stroke(width = 4f))
+    drawCircle(color = colors.muted, radius = radius, center = center, style = Stroke(width = 4f))
     drawArc(
-        color = accent,
+        color = colors.accent,
         startAngle = -90f,
         sweepAngle = 360f * hold,
         useCenter = false,
@@ -134,17 +140,22 @@ private fun DrawScope.drawThumbUpHold(phase: Float, accent: Color, muted: Color)
         size = Size(radius * 2f, radius * 2f),
         style = Stroke(width = 6f),
     )
-    drawThumbUpGlyph(center, radius * 0.95f, if (hold >= 1f) accent else accent.copy(alpha = 0.75f))
+    drawThumbUpGlyph(
+        center = center,
+        palmWidth = radius * 0.95f,
+        color = if (hold >= 1f) colors.accent else colors.accent.copy(alpha = 0.75f),
+        gap = colors.surface,
+    )
 }
 
 /** Mano su e giu', con una scia: la pagina segue, non salta. */
-private fun DrawScope.drawVerticalMove(phase: Float, accent: Color, muted: Color) {
+private fun DrawScope.drawVerticalMove(phase: Float, colors: LegendColors) {
     val center = Offset(size.width / 2f, size.height / 2f)
     val travel = size.height * 0.22f
     val wave = sin(phase * 2f * PI).toFloat()
 
     drawRoundRect(
-        color = muted,
+        color = colors.muted,
         topLeft = Offset(center.x - size.width * 0.03f, size.height * 0.10f),
         size = Size(size.width * 0.06f, size.height * 0.80f),
         cornerRadius = CornerRadius(size.width * 0.03f),
@@ -152,12 +163,12 @@ private fun DrawScope.drawVerticalMove(phase: Float, accent: Color, muted: Color
     drawHandGlyph(
         center = Offset(center.x, center.y - wave * travel),
         palmWidth = size.width * 0.42f,
-        color = accent,
+        color = colors.accent,
     )
 }
 
 /** Mano a destra e sinistra, con le tacche del volume che si accendono. */
-private fun DrawScope.drawHorizontalMove(phase: Float, accent: Color, muted: Color) {
+private fun DrawScope.drawHorizontalMove(phase: Float, colors: LegendColors) {
     val center = Offset(size.width / 2f, size.height / 2f)
     val travel = size.width * 0.20f
     val wave = sin(phase * 2f * PI).toFloat()
@@ -168,7 +179,7 @@ private fun DrawScope.drawHorizontalMove(phase: Float, accent: Color, muted: Col
         val height = size.height * (0.10f + 0.045f * index)
         val on = wave > -1f + 2f * (index + 0.5f) / bars
         drawRoundRect(
-            color = if (on) accent.copy(alpha = 0.55f) else muted,
+            color = if (on) colors.accent.copy(alpha = 0.55f) else colors.muted,
             topLeft = Offset(
                 size.width * (0.10f + 0.18f * index),
                 size.height * 0.86f - height,
@@ -180,12 +191,12 @@ private fun DrawScope.drawHorizontalMove(phase: Float, accent: Color, muted: Col
     drawHandGlyph(
         center = Offset(center.x + wave * travel, center.y - size.height * 0.12f),
         palmWidth = size.width * 0.40f,
-        color = accent,
+        color = colors.accent,
     )
 }
 
 /** Pugno chiuso tenuto: l'arco impiega volutamente quasi tutto il ciclo. */
-private fun DrawScope.drawFistHold(phase: Float, accent: Color, muted: Color) {
+private fun DrawScope.drawFistHold(phase: Float, colors: LegendColors) {
     val center = Offset(size.width / 2f, size.height / 2f)
     val radius = min(size.width, size.height) / 2f * 0.92f
     // Prima la mano e' aperta, poi si chiude e l'arco comincia a riempirsi:
@@ -193,9 +204,9 @@ private fun DrawScope.drawFistHold(phase: Float, accent: Color, muted: Color) {
     val closing = ((phase - 0.10f) / 0.12f).coerceIn(0f, 1f)
     val hold = ((phase - 0.22f) / 0.62f).coerceIn(0f, 1f)
 
-    drawCircle(color = muted, radius = radius, center = center, style = Stroke(width = 4f))
+    drawCircle(color = colors.muted, radius = radius, center = center, style = Stroke(width = 4f))
     drawArc(
-        color = accent,
+        color = colors.accent,
         startAngle = -90f,
         sweepAngle = 360f * hold,
         useCenter = false,
@@ -204,19 +215,19 @@ private fun DrawScope.drawFistHold(phase: Float, accent: Color, muted: Color) {
         style = Stroke(width = 6f),
     )
     if (closing < 1f) {
-        drawHandGlyph(center, radius * 0.95f, accent.copy(alpha = 0.75f))
+        drawHandGlyph(center, radius * 0.95f, colors.accent.copy(alpha = 0.75f))
     } else {
-        drawFistGlyph(center, radius * 0.95f, accent)
+        drawFistGlyph(center, radius * 0.95f, colors.accent)
     }
 }
 
 /** Uscire dall'app: la mano si allontana e il riquadro si spegne. */
-private fun DrawScope.drawLeaveApp(phase: Float, accent: Color, muted: Color) {
+private fun DrawScope.drawLeaveApp(phase: Float, colors: LegendColors) {
     val center = Offset(size.width / 2f, size.height / 2f)
     val away = ((phase - 0.25f) / 0.5f).coerceIn(0f, 1f)
 
     drawRoundRect(
-        color = if (away > 0.6f) muted else accent.copy(alpha = 0.35f),
+        color = if (away > 0.6f) colors.muted else colors.accent.copy(alpha = 0.35f),
         topLeft = Offset(size.width * 0.22f, size.height * 0.12f),
         size = Size(size.width * 0.56f, size.height * 0.76f),
         cornerRadius = CornerRadius(size.width * 0.12f),
@@ -225,9 +236,12 @@ private fun DrawScope.drawLeaveApp(phase: Float, accent: Color, muted: Color) {
     drawHandGlyph(
         center = Offset(center.x + away * size.width * 0.62f, center.y),
         palmWidth = size.width * 0.36f,
-        color = accent.copy(alpha = 1f - away * 0.85f),
+        color = colors.accent.copy(alpha = 1f - away * 0.85f),
     )
 }
+
+/** I tre colori che servono ai disegni della legenda. */
+private data class LegendColors(val accent: Color, val muted: Color, val surface: Color)
 
 private val TILE = 64.dp
 private const val CYCLE_MILLIS = 3_400
