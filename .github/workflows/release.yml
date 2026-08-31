@@ -121,6 +121,11 @@ jobs:
           4. Accendi l'interruttore **dalla schermata dell'app**: Android concede la fotocamera in background solo se il servizio parte con l'app aperta.
           5. Su Xiaomi, Huawei, Samsung e simili: togli AirScroll dalle ottimizzazioni batteria, altrimenti il servizio viene chiuso dopo pochi minuti.
 
+          ## La calibrazione riparte da zero a ogni versione
+          Da voluto, non per un guasto: i numeri della calibrazione hanno cambiato significato piu' di una volta fra una versione e l'altra, e tenerne di vecchi dentro un motore nuovo fa sembrare rotta l'app per un motivo che nel codice non c'e'. Sono due minuti. L'app te lo dice quando succede, e l'interruttore per non farlo piu' e' in **Impostazioni -> Calibrazione**.
+
+          Le altre impostazioni si salvano: **Impostazioni -> Il tuo profilo -> Esporta**, prima di aggiornare.
+
           ## Da sapere
           - Requisito minimo: Android 8.0 (API 26).
           - Architettura, dettagli tecnici e la sezione **Limiti** stanno nel [README](https://github.com/toninlucas8-afk/Airscroll#readme).
