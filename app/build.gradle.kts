@@ -134,6 +134,7 @@ dependencies {
     implementation(project(":core:gesture"))
     implementation(project(":core:control"))
     implementation(project(":core:overlay"))
+    implementation(project(":core:power"))
     implementation(project(":core:designsystem"))
 
     // --- Profili applicazione ---------------------------------------------

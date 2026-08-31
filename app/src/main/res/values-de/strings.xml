@@ -249,4 +249,30 @@
     <string name="document_manual">Handbuch</string>
     <string name="document_privacy">Datenschutzhinweis</string>
     <string name="document_open_failed">Das Dokument konnte nicht geöffnet werden. Möglicherweise fehlt ein PDF-Reader.</string>
+    <string name="power_open">Verbrauch messen</string>
+    <string name="power_title">Verbrauchsmesser</string>
+    <string name="power_intro">Bisher war jede Aussage über den Akkuverbrauch in diesem Projekt eine Überlegung, nie eine Messung. Drei Phasen von je zwanzig Sekunden machen daraus eine Zahl.</string>
+    <string name="power_how_title">Wie die Messung funktioniert</string>
+    <string name="power_how_body">Der absolute Verbrauch würde kaum etwas sagen: allein der Bildschirm wiegt mehr als alles andere zusammen. Es zählt der Vergleich zwischen einem Telefon, das nichts tut, und demselben Telefon mit AirScroll, wenige Sekunden auseinander gemessen.
+
+Lass den Bildschirm an und die Helligkeit unverändert, und fass während der drei Phasen nichts an. Insgesamt etwa eine Minute.</string>
+    <string name="power_phase_baseline">1 von 3 — Vergleichswert</string>
+    <string name="power_phase_baseline_body">AirScroll tut nichts. Das ist der Maßstab: was dein Telefon kostet, nur weil es an ist.</string>
+    <string name="power_phase_waiting">2 von 3 — Kamera offen</string>
+    <string name="power_phase_waiting_body">Die Kamera ist mit der Wartefrequenz offen, ohne Erkennung. Das sind die Kosten des Sensors allein.</string>
+    <string name="power_phase_active">3 von 3 — Voller Betrieb</string>
+    <string name="power_phase_active_body">Kamera und Erkennung mit voller Rate, wie beim echten Steuern. Du kannst die Hand davorhalten: für die Messung ändert das nichts.</string>
+    <string name="power_live">%1$d mA jetzt</string>
+    <string name="power_result_title">Ergebnis</string>
+    <string name="power_row_baseline">Nur das Telefon</string>
+    <string name="power_row_waiting">Kamera offen</string>
+    <string name="power_row_active">Voller Betrieb</string>
+    <string name="power_cost">AirScroll kostet etwa %1$d mA im Wartezustand und %2$d mA im Betrieb, zusätzlich zum Telefon.</string>
+    <string name="power_hours">In diesem Tempo würde Dauerbetrieb einen vollen Akku in rund %1$.1f Stunden leeren. Eine Größenordnung, kein Versprechen.</string>
+    <string name="power_caveat">Der Stromsensor ist nicht auf jedem Telefon gleich genau, und der Bildschirm dominiert die Summe. Verlass dich auf die Differenz zwischen den Zeilen, nicht auf die absoluten Werte, und vergleiche Messungen auf demselben Telefon.</string>
+    <string name="power_implausible">Diese Zahlen ergeben keinen Sinn: das Telefon meldet den Strom vielleicht nicht zuverlässig, oder es lief noch etwas anderes. Versuch es noch einmal, ohne dass sonst etwas offen ist.</string>
+    <string name="power_unsupported">Dieses Telefon meldet den aufgenommenen Strom nicht, der Messer kann hier also nicht arbeiten. Das ist eine Grenze des Geräts, nicht der App.</string>
+    <string name="power_charging">Das Telefon lädt: der Strom fließt hinein statt hinaus, und die Messung wäre bedeutungslos. Zieh zuerst das Kabel.</string>
+    <string name="settings_skip_still">Gleiche Bilder überspringen</string>
+    <string name="settings_skip_still_hint">Im Wartezustand werden unveränderte Bilder gar nicht erst ausgewertet: die Szene ist eine Ablage oder eine Wand, und sie erneut anzusehen kostet nur Strom, um zu bestätigen, dass nichts passiert. Sobald eine Hand auftaucht, schaltet es sich selbst ab. Schalte es aus, um mit dem Verbrauchsmesser zu sehen, wie viel es wirklich bringt.</string>
 </resources>

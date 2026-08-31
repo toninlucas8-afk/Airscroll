@@ -70,6 +70,8 @@ class SettingsRepository(context: Context) {
 
     suspend fun setScrollMode(mode: ScrollMode) = edit { it[Keys.SCROLL_MODE] = mode.name }
 
+    suspend fun setSkipStillFrames(value: Boolean) = edit { it[Keys.SKIP_STILL_FRAMES] = value }
+
     suspend fun setIndicatorEnabled(value: Boolean) = edit { it[Keys.INDICATOR_ENABLED] = value }
 
     suspend fun setIndicatorCorner(corner: IndicatorCorner) =
@@ -135,6 +137,7 @@ class SettingsRepository(context: Context) {
             kitchenMode = this[Keys.KITCHEN_MODE] ?: defaults.kitchenMode,
             horizontalAction = enumOrDefault(this[Keys.HORIZONTAL_ACTION], defaults.horizontalAction),
             maxVolumeStepsPerSec = this[Keys.MAX_VOLUME_STEPS] ?: defaults.maxVolumeStepsPerSec,
+            skipStillFrames = this[Keys.SKIP_STILL_FRAMES] ?: defaults.skipStillFrames,
             indicatorEnabled = this[Keys.INDICATOR_ENABLED] ?: defaults.indicatorEnabled,
             indicatorCorner = enumOrDefault(this[Keys.INDICATOR_CORNER], defaults.indicatorCorner),
             hapticsEnabled = this[Keys.HAPTICS_ENABLED] ?: defaults.hapticsEnabled,
@@ -182,6 +185,7 @@ class SettingsRepository(context: Context) {
         val KITCHEN_MODE = booleanPreferencesKey("kitchen_mode")
         val HORIZONTAL_ACTION = stringPreferencesKey("horizontal_action")
         val MAX_VOLUME_STEPS = floatPreferencesKey("max_volume_steps")
+        val SKIP_STILL_FRAMES = booleanPreferencesKey("skip_still_frames")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
         val SCROLL_MODE = stringPreferencesKey("scroll_mode")
         val INDICATOR_CORNER = stringPreferencesKey("indicator_corner")

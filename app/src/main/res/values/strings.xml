@@ -300,4 +300,30 @@
     <string name="document_manual">User manual</string>
     <string name="document_privacy">Privacy notice</string>
     <string name="document_open_failed">The document could not be opened. There may be no PDF reader installed.</string>
+    <string name="power_open">Measure battery use</string>
+    <string name="power_title">Battery meter</string>
+    <string name="power_intro">Until now every statement about battery use in this project was reasoning, never measured. Three phases of twenty seconds each turn it into a number.</string>
+    <string name="power_how_title">How the measurement works</string>
+    <string name="power_how_body">Absolute consumption would say almost nothing: the screen alone weighs more than everything else together. What counts is the comparison between a phone doing nothing and the same phone running AirScroll, measured seconds apart.
+
+Keep the screen on and the brightness unchanged for all three phases, and do not touch anything. About a minute in total.</string>
+    <string name="power_phase_baseline">1 of 3 — Reference</string>
+    <string name="power_phase_baseline_body">AirScroll is doing nothing. This is the yardstick: it is what your phone costs just by being on.</string>
+    <string name="power_phase_waiting">2 of 3 — Camera open</string>
+    <string name="power_phase_waiting_body">The camera is open at the waiting rate, with no recognition. This is the cost of the sensor alone.</string>
+    <string name="power_phase_active">3 of 3 — Full working order</string>
+    <string name="power_phase_active_body">Camera and recognition at full rate, as when you are actually controlling something. Hold your hand in front of it if you like: it changes nothing for the measurement.</string>
+    <string name="power_live">%1$d mA now</string>
+    <string name="power_result_title">Result</string>
+    <string name="power_row_baseline">Phone alone</string>
+    <string name="power_row_waiting">Camera open</string>
+    <string name="power_row_active">Full working order</string>
+    <string name="power_cost">AirScroll costs about %1$d mA while waiting and %2$d mA while active, on top of the phone.</string>
+    <string name="power_hours">At this rate, continuous use would drain a full battery in roughly %1$.1f hours. It is an order of magnitude, not a promise.</string>
+    <string name="power_caveat">The current sensor is not equally accurate on every phone, and the screen dominates the total. Trust the difference between the rows, not the absolute values, and compare measurements taken on the same phone.</string>
+    <string name="power_implausible">These numbers do not add up: the phone may not report current reliably, or something else was running. Try again with nothing else open.</string>
+    <string name="power_unsupported">This phone does not report the current being drawn, so the meter cannot work here. It is a limit of the device, not of the app.</string>
+    <string name="power_charging">The phone is charging: current is flowing in, not out, and the measurement would be meaningless. Unplug it first.</string>
+    <string name="settings_skip_still">Skip identical frames</string>
+    <string name="settings_skip_still_hint">While waiting, frames that have not changed are not analysed at all: the scene is a shelf or a wall, and analysing it again only spends current to reconfirm that nothing is happening. It switches itself off the moment a hand appears. Turn it off to see, with the battery meter, how much it is actually worth.</string>
 </resources>

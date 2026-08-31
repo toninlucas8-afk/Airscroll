@@ -73,6 +73,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setKitchenMode(value: Boolean) = launchEdit { repository.setKitchenMode(value) }
     fun setHorizontalAction(action: HorizontalAction) = launchEdit { repository.setHorizontalAction(action) }
     fun setMaxVolumeSteps(value: Float) = launchEdit { repository.setMaxVolumeStepsPerSec(value) }
+    fun setSkipStillFrames(value: Boolean) = launchEdit { repository.setSkipStillFrames(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
     fun setScrollMode(mode: ScrollMode) = launchEdit { repository.setScrollMode(mode) }
 

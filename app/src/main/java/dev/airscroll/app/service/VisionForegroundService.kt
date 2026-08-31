@@ -180,6 +180,7 @@ class VisionForegroundService : LifecycleService() {
             AirScrollBus.publishStatus(status)
             overlay.render(status.state, status.handPresent)
             updateNotification(status)
+            updateStillnessSkip(status)
         }
 
         override fun onScroll(command: ScrollCommand) {
@@ -198,6 +199,25 @@ class VisionForegroundService : LifecycleService() {
             if (!settings.hapticsEnabled) return
             vibrate()
         }
+    }
+
+    /**
+     * Decide se si possono saltare i fotogrammi immobili.
+     *
+     * Solo in attesa, e solo finche' nessuna mano e' in vista. Nello stato
+     * giallo il telefono guarda una scena che nella stragrande maggioranza dei
+     * casi non cambia - un ripiano, un muro - e ogni fotogramma analizzato e'
+     * corrente spesa per riconfermare che non succede niente.
+     *
+     * Ma appena una mano compare, il salto va spento subito: **un gesto tenuto
+     * fermo e' a tutti gli effetti una scena ferma**, e saltarlo
+     * significherebbe non riconoscere proprio cio' che si sta aspettando.
+     */
+    private fun updateStillnessSkip(status: EngineStatus) {
+        val allowed = settings.skipStillFrames &&
+            status.state == EngineState.WAITING &&
+            !status.handPresent
+        cameraController.setSkipStillFrames(allowed)
     }
 
     private fun openCamera(targetFps: Int) {

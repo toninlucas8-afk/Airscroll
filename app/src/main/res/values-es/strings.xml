@@ -249,4 +249,30 @@
     <string name="document_manual">Manual de uso</string>
     <string name="document_privacy">Política de privacidad</string>
     <string name="document_open_failed">No se ha podido abrir el documento. Puede que falte un lector de PDF.</string>
+    <string name="power_open">Medir el consumo</string>
+    <string name="power_title">Medidor de consumo</string>
+    <string name="power_intro">Hasta ahora toda afirmación sobre la batería en este proyecto era un razonamiento, nunca medido. Tres fases de veinte segundos lo convierten en un número.</string>
+    <string name="power_how_title">Cómo funciona la medición</string>
+    <string name="power_how_body">El consumo absoluto diría poco: la pantalla sola pesa más que todo lo demás junto. Lo que cuenta es la comparación entre un teléfono que no hace nada y el mismo teléfono usando AirScroll, medidos con segundos de diferencia.
+
+Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y no toques nada. Un minuto en total.</string>
+    <string name="power_phase_baseline">1 de 3 — Referencia</string>
+    <string name="power_phase_baseline_body">AirScroll no está haciendo nada. Es la vara de medir: lo que cuesta tu teléfono solo por estar encendido.</string>
+    <string name="power_phase_waiting">2 de 3 — Cámara abierta</string>
+    <string name="power_phase_waiting_body">La cámara está abierta al ritmo de espera, sin reconocimiento. Es el coste del sensor solo.</string>
+    <string name="power_phase_active">3 de 3 — A pleno rendimiento</string>
+    <string name="power_phase_active_body">Cámara y reconocimiento a pleno rendimiento, como cuando estás controlando de verdad. Puedes poner la mano delante: para la medición no cambia nada.</string>
+    <string name="power_live">%1$d mA ahora</string>
+    <string name="power_result_title">Resultado</string>
+    <string name="power_row_baseline">Solo el teléfono</string>
+    <string name="power_row_waiting">Cámara abierta</string>
+    <string name="power_row_active">A pleno rendimiento</string>
+    <string name="power_cost">AirScroll cuesta unos %1$d mA en espera y %2$d mA activo, además del teléfono.</string>
+    <string name="power_hours">A este ritmo, el uso continuo agotaría una batería llena en unas %1$.1f horas. Es un orden de magnitud, no una promesa.</string>
+    <string name="power_caveat">El sensor de corriente no es igual de preciso en todos los teléfonos, y la pantalla domina el total. Fíate de la diferencia entre las filas, no de los valores absolutos, y compara medidas hechas en el mismo teléfono.</string>
+    <string name="power_implausible">Estos números no cuadran: puede que el teléfono no informe bien de la corriente, o que hubiera algo más en marcha. Inténtalo de nuevo sin nada más abierto.</string>
+    <string name="power_unsupported">Este teléfono no informa de la corriente consumida, así que el medidor no puede funcionar. Es un límite del dispositivo, no de la app.</string>
+    <string name="power_charging">El teléfono está cargando: la corriente entra en vez de salir y la medida no diría nada. Desenchúfalo primero.</string>
+    <string name="settings_skip_still">Saltar los fotogramas idénticos</string>
+    <string name="settings_skip_still_hint">En espera, los fotogramas que no han cambiado no se analizan: la escena es una encimera o una pared, y volver a mirarla solo gasta corriente para reconfirmar que no pasa nada. Se apaga solo en cuanto aparece una mano. Desactívalo para ver, con el medidor de consumo, cuánto vale de verdad.</string>
 </resources>

@@ -21,6 +21,7 @@ import dev.airscroll.app.ui.home.HomeScreen
 import dev.airscroll.app.ui.lab.LabScreen
 import dev.airscroll.app.ui.onboarding.GuidedSetupScreen
 import dev.airscroll.app.ui.practice.PracticeScreen
+import dev.airscroll.app.ui.power.PowerScreen
 import dev.airscroll.app.ui.settings.SettingsScreen
 
 object Routes {
@@ -30,6 +31,7 @@ object Routes {
     const val SETTINGS = "settings"
     const val PRACTICE = "practice"
     const val LAB = "lab"
+    const val POWER = "power"
 }
 
 @Composable
@@ -95,6 +97,7 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
                     onOpenPractice = { navController.navigate(Routes.PRACTICE) },
                     onOpenSetup = { navController.navigate(Routes.ONBOARDING) },
                     onOpenLab = { navController.navigate(Routes.LAB) },
+                    onOpenPower = { navController.navigate(Routes.POWER) },
                 )
             }
             composable(Routes.PRACTICE) {
@@ -102,6 +105,9 @@ fun AirScrollApp(viewModel: MainViewModel = viewModel()) {
             }
             composable(Routes.LAB) {
                 LabScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Routes.POWER) {
+                PowerScreen(onBack = { navController.popBackStack() })
             }
         }
     }

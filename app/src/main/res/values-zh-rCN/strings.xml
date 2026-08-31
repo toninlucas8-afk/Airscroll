@@ -249,4 +249,30 @@
     <string name="document_manual">使用手册</string>
     <string name="document_privacy">隐私说明</string>
     <string name="document_open_failed">无法打开文档。可能没有安装 PDF 阅读器。</string>
+    <string name="power_open">测量耗电</string>
+    <string name="power_title">耗电测量</string>
+    <string name="power_intro">在此之前，这个项目里关于电池的每一句话都是推理，从未测量过。三个各二十秒的阶段，把它变成一个数字。</string>
+    <string name="power_how_title">测量是怎么做的</string>
+    <string name="power_how_body">绝对耗电几乎说明不了什么：光是屏幕就比其他所有加起来还重。真正有意义的是对比——什么都不做的手机，和同一部手机运行 AirScroll，相隔几秒测得。
+
+三个阶段里保持屏幕常亮、亮度不变，并且不要碰任何东西。总共约一分钟。</string>
+    <string name="power_phase_baseline">3 之 1 — 基准</string>
+    <string name="power_phase_baseline_body">AirScroll 什么都没做。这是标尺：你的手机仅仅开着就要花多少。</string>
+    <string name="power_phase_waiting">3 之 2 — 相机开启</string>
+    <string name="power_phase_waiting_body">相机以等待状态的帧率开启，不做识别。这是传感器本身的成本。</string>
+    <string name="power_phase_active">3 之 3 — 全速运行</string>
+    <string name="power_phase_active_body">相机和识别全速运行，就像你真正在操作时一样。你也可以把手放在前面：对测量没有影响。</string>
+    <string name="power_live">当前 %1$d mA</string>
+    <string name="power_result_title">结果</string>
+    <string name="power_row_baseline">仅手机</string>
+    <string name="power_row_waiting">相机开启</string>
+    <string name="power_row_active">全速运行</string>
+    <string name="power_cost">除手机本身外，AirScroll 在等待时约需 %1$d mA，运行时约需 %2$d mA。</string>
+    <string name="power_hours">按这个速度，持续使用会在大约 %1$.1f 小时内耗尽一块满电电池。这是数量级，不是承诺。</string>
+    <string name="power_caveat">电流传感器在不同手机上的精度并不一致，而屏幕主导了总量。请相信各行之间的差值，而不是绝对值，并且只比较同一部手机上的测量结果。</string>
+    <string name="power_implausible">这些数字对不上：手机可能无法可靠地报告电流，或者当时还有别的东西在运行。请关掉其他应用后重试。</string>
+    <string name="power_unsupported">这部手机不报告电流，因此测量功能无法工作。这是设备的限制，不是应用的限制。</string>
+    <string name="power_charging">手机正在充电：电流是流入而不是流出，测量结果没有意义。请先拔掉充电线。</string>
+    <string name="settings_skip_still">跳过完全相同的帧</string>
+    <string name="settings_skip_still_hint">在等待状态下，没有变化的帧根本不会被分析：画面只是台面或墙壁，再看一次只是花电量去确认什么都没发生。一旦有手出现，它会自动关闭。把它关掉，就能用耗电测量看出它到底值多少。</string>
 </resources>

@@ -62,6 +62,7 @@ fun SettingsScreen(
     onOpenPractice: () -> Unit,
     onOpenSetup: () -> Unit,
     onOpenLab: () -> Unit,
+    onOpenPower: () -> Unit,
 ) {
     val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
@@ -162,6 +163,12 @@ fun SettingsScreen(
         }
 
         SectionCard(title = stringResource(R.string.settings_performance)) {
+            SwitchRow(
+                title = stringResource(R.string.settings_skip_still),
+                subtitle = stringResource(R.string.settings_skip_still_hint),
+                checked = settings.skipStillFrames,
+                onCheckedChange = viewModel::setSkipStillFrames,
+            )
             ChoiceChips(
                 options = PerformanceMode.entries.toList(),
                 selected = settings.performanceMode,
@@ -318,6 +325,9 @@ fun SettingsScreen(
             }
             OutlinedButton(onClick = onOpenLab, modifier = Modifier.fillMaxWidth()) {
                 Text(stringResource(R.string.lab_open))
+            }
+            OutlinedButton(onClick = onOpenPower, modifier = Modifier.fillMaxWidth()) {
+                Text(stringResource(R.string.power_open))
             }
             Text(
                 text = stringResource(R.string.lab_settings_hint),

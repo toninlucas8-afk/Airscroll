@@ -109,6 +109,16 @@ data class AirScrollSettings(
     /** Gradini di volume al secondo alla massima escursione laterale. */
     val maxVolumeStepsPerSec: Float = 6f,
 
+    /**
+     * Salta l'analisi dei fotogrammi identici al precedente.
+     *
+     * Acceso di partenza: nello stato di attesa la scena non cambia quasi mai,
+     * e ogni fotogramma analizzato e' corrente spesa per riconfermare che non
+     * succede niente. Resta spegnibile perche' il misuratore di consumo possa
+     * mostrare quanto vale davvero, invece di doverci credere.
+     */
+    val skipStillFrames: Boolean = true,
+
     val indicatorEnabled: Boolean = true,
     val indicatorCorner: IndicatorCorner = IndicatorCorner.TOP_CENTER,
     val hapticsEnabled: Boolean = true,
