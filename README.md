@@ -342,6 +342,20 @@ sensibilità e zona neutra dalle impostazioni la prima volta.
 
 ## Privacy
 
+**L'app non può raggiungere la rete, e non è una promessa.**
+
+Fino alla 0.5.0 il codice non apriva nessuna connessione, ma l'APK dichiarava
+comunque il permesso `INTERNET`: lo portava dentro la fusione dei manifest, a
+partire da una libreria, senza che noi lo avessimo mai chiesto. Un permesso è
+una possibilità, e dall'esterno nessuno può distinguere «non lo usa» da «non
+l'ho ancora visto usarlo».
+
+Ora è rimosso esplicitamente. Senza quel permesso Android **impedisce** di
+aprire un socket, e chiunque può verificarlo in dieci secondi guardando i
+permessi dell'app. `tools/check_no_network.py` gira a ogni build e fallisce se
+un aggiornamento di libreria dovesse reintrodurlo.
+
+
 - I fotogrammi restano in memoria per il tempo di un'inferenza e non vengono mai
   scritti su disco né inviati da nessuna parte.
 - L'app non dichiara il permesso `INTERNET`.

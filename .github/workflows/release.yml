@@ -68,6 +68,12 @@ jobs:
         run: ./gradlew --no-daemon :app:assembleRelease -PairscrollVersionName="${TAG#v}"
 
 
+      # "Tutto gira offline" deve essere una proprieta' del pacchetto, non una
+      # promessa. Senza il permesso INTERNET, Android impedisce di aprire un
+      # socket: qui si controlla che nessuna libreria lo abbia reintrodotto.
+      - name: Verify the app cannot reach the network
+        run: python3 tools/check_no_network.py
+
       - name: Verify the model is packaged
         run: |
           set -euo pipefail

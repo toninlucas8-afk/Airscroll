@@ -2,6 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- ================================================================
+         AirScroll non deve poter raggiungere la rete. Punto.
+
+         Non basta non scrivere codice di rete: alcune librerie dichiarano il
+         permesso INTERNET nel proprio manifest, e la fusione dei manifest lo
+         porta dentro l'APK anche se noi non l'abbiamo mai chiesto. E' quello
+         che stava succedendo fino alla 0.5.0: il codice non apriva una
+         connessione, ma l'app *poteva* farlo.
+
+         Un permesso e' una possibilita', e "non lo usiamo" e' una promessa.
+         Toglierlo lo rende una proprieta' verificabile: senza INTERNET,
+         Android non permette di aprire un socket, e chiunque puo' controllarlo
+         guardando i permessi dell'app.
+
+         `tools:node="remove"` lo elimina dal manifest fuso, qualunque libreria
+         lo abbia chiesto. `tools/verify_apk.py` fallisce se un giorno
+         ricomparisse.
+         ================================================================ -->
+    <uses-permission android:name="android.permission.INTERNET" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
+
     <!-- Vede la mano. Le immagini restano nel processo e non vengono mai salvate. -->
     <uses-permission android:name="android.permission.CAMERA" />
 
