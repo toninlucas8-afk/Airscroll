@@ -69,6 +69,26 @@ class HealthTest {
     }
 
     @Test
+    fun `dopo un riavvio non si da' la colpa al telefono`() {
+        // Le condizioni sono identiche a una chiusura di sistema - interruttore
+        // acceso, servizio assente - ma la causa e' un'altra. Dire "il telefono
+        // ha chiuso AirScroll per risparmiare batteria" manderebbe a cercare il
+        // guasto dove non c'e', e a cambiare un'impostazione che non c'entra.
+        val dopoIlRiavvio = sano().copy(serviceRunning = false, rebooted = true)
+        assertEquals(Problem.AFTER_REBOOT, diagnose(dopoIlRiavvio))
+
+        val uccisoDavvero = dopoIlRiavvio.copy(rebooted = false)
+        assertEquals(Problem.SERVICE_KILLED, diagnose(uccisoDavvero))
+    }
+
+    @Test
+    fun `il riavvio non conta se il servizio e' ripartito`() {
+        // Il segno resta finche' qualcuno non riaccende: se il servizio c'e',
+        // non c'e' niente da dire.
+        assertNull(diagnose(sano().copy(rebooted = true)))
+    }
+
+    @Test
     fun `l'accessibilita' spenta blocca tutto`() {
         assertEquals(Problem.ACCESSIBILITY_OFF, diagnose(sano().copy(accessibilityConnected = false)))
     }
@@ -143,6 +163,7 @@ class HealthTest {
         // Se qualcuno riordina l'enum senza pensarci, questo test glielo dice:
         // la priorita' della diagnosi si legge da li'.
         val attesi = listOf(
+            Problem.AFTER_REBOOT,
             Problem.SERVICE_KILLED,
             Problem.ACCESSIBILITY_OFF,
             Problem.CAMERA_PERMISSION,

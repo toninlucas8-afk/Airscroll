@@ -340,6 +340,8 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <!-- Guasti: cosa e' successo, e dove si risolve. -->
     <string name="problem_channel_name">AirScroll problems</string>
     <string name="problem_channel_description">Warns you when AirScroll stops working, and says how to fix it.</string>
+    <string name="problem_reboot_title">AirScroll is off after the restart</string>
+    <string name="problem_reboot_body">The phone was restarted and AirScroll did not come back on its own — on purpose: an app that restarts itself and opens the camera is exactly what nobody wants. Open the app and switch it back on.</string>
     <string name="problem_service_killed_title">AirScroll was shut down</string>
     <string name="problem_service_killed_body">Your phone closed the service to save battery, so your hand no longer controls anything. Turn it back on from the app. To stop it happening again, remove AirScroll from battery optimisation.</string>
     <string name="problem_accessibility_title">The accessibility service is off</string>
@@ -376,6 +378,9 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="calibration_gesture_fist">Now a closed fist, and hold it</string>
     <string name="calibration_gesture_done">Both recognised</string>
     <string name="calibration_gesture_stuck">This gesture is not being recognised. It may be the light, the angle, or this particular hand. You can move on: the report will say it was not recognised, instead of pretending otherwise.</string>
+    <string name="calibration_grade_good">good</string>
+    <string name="calibration_grade_fair">fair</string>
+    <string name="calibration_grade_poor">weak</string>
     <string name="calibration_report_good">Solid calibration</string>
     <string name="calibration_report_fair">Usable calibration, with a weak spot</string>
     <string name="calibration_report_poor">One part is too weak to keep</string>
@@ -407,4 +412,32 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="voice_group_player">Whatever is playing</string>
     <string name="voice_group_volume">Volume</string>
     <string name="voice_group_airscroll">AirScroll itself</string>
+
+    <!-- Cosa la voce ha capito: senza questi messaggi, parlare e non
+         veder succedere niente non dice quale delle tre cose e' andata storta. -->
+    <string name="voice_listening">Listening…</string>
+    <string name="voice_heard_open">Opening %1$s</string>
+    <string name="voice_heard_favourites">Playing your saved tracks</string>
+    <string name="voice_heard_genre">%1$s music</string>
+    <string name="voice_heard_play">Resuming</string>
+    <string name="voice_heard_pause">Paused</string>
+    <string name="voice_heard_next">Next track</string>
+    <string name="voice_heard_previous">Previous track</string>
+    <string name="voice_heard_volume_up">Volume up</string>
+    <string name="voice_heard_volume_down">Volume down</string>
+    <string name="voice_heard_stop">Turning AirScroll off</string>
+    <string name="voice_not_understood">Not a command: “%1$s”</string>
+    <string name="voice_heard_nothing">I heard nothing</string>
+    <string name="voice_app_missing">%1$s is not installed</string>
+    <string name="voice_command_failed">The phone refused that command</string>
+
+    <!-- Il profilo che entra ed esce dal telefono. -->
+    <string name="settings_profile">Your profile</string>
+    <string name="settings_profile_hint">Calibration and settings in one readable text file. Export it before changing phone — or before an update that forces you to reinstall.</string>
+    <string name="profile_export">Export</string>
+    <string name="profile_import">Import</string>
+    <string name="profile_file_subject">AirScroll profile</string>
+    <string name="profile_import_done">Profile imported</string>
+    <string name="profile_import_failed">That file is not an AirScroll profile: nothing was changed</string>
+    <string name="profile_export_failed">Could not write the profile</string>
 </resources>

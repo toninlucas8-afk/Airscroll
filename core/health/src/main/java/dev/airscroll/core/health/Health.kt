@@ -46,6 +46,20 @@ enum class Severity {
 enum class Problem(val severity: Severity) {
 
     /**
+     * Il telefono e' stato riavviato e AirScroll non e' ripartito.
+     *
+     * Sta **prima** della chiusura di sistema per un motivo di onesta': dopo un
+     * riavvio le condizioni sono identiche - interruttore acceso, servizio
+     * assente - ma la causa e' un'altra, e dare la colpa alle ottimizzazioni
+     * della batteria manderebbe a cercare il guasto dove non c'e'.
+     *
+     * AirScroll non riparte da solo di proposito: un'app che si riavvia da sola
+     * e apre la fotocamera e' esattamente cio' che nessuno vuole. Ma restare in
+     * silenzio non era una scelta, era una dimenticanza.
+     */
+    AFTER_REBOOT(Severity.BLOCKING),
+
+    /**
      * L'interruttore e' acceso ma il servizio non c'e' piu'.
      *
      * Quasi sempre e' il costruttore del telefono: Xiaomi, Huawei, Samsung e
@@ -128,6 +142,8 @@ data class HealthSnapshot(
     val batteryUnrestricted: Boolean = true,
     /** Quante volte il sistema ha gia' chiuso il servizio da solo. */
     val systemKills: Int = 0,
+    /** Il telefono e' stato riavviato e AirScroll non e' stato riacceso. */
+    val rebooted: Boolean = false,
     /** Quando la fotocamera ha dato errore l'ultima volta, o 0. */
     val lastCameraErrorAtMs: Long = 0L,
     /** Adesso. */
@@ -144,7 +160,9 @@ fun diagnose(snapshot: HealthSnapshot): Problem? {
     // Interruttore spento: non c'e' niente di rotto, c'e' una scelta.
     if (!snapshot.serviceEnabled) return null
 
-    if (!snapshot.serviceRunning && !snapshot.serviceStarting) return Problem.SERVICE_KILLED
+    if (!snapshot.serviceRunning && !snapshot.serviceStarting) {
+        return if (snapshot.rebooted) Problem.AFTER_REBOOT else Problem.SERVICE_KILLED
+    }
     if (!snapshot.accessibilityConnected) return Problem.ACCESSIBILITY_OFF
     if (!snapshot.cameraPermission) return Problem.CAMERA_PERMISSION
     if (!snapshot.visionReady) return Problem.VISION_BROKEN

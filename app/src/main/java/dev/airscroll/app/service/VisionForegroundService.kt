@@ -29,6 +29,7 @@ import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.app.health.HealthProbe
 import dev.airscroll.app.health.ProblemNotifier
 import dev.airscroll.app.voice.VoiceExecutor
+import dev.airscroll.app.voice.VoiceFeedback
 import dev.airscroll.app.voice.VoiceListener
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.common.model.EngineState
@@ -87,6 +88,7 @@ class VisionForegroundService : LifecycleService() {
     private lateinit var problems: ProblemNotifier
     private lateinit var voiceListener: VoiceListener
     private lateinit var voiceExecutor: VoiceExecutor
+    private lateinit var voiceFeedback: VoiceFeedback
     private val voiceGate = VoiceGate()
 
     /**
@@ -115,6 +117,7 @@ class VisionForegroundService : LifecycleService() {
         problems = ProblemNotifier(this)
         voiceListener = VoiceListener(this)
         voiceExecutor = VoiceExecutor(this)
+        voiceFeedback = VoiceFeedback(this)
         cameraController = CameraController(this)
         overlay = StatusOverlayController(this)
         tracker = MediaPipeHandTracker(
@@ -124,6 +127,12 @@ class VisionForegroundService : LifecycleService() {
         engine = GestureEngine(EngineListener())
 
         startForegroundSafely(EngineStatus())
+        // Il servizio e' vivo: il riavvio non e' piu' una spiegazione di
+        // niente, e il segno va tolto subito - altrimenti resterebbe a
+        // raccontare una causa vecchia al prossimo guasto vero.
+        lifecycleScope.launch {
+            ServiceLocator.settings(this@VisionForegroundService).setRebooted(false)
+        }
         observeSettings()
         observeForegroundApp()
         observeFrames()
@@ -487,19 +496,32 @@ class VisionForegroundService : LifecycleService() {
      */
     private fun openMicrophone() {
         vibrate()
+        voiceFeedback.listening()
         voiceListener.listenOnce { heard ->
             voiceGate.close(System.currentTimeMillis())
             val command = heard?.let(VoiceParser::parse)
             when {
-                command == null -> Unit
+                // Mostrare cio' che si e' sentito e' il pezzo che vale di piu':
+                // spiega in un colpo solo perche' non ha funzionato, e dice
+                // quale parola manca al vocabolario.
+                command == null -> voiceFeedback.notUnderstood(heard)
+
                 command is VoiceCommand.Stop -> {
+                    voiceFeedback.understood(command)
                     lifecycleScope.launch {
                         ServiceLocator.settings(this@VisionForegroundService)
                             .setServiceEnabled(false)
                     }
                 }
 
-                else -> if (voiceExecutor.execute(command)) vibrate()
+                else -> if (voiceExecutor.execute(command)) {
+                    vibrate()
+                    voiceFeedback.understood(command)
+                } else {
+                    // Capito ma non eseguito: quasi sempre l'app non c'e'.
+                    // Dirlo evita di dare la colpa al riconoscimento.
+                    voiceFeedback.failed(command)
+                }
             }
         }
     }

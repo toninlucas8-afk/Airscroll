@@ -123,10 +123,26 @@ jobs:
 
           ## Da sapere
           - Requisito minimo: Android 8.0 (API 26).
-          - Se non sono configurati i secret di firma, l'APK e' firmato con la chiave di debug: si installa lo stesso, ma per passare a una versione firmata diversamente va disinstallata la precedente.
           - Architettura, dettagli tecnici e la sezione **Limiti** stanno nel [README](https://github.com/toninlucas8-afk/Airscroll#readme).
           NOTES
           sed -i "s/AirScroll-VERSION.apk/AirScroll-${TAG}.apk/g" notes.md
+
+          # Senza chiave di firma stabile ogni build viene firmata con una chiave
+          # diversa, e Android rifiuta di installarla sopra la precedente: si
+          # deve disinstallare, e **la calibrazione e le impostazioni vanno
+          # perse**. Non e' una nota a pie' di pagina: e' la prima cosa da
+          # sapere prima di scaricare.
+          if [ "${HAS_KEYSTORE}" != "true" ]; then
+            {
+              echo "> ⚠️ **Questa versione non e' firmata con una chiave stabile.**"
+              echo "> Per installarla dovrai **disinstallare la versione precedente**, e"
+              echo "> con essa perderai calibrazione e impostazioni. Si risolve una volta"
+              echo "> sola: vedi [docs/firma.md](https://github.com/toninlucas8-afk/Airscroll/blob/main/docs/firma.md)."
+              echo
+              cat notes.md
+            } > notes-con-avviso.md
+            mv notes-con-avviso.md notes.md
+          fi
           gh release create "${TAG}" \
             --target "${GITHUB_SHA}" \
             --title "AirScroll ${TAG}" \

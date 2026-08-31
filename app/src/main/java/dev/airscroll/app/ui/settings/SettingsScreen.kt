@@ -1,6 +1,8 @@
 package dev.airscroll.app.ui.settings
 
 import android.Manifest
+import android.content.Intent
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.border
@@ -52,6 +54,7 @@ import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.app.util.AppLanguage
 import dev.airscroll.app.util.BundledDocument
 import dev.airscroll.app.util.BundledDocuments
+import dev.airscroll.app.util.ProfileFiles
 import dev.airscroll.app.voice.VoiceListener
 import dev.airscroll.apps.api.AppProfileRegistry
 import dev.airscroll.core.common.model.DistanceProfile
@@ -78,6 +81,18 @@ fun SettingsScreen(
     // schermata e' aperta, e interrogare il sistema a ogni ricomposizione
     // sarebbe lavoro sprecato.
     val voiceAvailable = remember { VoiceListener(context).isAvailable() }
+    val profileImporter = rememberLauncherForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri ->
+        if (uri == null) return@rememberLauncherForActivityResult
+        viewModel.importProfile(uri) { riuscito ->
+            Toast.makeText(
+                context,
+                if (riuscito) R.string.profile_import_done else R.string.profile_import_failed,
+                Toast.LENGTH_LONG,
+            ).show()
+        }
+    }
     val microphoneLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted -> viewModel.setVoiceEnabled(granted) }
@@ -238,6 +253,39 @@ fun SettingsScreen(
                 checked = settings.hapticsEnabled,
                 onCheckedChange = viewModel::setHapticsEnabled,
             )
+        }
+
+        SectionCard(title = stringResource(R.string.settings_profile)) {
+            Text(
+                text = stringResource(R.string.settings_profile_hint),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+                Button(
+                    onClick = {
+                        val intent = ProfileFiles.shareIntent(context, settings)
+                        if (intent == null) {
+                            Toast.makeText(context, R.string.profile_export_failed, Toast.LENGTH_LONG).show()
+                        } else {
+                            context.startActivity(
+                                Intent.createChooser(intent, context.getString(R.string.profile_export))
+                            )
+                        }
+                    },
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(stringResource(R.string.profile_export))
+                }
+                OutlinedButton(
+                    // Solo testo: il selettore di sistema non deve proporre
+                    // foto e video per un file che e' fatto di righe.
+                    onClick = { profileImporter.launch(arrayOf(ProfileFiles.MIME)) },
+                    modifier = Modifier.weight(1f),
+                ) {
+                    Text(stringResource(R.string.profile_import))
+                }
+            }
         }
 
         SectionCard(title = stringResource(R.string.settings_voice)) {

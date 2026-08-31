@@ -68,6 +68,7 @@ class HealthProbe(context: Context) {
             canDrawOverlay = permissions.overlay,
             batteryUnrestricted = permissions.batteryUnrestricted,
             systemKills = settings.systemKills,
+            rebooted = settings.rebooted,
             lastCameraErrorAtMs = lastCameraErrorAtMs,
             nowMs = nowMs,
         )

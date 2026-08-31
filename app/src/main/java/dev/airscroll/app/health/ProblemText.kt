@@ -20,6 +20,7 @@ import dev.airscroll.core.health.Problem
 
 @StringRes
 fun problemTitle(problem: Problem): Int = when (problem) {
+    Problem.AFTER_REBOOT -> R.string.problem_reboot_title
     Problem.SERVICE_KILLED -> R.string.problem_service_killed_title
     Problem.ACCESSIBILITY_OFF -> R.string.problem_accessibility_title
     Problem.CAMERA_PERMISSION -> R.string.problem_camera_permission_title
@@ -31,6 +32,7 @@ fun problemTitle(problem: Problem): Int = when (problem) {
 
 @StringRes
 fun problemBody(problem: Problem): Int = when (problem) {
+    Problem.AFTER_REBOOT -> R.string.problem_reboot_body
     Problem.SERVICE_KILLED -> R.string.problem_service_killed_body
     Problem.ACCESSIBILITY_OFF -> R.string.problem_accessibility_body
     Problem.CAMERA_PERMISSION -> R.string.problem_camera_permission_body
@@ -81,6 +83,13 @@ fun remedy(context: Context, problem: Problem): Remedy? = when (problem) {
     Problem.OVERLAY_MISSING -> Remedy(
         R.string.problem_action_overlay,
         AirScrollPermissions.overlaySettingsIntent(context),
+    )
+
+    // Riaccendere si puo' solo dall'app: Android concede la fotocamera in
+    // background solo a un servizio avviato mentre l'app e' in primo piano.
+    Problem.AFTER_REBOOT -> Remedy(
+        R.string.problem_action_open_app,
+        Intent(context, MainActivity::class.java),
     )
 
     Problem.VISION_BROKEN -> Remedy(

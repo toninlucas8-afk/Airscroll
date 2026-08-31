@@ -164,6 +164,15 @@ data class AirScrollSettings(
      */
     val systemKills: Int = 0,
 
+    /**
+     * Il telefono e' stato riavviato mentre AirScroll era acceso.
+     *
+     * Resta vero finche' qualcuno non riaccende il servizio. Serve solo a dire
+     * la verita' sulla causa: senza, dopo ogni riavvio l'app accuserebbe le
+     * ottimizzazioni della batteria di una cosa che non hanno fatto.
+     */
+    val rebooted: Boolean = false,
+
     val calibration: CalibrationProfile = CalibrationProfile.Default,
 ) {
     companion object {

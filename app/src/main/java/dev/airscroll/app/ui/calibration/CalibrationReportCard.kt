@@ -17,6 +17,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.airscroll.app.R
@@ -61,8 +62,17 @@ fun CalibrationReportCard(report: CalibrationReport, modifier: Modifier = Modifi
 
 @Composable
 private fun ScoreRow(score: AspectScore) {
+    // Il voto non puo' stare solo nel colore: chi non distingue il verde dal
+    // rosso - o chi usa un lettore di schermo - resterebbe senza il giudizio,
+    // che e' l'unica cosa che questa riga serve a dare. La parola va accanto al
+    // pallino, non al posto suo: il colore resta il modo piu' rapido di leggere
+    // la pagella a colpo d'occhio.
+    val voto = stringResource(gradeLabel(score.grade))
+
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {},
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Spacer(
@@ -76,6 +86,12 @@ private fun ScoreRow(score: AspectScore) {
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.weight(1f),
         )
+        Text(
+            text = voto,
+            style = MaterialTheme.typography.labelMedium,
+            color = colorFor(score.grade),
+        )
+        Spacer(Modifier.width(10.dp))
         Text(
             text = measuredText(score),
             style = MaterialTheme.typography.bodyMedium,
@@ -112,6 +128,14 @@ private fun colorFor(grade: Grade): Color = when (grade) {
     Grade.GOOD -> MaterialTheme.colorScheme.primary
     Grade.FAIR -> MaterialTheme.colorScheme.tertiary
     Grade.POOR -> MaterialTheme.colorScheme.error
+}
+
+/** Il voto in una parola: la stessa informazione del colore, ma leggibile. */
+@StringRes
+private fun gradeLabel(grade: Grade): Int = when (grade) {
+    Grade.GOOD -> R.string.calibration_grade_good
+    Grade.FAIR -> R.string.calibration_grade_fair
+    Grade.POOR -> R.string.calibration_grade_poor
 }
 
 @StringRes

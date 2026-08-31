@@ -8,6 +8,8 @@ import dev.airscroll.app.health.HealthProbe
 import dev.airscroll.app.service.VisionForegroundService
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.app.util.PermissionSnapshot
+import dev.airscroll.app.util.ProfileFiles
+import android.net.Uri
 import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.EngineStatus
 import dev.airscroll.core.common.model.HorizontalAction
@@ -119,6 +121,21 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setPowerSaving(value: Boolean) = launchEdit { repository.setPowerSaving(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
     fun setVoiceEnabled(value: Boolean) = launchEdit { repository.setVoiceEnabled(value) }
+
+    /**
+     * Legge un profilo scelto dall'utente e lo applica.
+     *
+     * [onResult] riceve true solo se il file era davvero un profilo: chi ha
+     * appena scelto un file deve sapere se e' successo qualcosa, e un
+     * silenzio dopo un import fallito e' indistinguibile da un successo.
+     */
+    fun importProfile(uri: Uri, onResult: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val letto = ProfileFiles.read(getApplication(), uri, settings.value)
+            if (letto != null) repository.applyProfile(letto)
+            onResult(letto != null)
+        }
+    }
     fun setScrollMode(mode: ScrollMode) = launchEdit { repository.setScrollMode(mode) }
 
     fun setIndicatorCorner(corner: IndicatorCorner) = launchEdit { repository.setIndicatorCorner(corner) }

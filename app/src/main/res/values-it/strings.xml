@@ -320,6 +320,8 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <!-- Guasti: cosa e' successo, e dove si risolve. -->
     <string name="problem_channel_name">Problemi di AirScroll</string>
     <string name="problem_channel_description">Avvisa quando AirScroll smette di funzionare, e dice come rimetterlo a posto.</string>
+    <string name="problem_reboot_title">AirScroll è spento dopo il riavvio</string>
+    <string name="problem_reboot_body">Il telefono è stato riavviato e AirScroll non è ripartito da solo: è una scelta, perché un\'app che si riaccende da sola e apre la fotocamera è esattamente ciò che nessuno vuole. Apri l\'app e riaccendilo.</string>
     <string name="problem_service_killed_title">AirScroll è stato chiuso</string>
     <string name="problem_service_killed_body">Il telefono ha chiuso il servizio per risparmiare batteria: da adesso la mano non comanda più niente. Riaccendilo dall\'app. Perché non succeda ancora, togli AirScroll dalle ottimizzazioni della batteria.</string>
     <string name="problem_accessibility_title">Il servizio di accessibilità è spento</string>
@@ -356,6 +358,9 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="calibration_gesture_fist">Ora chiudi il pugno, e tienilo</string>
     <string name="calibration_gesture_done">Riconosciuti entrambi</string>
     <string name="calibration_gesture_stuck">Questo gesto non viene riconosciuto. Può essere la luce, l\'angolazione, o questa mano. Puoi andare avanti: la pagella dirà che non è stato riconosciuto, invece di fingere di sì.</string>
+    <string name="calibration_grade_good">buona</string>
+    <string name="calibration_grade_fair">sufficiente</string>
+    <string name="calibration_grade_poor">debole</string>
     <string name="calibration_report_good">Calibrazione solida</string>
     <string name="calibration_report_fair">Calibrazione usabile, con un punto debole</string>
     <string name="calibration_report_poor">Un pezzo è troppo debole per tenerlo</string>
@@ -387,4 +392,32 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="voice_group_player">Quello che sta suonando</string>
     <string name="voice_group_volume">Volume</string>
     <string name="voice_group_airscroll">AirScroll stesso</string>
+
+    <!-- Cosa la voce ha capito: senza questi messaggi, parlare e non
+         veder succedere niente non dice quale delle tre cose e' andata storta. -->
+    <string name="voice_listening">Ti ascolto…</string>
+    <string name="voice_heard_open">Apro %1$s</string>
+    <string name="voice_heard_favourites">Faccio partire i tuoi brani salvati</string>
+    <string name="voice_heard_genre">Musica %1$s</string>
+    <string name="voice_heard_play">Riprendo</string>
+    <string name="voice_heard_pause">In pausa</string>
+    <string name="voice_heard_next">Brano successivo</string>
+    <string name="voice_heard_previous">Brano precedente</string>
+    <string name="voice_heard_volume_up">Volume su</string>
+    <string name="voice_heard_volume_down">Volume giù</string>
+    <string name="voice_heard_stop">Spengo AirScroll</string>
+    <string name="voice_not_understood">Non è un comando: “%1$s”</string>
+    <string name="voice_heard_nothing">Non ho sentito niente</string>
+    <string name="voice_app_missing">%1$s non è installata</string>
+    <string name="voice_command_failed">Il telefono ha rifiutato il comando</string>
+
+    <!-- Il profilo che entra ed esce dal telefono. -->
+    <string name="settings_profile">Il tuo profilo</string>
+    <string name="settings_profile_hint">Calibrazione e impostazioni in un file di testo leggibile. Esportalo prima di cambiare telefono — o prima di un aggiornamento che ti obbliga a reinstallare.</string>
+    <string name="profile_export">Esporta</string>
+    <string name="profile_import">Importa</string>
+    <string name="profile_file_subject">Profilo AirScroll</string>
+    <string name="profile_import_done">Profilo importato</string>
+    <string name="profile_import_failed">Quel file non è un profilo AirScroll: non è stato cambiato niente</string>
+    <string name="profile_export_failed">Non sono riuscito a scrivere il profilo</string>
 </resources>

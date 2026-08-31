@@ -289,6 +289,8 @@
     <!-- Guasti: cosa e' successo, e dove si risolve. -->
     <string name="problem_channel_name">AirScroll 故障</string>
     <string name="problem_channel_description">AirScroll 停止工作时提醒你，并说明如何修复。</string>
+    <string name="problem_reboot_title">重启后 AirScroll 处于关闭状态</string>
+    <string name="problem_reboot_body">手机重启了，AirScroll 没有自行恢复——这是有意为之：一个自己启动并打开摄像头的应用，正是没有人希望看到的。请打开应用重新开启它。</string>
     <string name="problem_service_killed_title">AirScroll 已被关闭</string>
     <string name="problem_service_killed_body">手机为了省电关闭了后台服务：从现在起手势不再控制任何东西。请在应用里重新打开。要避免再次发生，请把 AirScroll 移出电池优化名单。</string>
     <string name="problem_accessibility_title">无障碍服务已关闭</string>
@@ -325,6 +327,9 @@
     <string name="calibration_gesture_fist">现在握拳，并保持</string>
     <string name="calibration_gesture_done">两个都已识别</string>
     <string name="calibration_gesture_stuck">这个手势没有被识别。可能是光线、角度，也可能是这只手。你可以继续：报告会如实写明它没有被识别，而不是假装成功。</string>
+    <string name="calibration_grade_good">良好</string>
+    <string name="calibration_grade_fair">尚可</string>
+    <string name="calibration_grade_poor">偏弱</string>
     <string name="calibration_report_good">校准扎实</string>
     <string name="calibration_report_fair">可用的校准，但有一处薄弱</string>
     <string name="calibration_report_poor">有一项太弱，不宜保留</string>
@@ -356,4 +361,32 @@
     <string name="voice_group_player">正在播放的内容</string>
     <string name="voice_group_volume">音量</string>
     <string name="voice_group_airscroll">AirScroll 本身</string>
+
+    <!-- Cosa la voce ha capito: senza questi messaggi, parlare e non
+         veder succedere niente non dice quale delle tre cose e' andata storta. -->
+    <string name="voice_listening">正在聆听…</string>
+    <string name="voice_heard_open">正在打开 %1$s</string>
+    <string name="voice_heard_favourites">播放你收藏的歌曲</string>
+    <string name="voice_heard_genre">%1$s 音乐</string>
+    <string name="voice_heard_play">继续播放</string>
+    <string name="voice_heard_pause">已暂停</string>
+    <string name="voice_heard_next">下一首</string>
+    <string name="voice_heard_previous">上一首</string>
+    <string name="voice_heard_volume_up">音量调大</string>
+    <string name="voice_heard_volume_down">音量调小</string>
+    <string name="voice_heard_stop">正在关闭 AirScroll</string>
+    <string name="voice_not_understood">这不是命令：“%1$s”</string>
+    <string name="voice_heard_nothing">我什么也没听到</string>
+    <string name="voice_app_missing">未安装 %1$s</string>
+    <string name="voice_command_failed">手机拒绝了这个命令</string>
+
+    <!-- Il profilo che entra ed esce dal telefono. -->
+    <string name="settings_profile">你的配置</string>
+    <string name="settings_profile_hint">校准和设置保存在一个可读的文本文件里。换手机之前导出它——或者在需要重新安装的更新之前。</string>
+    <string name="profile_export">导出</string>
+    <string name="profile_import">导入</string>
+    <string name="profile_file_subject">AirScroll 配置</string>
+    <string name="profile_import_done">配置已导入</string>
+    <string name="profile_import_failed">该文件不是 AirScroll 配置：没有做任何改动</string>
+    <string name="profile_export_failed">无法写入配置文件</string>
 </resources>

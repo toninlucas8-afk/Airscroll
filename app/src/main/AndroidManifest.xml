@@ -46,6 +46,11 @@
     <!-- Feedback tattile su avvio e stop. -->
     <uses-permission android:name="android.permission.VIBRATE" />
 
+    <!-- Serve solo a sapere che il telefono e' stato riavviato, per dire una
+         cosa vera invece di una sbagliata: AirScroll non riparte da solo, e
+         il ricevitore non accende niente. Mostra una notifica e basta. -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <!-- Solo per aprire la schermata di sistema: senza, molti telefoni chiudono
          il servizio dopo pochi minuti. -->
     <uses-permission
@@ -135,6 +140,18 @@
             android:name=".service.VisionForegroundService"
             android:exported="false"
             android:foregroundServiceType="camera|microphone" />
+
+        <!-- Non avvia il servizio: annota il riavvio e mostra una notifica.
+             Vedi BootReceiver. -->
+        <receiver
+            android:name=".service.BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+            </intent-filter>
+        </receiver>
 
         <service
             android:name=".service.AirScrollAccessibilityService"

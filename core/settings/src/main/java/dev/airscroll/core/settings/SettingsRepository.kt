@@ -53,6 +53,50 @@ class SettingsRepository(context: Context) {
         prefs[Keys.SYSTEM_KILLS] = (prefs[Keys.SYSTEM_KILLS] ?: 0) + 1
     }
 
+    /**
+     * Applica un profilo intero, in una scrittura sola.
+     *
+     * Campo per campo sarebbero venti scritture e venti emissioni del flusso,
+     * con il motore che si riconfigura a ogni passo mentre il profilo e' ancora
+     * meta' vecchio e meta' nuovo.
+     *
+     * Cosa **non** viene toccato: se il servizio e' acceso, se l'onboarding e'
+     * stato fatto, il conteggio delle chiusure di sistema, il segno del
+     * riavvio. Sono fatti di questo telefono, non scelte da trasferire.
+     */
+    suspend fun applyProfile(profile: AirScrollSettings) = edit { prefs ->
+        prefs[Keys.SCROLL_MODE] = profile.scrollMode.name
+        prefs[Keys.SENSITIVITY] = profile.sensitivity
+        prefs[Keys.NEUTRAL_ZONE_SCALE] = profile.neutralZoneScale
+        prefs[Keys.MAX_SCROLL_SPEED] = profile.maxScrollSpeedPxPerSec
+        prefs[Keys.INVERT_SCROLL] = profile.invertScroll
+        prefs[Keys.HORIZONTAL_ACTION] = profile.horizontalAction.name
+        prefs[Keys.MAX_VOLUME_STEPS] = profile.maxVolumeStepsPerSec
+        prefs[Keys.WAITING_WINDOW_MS] = profile.waitingWindowMs
+        prefs[Keys.STOP_HOLD_MS] = profile.stopHoldMs
+        prefs[Keys.ACTIVATION_HOLD_MS] = profile.activationHoldMs
+        prefs[Keys.PERFORMANCE_MODE] = profile.performanceMode.name
+        prefs[Keys.SITUATION_MODE] = profile.situationMode.name
+        prefs[Keys.POWER_SAVING] = profile.powerSaving
+        prefs[Keys.INDICATOR_ENABLED] = profile.indicatorEnabled
+        prefs[Keys.INDICATOR_CORNER] = profile.indicatorCorner.name
+        prefs[Keys.HAPTICS_ENABLED] = profile.hapticsEnabled
+        prefs[Keys.VOICE_ENABLED] = profile.voiceEnabled
+
+        val calibration = profile.calibration
+        prefs[Keys.CAL_DONE] = calibration.completed
+        prefs[Keys.CAL_HAND_SPAN] = calibration.referenceHandSpan
+        prefs[Keys.CAL_TREMOR] = calibration.tremor
+        prefs[Keys.CAL_REACH_UP] = calibration.reachUp
+        prefs[Keys.CAL_REACH_DOWN] = calibration.reachDown
+        prefs[Keys.CAL_REACH_LEFT] = calibration.reachLeft
+        prefs[Keys.CAL_REACH_RIGHT] = calibration.reachRight
+        prefs[Keys.CAL_AT] = System.currentTimeMillis()
+    }
+
+    /** Segna che il telefono e' stato riavviato. Lo scrive il ricevitore d'avvio. */
+    suspend fun setRebooted(value: Boolean) = edit { it[Keys.REBOOTED] = value }
+
     /** Azzera il conteggio: si usa quando l'utente ha sistemato la causa. */
     suspend fun clearSystemKills() = edit { it[Keys.SYSTEM_KILLS] = 0 }
 
@@ -146,6 +190,7 @@ class SettingsRepository(context: Context) {
             serviceEnabled = this[Keys.SERVICE_ENABLED] ?: defaults.serviceEnabled,
             onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: defaults.onboardingCompleted,
             systemKills = this[Keys.SYSTEM_KILLS] ?: defaults.systemKills,
+            rebooted = this[Keys.REBOOTED] ?: defaults.rebooted,
             voiceEnabled = this[Keys.VOICE_ENABLED] ?: defaults.voiceEnabled,
             scrollMode = enumOrDefault(this[Keys.SCROLL_MODE], defaults.scrollMode),
             distanceProfile = enumOrDefault(this[Keys.DISTANCE_PROFILE], defaults.distanceProfile),
@@ -168,7 +213,7 @@ class SettingsRepository(context: Context) {
             hapticsEnabled = this[Keys.HAPTICS_ENABLED] ?: defaults.hapticsEnabled,
             waitingWindowMs = this[Keys.WAITING_WINDOW_MS] ?: defaults.waitingWindowMs,
             stopHoldMs = this[Keys.STOP_HOLD_MS] ?: defaults.stopHoldMs,
-            activationHoldMs = defaults.activationHoldMs,
+            activationHoldMs = this[Keys.ACTIVATION_HOLD_MS] ?: defaults.activationHoldMs,
             disabledProfileIds = this[Keys.DISABLED_PROFILES] ?: defaults.disabledProfileIds,
             customPackages = this[Keys.CUSTOM_PACKAGES] ?: defaults.customPackages,
             calibration = CalibrationProfile(
@@ -219,6 +264,7 @@ class SettingsRepository(context: Context) {
         val HAPTICS_ENABLED = booleanPreferencesKey("haptics_enabled")
         val WAITING_WINDOW_MS = longPreferencesKey("waiting_window_ms")
         val STOP_HOLD_MS = longPreferencesKey("stop_hold_ms")
+        val ACTIVATION_HOLD_MS = longPreferencesKey("activation_hold_ms")
         val DISABLED_PROFILES = stringSetPreferencesKey("disabled_profiles")
         val CUSTOM_PACKAGES = stringSetPreferencesKey("custom_packages")
         val CAL_DONE = booleanPreferencesKey("cal_done")
@@ -232,5 +278,6 @@ class SettingsRepository(context: Context) {
         val CAL_REACH_RIGHT = floatPreferencesKey("cal_reach_right")
         val CAL_AT = longPreferencesKey("cal_at")
         val SYSTEM_KILLS = intPreferencesKey("system_kills")
+        val REBOOTED = booleanPreferencesKey("rebooted")
     }
 }

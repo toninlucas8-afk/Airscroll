@@ -40,11 +40,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import dev.airscroll.app.R
 import dev.airscroll.core.common.model.EngineState
 import dev.airscroll.core.designsystem.StatusActive
 import dev.airscroll.core.designsystem.StatusIdle
@@ -108,7 +112,15 @@ fun StatusDot(
         label = "pulseFade",
     )
 
-    Box(contentAlignment = Alignment.Center) {
+    // Il pallino **e'** lo stato: senza questa etichetta, chi usa TalkBack non
+    // ha nessun modo di sapere se AirScroll e' spento, in attesa o attivo -
+    // l'informazione esisterebbe solo come colore.
+    val etichetta = stringResource(stateLabel(state))
+
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier.semantics { contentDescription = etichetta },
+    ) {
         if (animated) {
             Box(
                 modifier = Modifier
@@ -354,4 +366,13 @@ fun Bullet(text: String, accent: Color = MaterialTheme.colorScheme.primary) {
 @Composable
 fun VerticalGap(height: Dp = 8.dp) {
     Spacer(Modifier.height(height))
+}
+
+/** Lo stato del motore a parole, per chi non puo' vedere il colore. */
+@androidx.annotation.StringRes
+private fun stateLabel(state: EngineState): Int = when (state) {
+    EngineState.DISABLED -> R.string.state_disabled
+    EngineState.IDLE -> R.string.state_idle
+    EngineState.WAITING -> R.string.state_waiting
+    EngineState.ACTIVE -> R.string.state_active
 }
