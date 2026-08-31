@@ -275,4 +275,9 @@
     <string name="scroll_mode_follow_body">La pagina va dove metti la mano e ci resta, come se la stessi trascinando. Spingi oltre e continua a scorrere; riporta la mano di scatto e prosegue rallentando.</string>
     <string name="scroll_mode_speed">Levetta</string>
     <string name="scroll_mode_speed_body">La mano decide la velocità: più sei lontano dal centro, più scorre veloce, e continua finché non torni indietro. È come funzionava fino alla versione 0.4.5.</string>
+    <string name="settings_documents">Documenti</string>
+    <string name="settings_documents_hint">Il manuale e l\'informativa privacy viaggiano dentro l\'app: AirScroll non può raggiungere la rete, e un documento che spiega proprio questo sarebbe una contraddizione se per leggerlo servisse una connessione.</string>
+    <string name="document_manual">Manuale d\'uso</string>
+    <string name="document_privacy">Informativa privacy</string>
+    <string name="document_open_failed">Non è stato possibile aprire il documento. Forse manca un lettore PDF.</string>
 </resources>

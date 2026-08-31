@@ -295,4 +295,9 @@
     <string name="scroll_mode_follow_body">The page goes where you put your hand and stays there, as if you were dragging it. Push further and it keeps scrolling; flick your hand back and it carries on and slows down.</string>
     <string name="scroll_mode_speed">Joystick</string>
     <string name="scroll_mode_speed_body">Your hand sets the speed: the further from centre, the faster it scrolls, and it keeps going until you come back. This is how it worked up to version 0.4.5.</string>
+    <string name="settings_documents">Documents</string>
+    <string name="settings_documents_hint">The manual and the privacy notice travel inside the app: AirScroll cannot reach the network, and a document explaining exactly that would be a contradiction if you needed a connection to read it.</string>
+    <string name="document_manual">User manual</string>
+    <string name="document_privacy">Privacy notice</string>
+    <string name="document_open_failed">The document could not be opened. There may be no PDF reader installed.</string>
 </resources>

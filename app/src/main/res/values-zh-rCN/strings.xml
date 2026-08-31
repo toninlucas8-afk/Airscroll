@@ -244,4 +244,9 @@
     <string name="scroll_mode_follow_body">页面跟着你的手走，并停在那里，就像你在拖动它。再往前推就会继续滚动；把手快速收回，页面会继续滑行并减速。</string>
     <string name="scroll_mode_speed">摇杆</string>
     <string name="scroll_mode_speed_body">由手决定速度：离中心越远滚得越快，并一直持续到你把手收回。这是 0.4.5 版之前的方式。</string>
+    <string name="settings_documents">文档</string>
+    <string name="settings_documents_hint">手册和隐私说明都随应用一起打包：AirScroll 无法联网，而一份正是在解释这件事的文档，如果需要联网才能阅读，那就自相矛盾了。</string>
+    <string name="document_manual">使用手册</string>
+    <string name="document_privacy">隐私说明</string>
+    <string name="document_open_failed">无法打开文档。可能没有安装 PDF 阅读器。</string>
 </resources>

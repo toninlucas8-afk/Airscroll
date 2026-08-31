@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -47,6 +48,8 @@ import dev.airscroll.app.ui.components.SwitchRow
 import dev.airscroll.apps.api.AppProfileRegistry
 import dev.airscroll.core.common.model.DistanceProfile
 import dev.airscroll.core.common.model.HorizontalAction
+import dev.airscroll.app.util.BundledDocument
+import dev.airscroll.app.util.BundledDocuments
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.common.model.PerformanceMode
@@ -60,6 +63,7 @@ fun SettingsScreen(
     onOpenSetup: () -> Unit,
     onOpenLab: () -> Unit,
 ) {
+    val context = LocalContext.current
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     var newPackage by remember { mutableStateOf("") }
     val profiles = remember(settings.customPackages) { AppProfileRegistry.all() }
@@ -320,6 +324,27 @@ fun SettingsScreen(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
+        }
+
+        // I due documenti viaggiano dentro l'APK, non su internet: un'app che
+        // non puo' raggiungere la rete e che per spiegarlo pretende una
+        // connessione sarebbe una contraddizione.
+        SectionCard(
+            title = stringResource(R.string.settings_documents),
+            subtitle = stringResource(R.string.settings_documents_hint),
+        ) {
+            OutlinedButton(
+                onClick = { BundledDocuments.open(context, BundledDocument.MANUAL) },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.document_manual))
+            }
+            OutlinedButton(
+                onClick = { BundledDocuments.open(context, BundledDocument.PRIVACY) },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.document_privacy))
+            }
         }
 
         TextButton(onClick = onBack) { Text(stringResource(R.string.action_back)) }

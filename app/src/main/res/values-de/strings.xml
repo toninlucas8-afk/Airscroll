@@ -244,4 +244,9 @@
     <string name="scroll_mode_follow_body">Die Seite geht dorthin, wo du die Hand hinbewegst, und bleibt dort — als würdest du sie ziehen. Schiebst du weiter, scrollt sie weiter; ziehst du die Hand ruckartig zurück, läuft sie aus.</string>
     <string name="scroll_mode_speed">Joystick</string>
     <string name="scroll_mode_speed_body">Die Hand bestimmt die Geschwindigkeit: je weiter von der Mitte, desto schneller, und es läuft weiter, bis du zurückkommst. So war es bis Version 0.4.5.</string>
+    <string name="settings_documents">Dokumente</string>
+    <string name="settings_documents_hint">Handbuch und Datenschutzhinweis stecken in der App: AirScroll kann das Netz nicht erreichen, und ein Dokument, das genau das erklärt, wäre ein Widerspruch, wenn man zum Lesen eine Verbindung bräuchte.</string>
+    <string name="document_manual">Handbuch</string>
+    <string name="document_privacy">Datenschutzhinweis</string>
+    <string name="document_open_failed">Das Dokument konnte nicht geöffnet werden. Möglicherweise fehlt ein PDF-Reader.</string>
 </resources>

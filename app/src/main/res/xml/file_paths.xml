@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Solo la cartella delle registrazioni del laboratorio, niente altro. -->
+<!--
+  Solo due cartelle, e niente altro.
+
+  `lab/` sono le registrazioni del laboratorio, che l'utente decide di
+  condividere. `documenti/` e' dove il manuale e l'informativa privacy vengono
+  copiati per poter essere aperti da un lettore PDF: Android non permette di
+  consegnare a un'altra app il percorso di un asset dentro l'APK.
+-->
 <paths>
     <external-files-path name="lab" path="lab/" />
+    <cache-path name="documenti" path="documenti/" />
 </paths>

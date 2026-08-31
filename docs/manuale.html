@@ -1,0 +1,338 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8">
+<title>AirScroll — Manuale</title><link rel="stylesheet" href="stile.css"></head><body>
+
+<div class="copertina">
+  <div class="marchio">AirScroll</div>
+  <div class="sotto">Manuale d'uso completo</div>
+  <div class="riga"></div>
+  <p style="font-size:11pt;max-width:120mm;">Controllare il telefono con la mano, senza toccarlo.<br>
+  Tutto il riconoscimento avviene sul telefono, senza rete.</p>
+  <div class="meta">
+    Versione del documento: 1.0 — riferita ad AirScroll 0.5.x<br>
+    Progetto open source, licenza Apache 2.0<br>
+    Codice sorgente: github.com/toninlucas8-afk/Airscroll
+  </div>
+</div>
+
+<h1>Indice</h1>
+<div class="indice">
+  <div><span class="num">1</span>Che cos'è AirScroll</div>
+  <div><span class="num">2</span>Come funziona: i tre stati</div>
+  <div><span class="num">3</span>Prima installazione</div>
+  <div><span class="num">4</span>«App dannosa» e permessi bloccati</div>
+  <div><span class="num">5</span>I permessi, uno per uno</div>
+  <div><span class="num">6</span>La calibrazione a cerchio</div>
+  <div><span class="num">7</span>I gesti</div>
+  <div><span class="num">8</span>I due modi di comandare</div>
+  <div><span class="num">9</span>Le app riconosciute</div>
+  <div><span class="num">10</span>Le impostazioni, voce per voce</div>
+  <div><span class="num">11</span>La palestra</div>
+  <div><span class="num">12</span>Il laboratorio</div>
+  <div><span class="num">13</span>Se qualcosa non funziona</div>
+  <div><span class="num">14</span>Limiti dichiarati</div>
+  <div><span class="num">15</span>Consumo di batteria</div>
+  <div><span class="num">16</span>Com'è fatto dentro</div>
+</div>
+
+<h2>1. Che cos'è AirScroll</h2>
+<p>AirScroll è un'app Android che permette di <strong>scorrere una pagina e regolare il volume
+muovendo la mano davanti alla fotocamera frontale</strong>, senza toccare lo schermo.</p>
+<p>Nasce per le situazioni in cui toccare il telefono è scomodo o impossibile: le mani sporche
+mentre si segue una ricetta, i guanti, la palestra, la lettura di un PDF lungo, e le difficoltà
+motorie.</p>
+<p>Non è un giocattolo per un'app sola: è un motore di controllo gestuale generale. Il
+riconoscimento della mano, la macchina a stati e la traduzione del movimento in scorrimento sono
+gli stessi ovunque; ogni app supportata aggiunge soltanto le proprie tarature.</p>
+<div class="nota">
+  <p><strong>Tutto avviene sul telefono.</strong> Le immagini della fotocamera non vengono mai
+  salvate né inviate da nessuna parte, e l'app non può nemmeno raggiungere la rete: il permesso
+  di accesso a internet è stato rimosso di proposito. Il dettaglio sta nell'<em>Informativa
+  privacy</em>, il documento che accompagna questo manuale.</p>
+</div>
+
+<h2>2. Come funziona: i tre stati</h2>
+<p>La fotocamera è la voce di consumo più pesante di qualsiasi app. Per questo AirScroll non la
+tiene mai accesa più del necessario, e lo fa attraverso tre stati che si leggono da un pallino
+sullo schermo.</p>
+<table>
+  <tr><th style="width:26mm">Pallino</th><th style="width:40mm">Stato</th><th>Cosa succede</th></tr>
+  <tr><td><span class="stato rosso"></span>Rosso</td><td>Inattivo</td>
+      <td>La fotocamera è <strong>chiusa</strong>. Nessuna app compatibile in primo piano, oppure
+      hai fermato tutto con il pugno chiuso.</td></tr>
+  <tr><td><span class="stato giallo"></span>Giallo</td><td>In attesa</td>
+      <td>Hai aperto un'app compatibile. Per circa sei secondi la fotocamera guarda,
+      cercando <strong>soltanto</strong> il pollice in su. Nient'altro viene interpretato.</td></tr>
+  <tr><td><span class="stato verde"></span>Verde</td><td>Attivo</td>
+      <td>Comandi tu. La mano guida lo scorrimento e il volume.</td></tr>
+</table>
+<p>Se la finestra gialla scade senza che tu abbia fatto il pollice in su, la fotocamera si
+richiude. Per riaprirla senza uscire dall'app, tira giù le notifiche e tocca
+<strong>«Cerca la mano»</strong> sulla notifica di AirScroll.</p>
+<p>Il pallino si posiziona in alto al centro, nella fascia della barra di stato. Se il foro della
+fotocamera del tuo telefono lo copre, puoi spostarlo in un angolo dalle impostazioni, o spegnerlo
+del tutto.</p>
+
+<h2>3. Prima installazione</h2>
+<ol>
+  <li>Scarica l'APK dalla pagina delle release del progetto.</li>
+  <li>Aprilo. Android chiederà il permesso di installare app da questa origine: concedilo.</li>
+  <li>Al primo avvio parte la <strong>configurazione guidata</strong>, che ti accompagna nei
+  permessi uno alla volta e ti dice quali sono già a posto.</li>
+  <li>Fai la calibrazione (capitolo 6). Bastano venti secondi e cambia molto.</li>
+  <li>Apri la <strong>palestra</strong> e prova i gesti prima di usarli sul serio.</li>
+</ol>
+<div class="attenzione">
+  <p><strong>Il servizio va acceso dalla schermata dell'app</strong>, con l'interruttore
+  «Controllo gestuale». Non è un capriccio: da Android 11 il sistema nega la fotocamera a un
+  servizio che parte in background. Se AirScroll si avviasse da solo, non vedrebbe niente.</p>
+</div>
+
+<h2>4. «App dannosa» e permessi bloccati</h2>
+<p>All'installazione Android può mostrare un avviso severo e Play Protect può segnalare l'app.
+Non è un difetto ed è utile capire perché succede.</p>
+<p>AirScroll chiede la fotocamera <em>e</em> il servizio di accessibilità. Quella combinazione —
+un'app che vede e che può agire dentro le altre app — è la firma tipica dei programmi spia. Il
+sistema non può distinguere le intenzioni: segnala la <strong>forma</strong>.</p>
+<h3>Sbloccare i permessi su Android 13 e successivi</h3>
+<p>Le app installate fuori dagli store hanno i permessi sensibili bloccati finché non si sblocca
+un'impostazione. AirScroll mostra la scheda con i passaggi quando serve, ma eccoli comunque:</p>
+<ol>
+  <li>Impostazioni → App → AirScroll</li>
+  <li>Menu in alto a destra (i tre puntini) → <strong>«Consenti impostazioni con restrizioni»</strong></li>
+  <li>Torna indietro e attiva il servizio di accessibilità</li>
+</ol>
+<h3>Come verificare da solo che l'app è innocua</h3>
+<ul>
+  <li>Il codice sorgente è pubblico e chiunque può leggerlo.</li>
+  <li>L'app <strong>non dichiara il permesso di accesso a internet</strong>: senza quel permesso
+  Android impedisce di aprire una connessione. Lo puoi controllare tu in dieci secondi da
+  Impostazioni → App → AirScroll → Autorizzazioni.</li>
+  <li>Ogni versione pubblicata riporta il proprio checksum SHA-256, così puoi verificare che il
+  file che hai scaricato sia esattamente quello compilato.</li>
+</ul>
+
+<h2>5. I permessi, uno per uno</h2>
+<table>
+  <tr><th style="width:44mm">Permesso</th><th>A cosa serve, e cosa NON fa</th></tr>
+  <tr><td><strong>Fotocamera</strong></td>
+      <td>Vedere la mano. I fotogrammi restano in memoria per il tempo di un'analisi e non
+      vengono mai scritti su disco né inviati.</td></tr>
+  <tr><td><strong>Servizio di accessibilità</strong></td>
+      <td>È l'unica interfaccia con cui un'app può scorrere dentro un'altra app. AirScroll
+      dichiara di poter <em>eseguire gesti</em>, non di leggere il contenuto dello schermo.</td></tr>
+  <tr><td><strong>Mostra sopra le altre app</strong></td>
+      <td>Disegnare il pallino di stato. Nient'altro.</td></tr>
+  <tr><td><strong>Notifiche</strong></td>
+      <td>Android <em>impone</em> una notifica visibile finché un'app può usare la fotocamera in
+      background. È la garanzia di sistema che nessuno riprenda di nascosto.</td></tr>
+  <tr><td><strong>Batteria senza restrizioni</strong></td>
+      <td>Su molti telefoni, senza questo, il sistema chiude il servizio dopo qualche minuto.
+      Serve solo ad aprire la schermata di sistema che lo concede.</td></tr>
+</table>
+
+<h2>6. La calibrazione a cerchio</h2>
+<p>Ispirata a Face ID: invece di chiederti di indovinare dei numeri, ti fa fare il movimento e lo
+misura. Due passaggi, una ventina di secondi.</p>
+<h3>Passo 1 — Mano ferma al centro</h3>
+<p>Due secondi e mezzo con la mano ferma davanti alla fotocamera, alla distanza a cui la userai
+davvero. Si misurano tre cose insieme: quanto trema la tua mano (da cui nasce la
+<strong>zona neutra</strong> che ignora i micro-tremolii), quanto appare grande (da cui nasce
+l'adattamento automatico alla distanza) e il tuo punto di riposo.</p>
+<h3>Passo 2 — Completa il cerchio</h3>
+<p>Muovi la mano verso l'esterno in tutte le direzioni, come a disegnare un cerchio in aria.
+Ogni spicchio si accende quando ci arrivi. Un puntino ti segue: se diventa rosso, la fotocamera
+ti ha perso.</p>
+<h3>Perché il cerchio, e non «muovi su e giù»</h3>
+<p>Perché nessuno arriva alla stessa distanza in tutte le direzioni. Verso il proprio lato si
+arriva molto più lontano che verso l'altro, e il braccio sale più facilmente di quanto scenda.
+Le versioni fino alla 0.4.4 misuravano <em>due</em> numeri — un'ampiezza verticale e una
+orizzontale — e ne facevano una media: al verso corto veniva poi chiesto un movimento che quella
+mano non poteva fare, e sembrava che quel verso non funzionasse.</p>
+<p>Il cerchio misura <strong>quattro portate distinte</strong>: in alto, in basso, a sinistra, a
+destra. Alla fine le vedi scritte, ed è normale che siano diverse fra loro.</p>
+<div class="nota">
+  <p><strong>Il consiglio che conta di più:</strong> arriva dove ti viene <em>comodo</em>, non
+  dove riesci a sforzarti. Se ti allunghi in posizioni scomode, la calibrazione misura una mano
+  che poi non userai mai, e lo scorrimento ti sembrerà lento perché gli stai chiedendo un
+  movimento che nella vita reale non fai.</p>
+</div>
+<p>Se non riesci a chiudere il cerchio non resti bloccato: uno spicchio si accende anche
+arrivando al bordo di ciò che la fotocamera vede, e dopo venticinque secondi compare un pulsante
+per concludere con quello che si è misurato.</p>
+
+<h2>7. I gesti</h2>
+<table>
+  <tr><th style="width:42mm">Gesto</th><th>Cosa fa, e i dettagli che contano</th></tr>
+  <tr><td><strong>Pollice in su</strong></td>
+      <td>Attiva. Va tenuto circa <strong>mezzo secondo</strong>, non un lampo. Un calo breve —
+      la mano ruota, un dito copre il pollice — non azzera il conteggio: riprende da dove era.
+      Ma fare chiaramente un altro gesto sì, perché significa che hai cambiato idea.</td></tr>
+  <tr><td><strong>Mano su e giù</strong></td>
+      <td>Scorre. La velocità è progressiva: movimento piccolo, scorrimento lento; movimento
+      ampio, veloce. I tremolii non fanno niente, li assorbe la zona neutra misurata in
+      calibrazione. Ogni direzione chiede solo quello che la tua mano ci arriva a fare.</td></tr>
+  <tr><td><strong>Mano a destra e sinistra</strong></td>
+      <td>Volume, anch'esso progressivo. <strong>Un asse alla volta:</strong> mentre scorri non
+      puoi cambiare volume per sbaglio, e per rubare il comando l'altro asse deve vincere di un
+      buon margine. Si può spegnere del tutto.</td></tr>
+  <tr><td><strong>Pugno chiuso</strong></td>
+      <td>Ferma, tenendolo <strong>due secondi</strong>. Se riapri la mano prima, lo stop si
+      annulla. La durata è regolabile.</td></tr>
+  <tr><td><strong>Uscire dall'app</strong></td>
+      <td>Ferma tutto e chiude la fotocamera, senza bisogno di gesti.</td></tr>
+</table>
+<p>La stessa legenda, con ogni gesto <em>animato</em>, si trova in fondo alla schermata
+principale dell'app.</p>
+
+<h2>8. I due modi di comandare</h2>
+<p>Da <code>Impostazioni → Movimento</code> puoi scegliere fra due modelli. Non sono due
+tarature: sono due idee diverse di cosa significhi «muovere la mano».</p>
+<h3>Aggancio diretto (predefinito)</h3>
+<p>Lo spostamento della mano diventa spostamento del contenuto. Muovi di dieci centimetri, la
+pagina si sposta di tanto <strong>e si ferma lì</strong>, come se la stessi trascinando. È il
+modello che fa leggere il gesto come «sto toccando la cosa».</p>
+<p>Da solo non basterebbe, per due motivi concreti: il dito invisibile ha una corsa finita sullo
+schermo, e in aria non esiste «staccare il dito» — una mano che torna indietro riporterebbe
+indietro anche il contenuto. Perciò ci sono tre pezzi:</p>
+<ul>
+  <li><strong>Zona diretta</strong> — fino a poco più di metà escursione, il contenuto insegue
+  la mano. È qui che vive la precisione.</li>
+  <li><strong>Zona di spinta</strong> — oltre, si aggiunge una velocità continua che cresce con
+  quanto spingi. Serve ad attraversare le pagine lunghe senza cambiare gesto.</li>
+  <li><strong>Riaggancio a riposo</strong> — tornando al centro, il riferimento si sposta sul
+  contenuto attuale. È l'equivalente aereo di staccare il dito: la bracciata di ritorno non
+  disfa quella di andata, e puoi farne un'altra.</li>
+</ul>
+<p>Più l'<strong>inerzia</strong>: se riporti la mano a riposo <em>di scatto</em>, il contenuto
+prosegue e rallenta come dopo un colpo di dito. Se la riporti piano, si ferma dove sta.</p>
+<h3>Levetta</h3>
+<p>La mano decide la <em>velocità</em>: più sei lontano dal centro, più scorre veloce, e continua
+finché non torni indietro. È il comportamento delle versioni fino alla 0.4.5. Più prevedibile
+sulle pagine lunghissime, ma non dà mai la sensazione di toccare il contenuto.</p>
+
+<h2>9. Le app riconosciute</h2>
+<p>AirScroll si arma da solo quando una di queste app va in primo piano:</p>
+<table>
+  <tr><th style="width:30mm">Categoria</th><th>App</th></tr>
+  <tr><td><strong>Browser</strong></td><td>Chrome, Firefox, Firefox Focus, Samsung Internet, Edge, Opera, Opera GX, Brave</td></tr>
+  <tr><td><strong>Social</strong></td><td>Instagram, WhatsApp, Facebook, TikTok, Reddit, X, YouTube</td></tr>
+  <tr><td><strong>Lettura</strong></td><td>Kindle, Google Drive, visualizzatore PDF di Google, Adobe Reader, Xodo, Moon+ Reader, Pocket, Google Keep</td></tr>
+</table>
+<p>Ogni categoria ha le proprie tarature: un lettore di PDF vuole uno scorrimento più calmo di un
+feed social. Puoi disattivare quelle che non ti interessano e <strong>aggiungere qualsiasi altra
+app</strong> scrivendo il suo nome di package in <code>Impostazioni → App supportate</code>.</p>
+
+<h2>10. Le impostazioni, voce per voce</h2>
+<h3>Movimento</h3>
+<ul>
+  <li><strong>Come la mano comanda lo scorrimento</strong> — aggancio diretto o levetta (capitolo 8).</li>
+  <li><strong>Profilo distanza</strong> — vicino, medio, lontano, oppure automatico, che stima la
+  distanza dalla dimensione apparente della mano e adegua la risposta.</li>
+  <li><strong>Sensibilità</strong> — quanto risponde al movimento.</li>
+  <li><strong>Velocità massima di scorrimento</strong> — il tetto, in pixel al secondo.</li>
+  <li><strong>Zona neutra</strong> — moltiplica il tremolio misurato in calibrazione. Alzala se
+  lo scorrimento parte da solo, abbassala se devi muoverti troppo per farlo partire.</li>
+  <li><strong>Modalità Cucina</strong> — un solo interruttore che allarga la zona neutra e calma
+  lo scorrimento, per quando hai le mani occupate.</li>
+  <li><strong>Inverti il verso</strong> — mano in su fa risalire la pagina invece di scenderla.</li>
+</ul>
+<h3>Movimento laterale</h3>
+<p>Volume o niente, e quanti gradini di volume al secondo alla massima escursione.</p>
+<h3>Prestazioni</h3>
+<p>Batteria, Bilanciato o Reattivo: cambiano risoluzione di analisi, fotogrammi al secondo e
+l'uso della GPU.</p>
+<h3>Tempi</h3>
+<p>Durata della finestra gialla di attesa e durata del pugno chiuso per fermare.</p>
+<h3>Indicatore, vibrazione, lingua</h3>
+<p>Posizione del pallino (in alto al centro o nei quattro angoli) o spegnimento; vibrazione
+all'avvio e allo stop; lingua fra italiano, inglese, spagnolo, tedesco e cinese.</p>
+
+<h2>11. La palestra</h2>
+<p>Contenuto finto dentro l'app che scorre davvero, con lo <strong>stesso identico motore</strong>
+del servizio vero. Serve a prendere la mano senza avere a che fare con Chrome o Instagram, e a
+tarare sensibilità e zona neutra guardandone l'effetto invece che a occhio: i cursori sono nella
+stessa schermata.</p>
+<p>È anche il posto giusto per confrontare i due modi di comandare, uno dopo l'altro.</p>
+
+<h2>12. Il laboratorio</h2>
+<p>Si trova in <code>Impostazioni → Guida → Apri il laboratorio</code>. Registra come la
+<em>tua</em> mano appare al modello, così le soglie si possono tarare su numeri veri.</p>
+<p>Cinque prese guidate: pollice in su, pugno chiuso, mano aperta, mano in movimento, mano a
+riposo. Le due «negative» non sono un di più: senza esempi di cosa <em>non</em> deve attivare
+niente, si finisce per abbassare le soglie finché tutto attiva tutto.</p>
+<div class="nota">
+  <p><strong>Nel file finiscono solo numeri.</strong> Le coordinate dei ventuno punti della mano,
+  il gesto riconosciuto e il suo punteggio, in un CSV che puoi aprire e leggere prima di
+  decidere se condividerlo. Nessuna immagine, e niente lascia il telefono se non sei tu a
+  mandarlo.</p>
+</div>
+
+<h2>13. Se qualcosa non funziona</h2>
+<h3>Compare un riquadro rosso</h3>
+<p>Vuol dire che il riconoscitore non è partito. Sotto la frase trovi un blocco di dettagli
+tecnici e un pulsante <strong>«Copia i dettagli»</strong>: quel blocco dice quale dei tre punti
+si è rotto — il modello, la libreria di riconoscimento, o l'avvio — e con che messaggio esatto.
+Allegalo alla segnalazione: è l'unica informazione che permette di correggere invece di tentare.</p>
+<h3>La fotocamera funziona ma non vede la mano</h3>
+<ul>
+  <li>Serve luce. Al buio o in forte controluce il modello perde la mano, e non c'è modo
+  software di aggirarlo.</li>
+  <li>Distanza: 20–40 cm funziona meglio.</li>
+  <li>Muovi tutto l'avambraccio, non solo le dita: il riconoscimento segue il centro del palmo.</li>
+</ul>
+<h3>Lo scorrimento parte da solo, oppure è troppo lento</h3>
+<p>Rifai la calibrazione. Se il problema resta, agisci sulla zona neutra (parte da solo: alzala)
+o sulla sensibilità (troppo lento: alzala).</p>
+<h3>Il servizio si spegne dopo qualche minuto</h3>
+<p>È l'ottimizzazione batteria del costruttore. Concedi «Batteria senza restrizioni», e su
+parecchi telefoni serve anche bloccare l'app nell'elenco delle app recenti.</p>
+<h3>Non succede niente dentro un'app</h3>
+<p>Alcune schermate rifiutano i gesti sintetici: impostazioni di sistema, richieste di permessi,
+diverse app bancarie. È una protezione di Android e non è aggirabile.</p>
+
+<h2>14. Limiti dichiarati</h2>
+<p>Sono vincoli di Android o del riconoscimento visivo, non cose «da sistemare dopo».</p>
+<ul>
+  <li><strong>La notifica non si può togliere.</strong> È la condizione che il sistema impone per
+  usare la fotocamera fuori dall'app.</li>
+  <li><strong>Serve il servizio di accessibilità.</strong> È l'unica API che permette di scorrere
+  dentro un'altra app.</li>
+  <li><strong>Non funziona ovunque.</strong> Vedi sopra le schermate protette.</li>
+  <li><strong>Serve luce.</strong></li>
+  <li><strong>Niente riavvio automatico.</strong> Dopo un riavvio del telefono AirScroll va
+  riacceso a mano: un'app che si riavvia da sola e apre la fotocamera è esattamente ciò che
+  nessuno vuole.</li>
+  <li><strong>Il consumo non è zero.</strong> Vedi il capitolo seguente.</li>
+</ul>
+
+<h2>15. Consumo di batteria</h2>
+<p>Con la fotocamera aperta si consuma: è fisica, non un difetto risolvibile. Da qui il disegno a
+tre stati, che tiene il sensore spento la maggior parte del tempo.</p>
+<p>In uso continuo, aspettati un consumo confrontabile con una videochiamata a bassa risoluzione.
+Nello stato di attesa è molto meno, e a fotocamera chiusa è zero.</p>
+<p>Il profilo <strong>Batteria</strong> usa un'immagine più piccola e la sola CPU;
+<strong>Reattivo</strong> alza i fotogrammi al secondo sui telefoni capaci. Il predefinito,
+Bilanciato, è un compromesso ragionevole per la maggior parte dei telefoni.</p>
+
+<h2>16. Com'è fatto dentro</h2>
+<p>Utile se vuoi leggere il codice o contribuire.</p>
+<ul>
+  <li><strong>Riconoscimento</strong> — MediaPipe Gesture Recognizer, in locale. Un solo modello
+  restituisce sia i gesti sia i ventuno punti della mano.</li>
+  <li><strong>Scorrimento</strong> — non comandi a scatti, ma un dito invisibile appoggiato allo
+  schermo che viene trascinato in segmenti brevi e agganciati fra loro. Funziona in qualunque app
+  che risponda al tocco, comprese le pagine web dentro le app.</li>
+  <li><strong>Struttura modulare</strong> — supportare una nuova app significa aggiungere un
+  modulo con le sue tarature, non toccare il motore.</li>
+  <li><strong>Verifiche</strong> — a ogni modifica la CI esegue i test del motore, apre l'APK
+  finito per controllare che il modello sia dentro e utilizzabile, verifica che l'app non possa
+  raggiungere la rete, e <strong>installa la versione di release su un Android emulato</strong>
+  per accertarsi che il riconoscimento si avvii davvero e risponda.</li>
+</ul>
+
+<div class="piede">
+  AirScroll — Manuale d'uso, versione 1.0. Documento riferito ad AirScroll 0.5.x.<br>
+  Progetto open source rilasciato sotto licenza Apache 2.0.
+  Codice, versioni e segnalazioni: github.com/toninlucas8-afk/Airscroll
+</div>
+</body></html>

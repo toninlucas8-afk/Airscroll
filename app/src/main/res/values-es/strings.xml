@@ -244,4 +244,9 @@
     <string name="scroll_mode_follow_body">La página va donde pones la mano y se queda ahí, como si la arrastraras. Empuja más allá y sigue desplazándose; retira la mano de golpe y continúa frenando.</string>
     <string name="scroll_mode_speed">Palanca</string>
     <string name="scroll_mode_speed_body">La mano decide la velocidad: cuanto más lejos del centro, más rápido se desplaza, y sigue hasta que vuelves. Así funcionaba hasta la versión 0.4.5.</string>
+    <string name="settings_documents">Documentos</string>
+    <string name="settings_documents_hint">El manual y la política de privacidad viajan dentro de la app: AirScroll no puede acceder a la red, y un documento que explica justo eso sería una contradicción si hiciera falta conexión para leerlo.</string>
+    <string name="document_manual">Manual de uso</string>
+    <string name="document_privacy">Política de privacidad</string>
+    <string name="document_open_failed">No se ha podido abrir el documento. Puede que falte un lector de PDF.</string>
 </resources>

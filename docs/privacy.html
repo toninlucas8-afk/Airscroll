@@ -1,0 +1,155 @@
+<!doctype html><html lang="it"><head><meta charset="utf-8">
+<title>AirScroll — Informativa privacy</title><link rel="stylesheet" href="stile.css"></head><body>
+
+<div class="copertina">
+  <div class="marchio">AirScroll</div>
+  <div class="sotto">Informativa privacy</div>
+  <div class="riga"></div>
+  <p style="font-size:11pt;max-width:120mm;">Cosa vede l'app, cosa non fa,<br>
+  e come verificarlo senza doversi fidare.</p>
+  <div class="meta">
+    Versione del documento: 1.0 — riferita ad AirScroll 0.5.x<br>
+    Progetto open source, licenza Apache 2.0<br>
+    Codice sorgente: github.com/toninlucas8-afk/Airscroll
+  </div>
+</div>
+
+<h1>In una frase</h1>
+<p style="font-size:12pt;">AirScroll guarda la tua mano attraverso la fotocamera frontale,
+la interpreta <strong>sul telefono</strong>, e non manda niente a nessuno — perché non
+<em>può</em>.</p>
+
+<h2>1. Chi tratta i dati</h2>
+<p>Nessuno. AirScroll è un progetto open source senza server, senza account e senza azienda
+dietro. Non esiste un servizio a cui i dati possano arrivare, perché non esiste nessun servizio.</p>
+<p>Non ci sono registrazione, login, identificatori pubblicitari, statistiche d'uso, segnalazioni
+di errore automatiche né strumenti di analisi di terze parti.</p>
+
+<h2>2. La garanzia principale: l'app non può raggiungere la rete</h2>
+<p>Un'app Android può aprire una connessione solo se dichiara il permesso <code>INTERNET</code>.
+Senza quel permesso, è il <strong>sistema operativo</strong> a impedirlo: non è una scelta
+dell'app, ed è verificabile dall'esterno.</p>
+<p>AirScroll <strong>non dichiara quel permesso</strong>. Puoi controllarlo tu:</p>
+<ol>
+  <li>Impostazioni → App → AirScroll → Autorizzazioni</li>
+  <li>Nell'elenco non compare alcun accesso a internet o alla rete.</li>
+</ol>
+<div class="nota">
+  <p><strong>Una precisazione onesta, perché è stata corretta di recente.</strong> Fino alla
+  versione 0.5.0 il codice non apriva nessuna connessione, ma l'APK dichiarava comunque il
+  permesso di rete: lo portava dentro il manifest di una libreria, senza che il progetto lo
+  avesse mai richiesto. Il comportamento non è mai cambiato, ma la <em>possibilità</em> c'era, e
+  dall'esterno nessuno poteva distinguere «non lo usa» da «non l'ho ancora visto usarlo».</p>
+  <p>Dalla 0.5.1 il permesso è rimosso esplicitamente, e un controllo automatico fa fallire la
+  pubblicazione se un aggiornamento di libreria dovesse reintrodurlo. La promessa è diventata una
+  proprietà del pacchetto.</p>
+</div>
+
+<h2>3. La fotocamera</h2>
+<h3>Cosa succede a un fotogramma</h3>
+<ol>
+  <li>Viene acquisito a bassa risoluzione (a seconda del profilo scelto, da 320×240 a 640×480).</li>
+  <li>Passa al riconoscitore, che ne ricava la posizione di ventuno punti della mano e il gesto.</li>
+  <li>Viene <strong>scartato</strong>. Non viene salvato su disco, non entra in nessuna galleria,
+  non viene trasmesso.</li>
+</ol>
+<p>Restano solo dei numeri: dove sta il palmo, quanto è grande, che gesto sembra. Il contenuto
+della scena — il tuo volto, la stanza, chi ti sta intorno — non viene conservato in nessuna forma
+oltre l'istante dell'analisi.</p>
+<h3>Quando la fotocamera è accesa</h3>
+<table>
+  <tr><th style="width:34mm">Stato</th><th>Fotocamera</th></tr>
+  <tr><td><span class="stato rosso"></span>Inattivo</td><td><strong>Chiusa.</strong> Non è in pausa: è chiusa.</td></tr>
+  <tr><td><span class="stato giallo"></span>In attesa</td><td>Aperta per circa sei secondi, dopo che hai aperto un'app compatibile.</td></tr>
+  <tr><td><span class="stato verde"></span>Attivo</td><td>Aperta finché comandi, oppure finché non esci dall'app o fai il pugno chiuso.</td></tr>
+</table>
+<p>Android impone inoltre due garanzie che AirScroll non può aggirare: l'<strong>indicatore verde
+di sistema</strong> in alto quando la fotocamera è in uso, e una <strong>notifica visibile</strong>
+finché l'app può usarla fuori dalla propria schermata.</p>
+
+<h2>4. Il servizio di accessibilità</h2>
+<p>È il permesso che spaventa di più, giustamente: dà a un'app la possibilità di interagire con le
+altre. Vale la pena essere precisi su cosa AirScroll chiede.</p>
+<p>Il servizio è dichiarato per <strong>eseguire gesti</strong>, cioè simulare un dito che
+trascina. Non richiede la capacità di leggere il contenuto delle finestre: non legge i tuoi
+messaggi, non vede cosa scrivi, non conosce le pagine che apri.</p>
+<p>L'unica informazione che AirScroll ricava dal sistema è <strong>il nome del pacchetto dell'app
+in primo piano</strong> — per esempio <code>com.android.chrome</code> — perché deve sapere se
+armarsi o restare spento. Quel nome viene usato e basta: non viene registrato né conservato.</p>
+
+<h2>5. Cosa viene salvato sul telefono</h2>
+<p>Solo le tue preferenze, in un file privato dell'app, accessibile unicamente ad AirScroll:</p>
+<ul>
+  <li>Le impostazioni (sensibilità, velocità, zona neutra, modo di comandare, lingua, posizione
+  del pallino, tempi).</li>
+  <li>Il <strong>risultato della calibrazione</strong>: quattro portate, il tremolio misurato e
+  la dimensione apparente della mano. Sono numeri sulla tua <em>gestualità</em>, non
+  identificatori biometrici: non permettono di riconoscerti né di ricostruire un'immagine.</li>
+  <li>L'elenco delle app che hai attivato o aggiunto.</li>
+</ul>
+<p>Disinstallando l'app, tutto questo viene rimosso dal sistema.</p>
+
+<h2>6. Il laboratorio: l'unico caso in cui dei dati possono uscire</h2>
+<p>Il laboratorio è una funzione facoltativa che registra come la tua mano appare al modello, per
+poter migliorare il riconoscimento su dati veri.</p>
+<ul>
+  <li>Registra <strong>solo numeri</strong>: le coordinate dei ventuno punti della mano, il gesto
+  riconosciuto e il suo punteggio. <strong>Nessuna immagine.</strong></li>
+  <li>Il risultato è un file CSV di testo, che puoi <strong>aprire e leggere</strong> prima di
+  decidere qualsiasi cosa.</li>
+  <li>Resta sul telefono. Non parte niente da solo: se vuoi condividerlo devi farlo tu, con il
+  pulsante di condivisione, scegliendo tu il destinatario.</li>
+</ul>
+<p>Se non apri mai il laboratorio, non viene creato nessun file.</p>
+
+<h2>7. Il modello di riconoscimento</h2>
+<p>Il modello che riconosce la mano è incluso nell'APK e funziona interamente sul telefono.
+Non viene scaricato all'uso e non contatta nessun servizio. Viene prelevato una sola volta
+<strong>durante la compilazione</strong>, dai server pubblici di MediaPipe, e finisce dentro il
+pacchetto: sul tuo telefono è un file come un altro.</p>
+
+<h2>8. Minori, dati particolari, decisioni automatizzate</h2>
+<p>AirScroll non raccoglie dati e non profila nessuno, quindi non tratta dati di minori né
+categorie particolari di dati, e non prende decisioni automatizzate sulle persone. L'app
+interpreta un movimento della mano per muovere una pagina: non deduce, non memorizza e non
+trasmette nulla che riguardi chi la usa.</p>
+
+<h2>9. Perché Play Protect può segnalare l'app</h2>
+<p>Fotocamera più accessibilità è la combinazione tipica dei programmi spia, e i sistemi
+automatici segnalano la <strong>forma</strong>, non le intenzioni. È una segnalazione ragionevole
+e va presa sul serio: proprio per questo il progetto è open source e il permesso di rete è stato
+tolto. Non ti si chiede di credere sulla parola.</p>
+
+<h2>10. Come verificare tutto quanto</h2>
+<table>
+  <tr><th style="width:52mm">Affermazione</th><th>Come la controlli</th></tr>
+  <tr><td>Non può usare la rete</td>
+      <td>Impostazioni → App → AirScroll → Autorizzazioni: non c'è accesso a internet.</td></tr>
+  <tr><td>Non salva immagini</td>
+      <td>Il codice sorgente è pubblico e leggibile. Nessuna scrittura di immagini su disco.</td></tr>
+  <tr><td>Il file che hai scaricato è quello giusto</td>
+      <td>Ogni versione pubblica il proprio checksum SHA-256.</td></tr>
+  <tr><td>Quando la fotocamera è accesa</td>
+      <td>L'indicatore verde di sistema di Android, che l'app non può nascondere.</td></tr>
+</table>
+
+<h2>11. I tuoi diritti</h2>
+<p>Il Regolamento europeo sulla protezione dei dati riconosce diritti di accesso, rettifica,
+cancellazione, limitazione, opposizione e portabilità. Qui si esercitano da soli: <strong>i dati
+non escono mai dal tuo dispositivo</strong>, sono unicamente tuoi, e disinstallando l'app
+scompaiono. Non c'è nessun titolare a cui rivolgere una richiesta, perché non c'è nessuna
+raccolta.</p>
+
+<h2>12. Se qualcosa cambierà</h2>
+<p>Le funzioni future già discusse — per esempio i comandi vocali — sono pensate per funzionare
+anch'esse interamente sul telefono. Se una funzione dovesse mai richiedere una connessione, sarà
+<strong>facoltativa, spenta di partenza e dichiarata esplicitamente</strong> in questo documento,
+e il permesso di rete non verrà reintrodotto in silenzio: il controllo automatico in fase di
+pubblicazione lo impedisce.</p>
+
+<div class="piede">
+  AirScroll — Informativa privacy, versione 1.0. Documento riferito ad AirScroll 0.5.x.<br>
+  Progetto open source rilasciato sotto licenza Apache 2.0.
+  Codice e segnalazioni: github.com/toninlucas8-afk/Airscroll
+</div>
+</body></html>

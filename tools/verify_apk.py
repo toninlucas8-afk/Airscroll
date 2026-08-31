@@ -69,6 +69,22 @@ def check_model(apk: zipfile.ZipFile) -> None:
     print(f"modello    : presente, non compresso, {info.file_size:,} byte")
 
 
+def check_documents(apk: zipfile.ZipFile) -> None:
+    """Il manuale e l'informativa devono viaggiare dentro l'APK.
+
+    Sono raggiungibili da `Impostazioni -> Documenti`, e per un'app che non puo'
+    usare la rete non c'e' un piano B: se l'asset non c'e', quel pulsante non
+    apre niente.
+    """
+    for nome in ("assets/AirScroll-manuale.pdf", "assets/AirScroll-privacy.pdf"):
+        if nome not in apk.namelist():
+            fail(f"L'APK non contiene {nome}: i documenti nell'app non si aprirebbero.")
+        size = apk.getinfo(nome).file_size
+        if size < 10_000:
+            fail(f"{nome} e' solo {size} byte: sembra troncato.")
+        print(f"documento : {nome.split('/')[-1]}, {size:,} byte")
+
+
 def check_native_libraries(apk: zipfile.ZipFile, require_16k: bool) -> None:
     entries = [n for n in apk.namelist() if n.endswith(f"/{NATIVE_LIBRARY}")]
     if not entries:
@@ -112,6 +128,7 @@ def main() -> None:
 
     with zipfile.ZipFile(args.apk) as apk:
         check_model(apk)
+        check_documents(apk)
         check_native_libraries(apk, require_16k=not args.allow_4k_pages)
     print("APK verificato.")
 

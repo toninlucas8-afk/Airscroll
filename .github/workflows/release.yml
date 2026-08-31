@@ -132,4 +132,6 @@ jobs:
             --title "AirScroll ${TAG}" \
             --notes-file notes.md \
             "AirScroll-${TAG}.apk" \
-            "AirScroll-${TAG}.apk.sha256"
+            "AirScroll-${TAG}.apk.sha256" \
+            "docs/AirScroll-manuale.pdf" \
+            "docs/AirScroll-privacy.pdf"

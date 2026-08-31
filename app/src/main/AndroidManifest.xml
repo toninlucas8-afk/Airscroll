@@ -84,8 +84,9 @@
                 android:value="true" />
         </service>
 
-        <!-- Serve solo a condividere il CSV del laboratorio: Android non
-             permette di consegnare a un'altra app il percorso di un file. -->
+        <!-- Serve a consegnare due tipi di file a un'altra app: il CSV del
+             laboratorio e i due documenti PDF. Android non permette di passare
+             direttamente il percorso di un file, ne' quello di un asset. -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.recordings"
