@@ -25,13 +25,14 @@
   <div><span class="num">7</span>I gesti</div>
   <div><span class="num">8</span>I due modi di comandare</div>
   <div><span class="num">9</span>Le app riconosciute</div>
-  <div><span class="num">10</span>Le impostazioni, voce per voce</div>
-  <div><span class="num">11</span>La palestra</div>
-  <div><span class="num">12</span>Il laboratorio</div>
-  <div><span class="num">13</span>Se qualcosa non funziona</div>
-  <div><span class="num">14</span>Limiti dichiarati</div>
-  <div><span class="num">15</span>Consumo di batteria</div>
-  <div><span class="num">16</span>Com'è fatto dentro</div>
+  <div><span class="num">10</span>Le situazioni</div>
+  <div><span class="num">11</span>Le impostazioni, voce per voce</div>
+  <div><span class="num">12</span>La palestra</div>
+  <div><span class="num">13</span>Il laboratorio</div>
+  <div><span class="num">14</span>Se qualcosa non funziona</div>
+  <div><span class="num">15</span>Limiti dichiarati</div>
+  <div><span class="num">16</span>Consumo di batteria</div>
+  <div><span class="num">17</span>Com'è fatto dentro</div>
 </div>
 
 <h2>1. Che cos'è AirScroll</h2>
@@ -222,7 +223,38 @@ sulle pagine lunghissime, ma non dà mai la sensazione di toccare il contenuto.<
 feed social. Puoi disattivare quelle che non ti interessano e <strong>aggiungere qualsiasi altra
 app</strong> scrivendo il suo nome di package in <code>Impostazioni → App supportate</code>.</p>
 
-<h2>10. Le impostazioni, voce per voce</h2>
+<h2>10. Le situazioni</h2>
+<p>Cinque preset, scegliibili dalla schermata principale, dalla palestra o dalle impostazioni.
+Ognuno <strong>piega</strong> i tuoi cursori invece di sostituirli: spegnendolo torni esattamente
+ai tuoi valori.</p>
+<table>
+  <tr><th style="width:30mm">Situazione</th><th>Cosa cambia, e perché</th></tr>
+  <tr><td><strong>Normale</strong></td><td>Nessun preset: comandano i tuoi cursori.</td></tr>
+  <tr><td><strong>Cucina</strong></td>
+      <td>Mani occupate, telefono sul ripiano. Zona neutra più larga e scorrimento più calmo: le
+      mani infarinate si muovono male, e stai seguendo una ricetta, non un feed.</td></tr>
+  <tr><td><strong>Doccia</strong></td>
+      <td>Telefono fuori, su un ripiano, più lontano. Tutto più tollerante, e finestra gialla da
+      quindici secondi: sotto l'acqua nessuno reagisce in sei. Aspettati che vapore e distanza
+      rendano il riconoscimento più difficile — è una condizione ostile per una fotocamera, e va
+      detto.</td></tr>
+  <tr><td><strong>Bagno</strong></td>
+      <td>Telefono su una mensola, vicino, una mano occupata. Come la cucina ma più vicino e più
+      calmo: qui di solito si legge.</td></tr>
+  <tr><td><strong>Auto</strong></td>
+      <td>Il preset più severo, per un motivo diverso da tutti gli altri: <strong>qui un falso
+      positivo non è una scomodità.</strong> Il braccio si muove di continuo — volante, cambio, un
+      gesto mentre si parla — e niente di tutto questo deve essere scambiato per un comando. Zona
+      neutra tripla, pollice in su più lungo da tenere, scorrimento lento. Il volume resta, perché
+      è la cosa più utile in auto, ma richiede un movimento ampio e deliberato.</td></tr>
+</table>
+<div class="attenzione">
+  <p><strong>In auto, non leggere mentre guidi.</strong> La modalità Auto serve a rendere sicuri i
+  comandi, non a rendere comodo leggere al volante. Volume e scorrimento a colpo d'occhio sì;
+  seguire un testo no.</p>
+</div>
+
+<h2>11. Le impostazioni, voce per voce</h2>
 <h3>Movimento</h3>
 <ul>
   <li><strong>Come la mano comanda lo scorrimento</strong> — aggancio diretto o levetta (capitolo 8).</li>
@@ -232,8 +264,7 @@ app</strong> scrivendo il suo nome di package in <code>Impostazioni → App supp
   <li><strong>Velocità massima di scorrimento</strong> — il tetto, in pixel al secondo.</li>
   <li><strong>Zona neutra</strong> — moltiplica il tremolio misurato in calibrazione. Alzala se
   lo scorrimento parte da solo, abbassala se devi muoverti troppo per farlo partire.</li>
-  <li><strong>Modalità Cucina</strong> — un solo interruttore che allarga la zona neutra e calma
-  lo scorrimento, per quando hai le mani occupate.</li>
+  <li><strong>Dove ti trovi</strong> — le cinque situazioni del capitolo precedente.</li>
   <li><strong>Inverti il verso</strong> — mano in su fa risalire la pagina invece di scenderla.</li>
 </ul>
 <h3>Movimento laterale</h3>
@@ -241,20 +272,26 @@ app</strong> scrivendo il suo nome di package in <code>Impostazioni → App supp
 <h3>Prestazioni</h3>
 <p>Batteria, Bilanciato o Reattivo: cambiano risoluzione di analisi, fotogrammi al secondo e
 l'uso della GPU.</p>
+<p><strong>Risparmio energetico aggiuntivo</strong> raccoglie due cose sotto un interruttore solo:
+alla fotocamera viene chiesto di acquisire più lentamente invece di andare a pieno regime e
+buttare via i fotogrammi in eccesso, e in attesa i fotogrammi che non sono cambiati non vengono
+proprio analizzati. Il secondo si spegne da solo appena compare una mano — un pollice in su tenuto
+fermo è, a tutti gli effetti, una scena ferma. Si può disattivare, per misurare col misuratore del
+capitolo 16 quanto valga davvero.</p>
 <h3>Tempi</h3>
 <p>Durata della finestra gialla di attesa e durata del pugno chiuso per fermare.</p>
 <h3>Indicatore, vibrazione, lingua</h3>
 <p>Posizione del pallino (in alto al centro o nei quattro angoli) o spegnimento; vibrazione
 all'avvio e allo stop; lingua fra italiano, inglese, spagnolo, tedesco e cinese.</p>
 
-<h2>11. La palestra</h2>
+<h2>12. La palestra</h2>
 <p>Contenuto finto dentro l'app che scorre davvero, con lo <strong>stesso identico motore</strong>
 del servizio vero. Serve a prendere la mano senza avere a che fare con Chrome o Instagram, e a
 tarare sensibilità e zona neutra guardandone l'effetto invece che a occhio: i cursori sono nella
 stessa schermata.</p>
 <p>È anche il posto giusto per confrontare i due modi di comandare, uno dopo l'altro.</p>
 
-<h2>12. Il laboratorio</h2>
+<h2>13. Il laboratorio</h2>
 <p>Si trova in <code>Impostazioni → Guida → Apri il laboratorio</code>. Registra come la
 <em>tua</em> mano appare al modello, così le soglie si possono tarare su numeri veri.</p>
 <p>Cinque prese guidate: pollice in su, pugno chiuso, mano aperta, mano in movimento, mano a
@@ -267,7 +304,7 @@ niente, si finisce per abbassare le soglie finché tutto attiva tutto.</p>
   mandarlo.</p>
 </div>
 
-<h2>13. Se qualcosa non funziona</h2>
+<h2>14. Se qualcosa non funziona</h2>
 <h3>Compare un riquadro rosso</h3>
 <p>Vuol dire che il riconoscitore non è partito. Sotto la frase trovi un blocco di dettagli
 tecnici e un pulsante <strong>«Copia i dettagli»</strong>: quel blocco dice quale dei tre punti
@@ -290,7 +327,7 @@ parecchi telefoni serve anche bloccare l'app nell'elenco delle app recenti.</p>
 <p>Alcune schermate rifiutano i gesti sintetici: impostazioni di sistema, richieste di permessi,
 diverse app bancarie. È una protezione di Android e non è aggirabile.</p>
 
-<h2>14. Limiti dichiarati</h2>
+<h2>15. Limiti dichiarati</h2>
 <p>Sono vincoli di Android o del riconoscimento visivo, non cose «da sistemare dopo».</p>
 <ul>
   <li><strong>La notifica non si può togliere.</strong> È la condizione che il sistema impone per
@@ -305,16 +342,27 @@ diverse app bancarie. È una protezione di Android e non è aggirabile.</p>
   <li><strong>Il consumo non è zero.</strong> Vedi il capitolo seguente.</li>
 </ul>
 
-<h2>15. Consumo di batteria</h2>
+<h2>16. Consumo di batteria</h2>
 <p>Con la fotocamera aperta si consuma: è fisica, non un difetto risolvibile. Da qui il disegno a
 tre stati, che tiene il sensore spento la maggior parte del tempo.</p>
 <p>In uso continuo, aspettati un consumo confrontabile con una videochiamata a bassa risoluzione.
 Nello stato di attesa è molto meno, e a fotocamera chiusa è zero.</p>
+<h3>Misurarlo, invece di ragionarci sopra</h3>
+<p>In <code>Impostazioni → Guida → Misura il consumo</code> c'è un misuratore: tre fasi da venti
+secondi — telefono fermo, fotocamera aperta senza riconoscimento, tutto a pieno regime — e alla
+fine tre numeri.</p>
+<p>Il valore assoluto direbbe poco: <strong>lo schermo pesa più di tutto il resto messo
+insieme</strong>. Quello che conta è la differenza fra le tre righe, misurate a pochi secondi di
+distanza nelle stesse condizioni. Tieni la luminosità invariata, non toccare niente, e stacca il
+cavo: in carica la corrente entra invece di uscire, e la misura non direbbe nulla.</p>
+<p>Il sensore di corrente non c'è su tutti i telefoni e non è preciso allo stesso modo ovunque.
+Fidati delle differenze fra le righe, non dei valori assoluti, e confronta solo misure fatte sullo
+stesso telefono.</p>
 <p>Il profilo <strong>Batteria</strong> usa un'immagine più piccola e la sola CPU;
 <strong>Reattivo</strong> alza i fotogrammi al secondo sui telefoni capaci. Il predefinito,
 Bilanciato, è un compromesso ragionevole per la maggior parte dei telefoni.</p>
 
-<h2>16. Com'è fatto dentro</h2>
+<h2>17. Com'è fatto dentro</h2>
 <p>Utile se vuoi leggere il codice o contribuire.</p>
 <ul>
   <li><strong>Riconoscimento</strong> — MediaPipe Gesture Recognizer, in locale. Un solo modello
