@@ -389,4 +389,9 @@
     <string name="profile_import_done">配置已导入</string>
     <string name="profile_import_failed">该文件不是 AirScroll 配置：没有做任何改动</string>
     <string name="profile_export_failed">无法写入配置文件</string>
+
+    <!-- La scatola nera: gli ultimi due minuti, mandati a mano. -->
+    <string name="flight_send">有什么没起作用？发送最近 2 分钟</string>
+    <string name="flight_file_subject">AirScroll — 最近 %1$d 秒</string>
+    <string name="flight_empty">还没有可发送的内容：先用一会儿 AirScroll</string>
 </resources>

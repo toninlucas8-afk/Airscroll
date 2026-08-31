@@ -1,7 +1,9 @@
 package dev.airscroll.app.ui.home
 
 import android.Manifest
+import android.content.Intent
 import android.os.Build
+import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -52,12 +54,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.airscroll.app.R
+import dev.airscroll.app.bootstrap.ServiceLocator
 import dev.airscroll.app.ui.MainViewModel
+import dev.airscroll.app.ui.components.GestureLegend
 import dev.airscroll.app.ui.components.IconRow
 import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.ProblemCard
 import dev.airscroll.app.ui.components.ScreenPadding
-import dev.airscroll.app.ui.components.GestureLegend
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.SituationPicker
 import dev.airscroll.app.ui.components.StatusDot
@@ -65,6 +68,7 @@ import dev.airscroll.app.ui.components.SwitchRow
 import dev.airscroll.app.ui.components.Wordmark
 import dev.airscroll.app.ui.components.colorForState
 import dev.airscroll.app.util.AirScrollPermissions
+import dev.airscroll.app.util.FlightRecordFiles
 import dev.airscroll.app.util.PermissionSnapshot
 import dev.airscroll.core.common.model.EngineState
 import dev.airscroll.core.health.Problem
@@ -116,6 +120,26 @@ fun HomeScreen(
             error = status.lastError,
             onToggle = viewModel::setServiceEnabled,
         )
+
+        // Il pulsante che rende possibile tararla sui movimenti veri: invece
+        // di chiedere una sessione di laboratorio *prima*, quando tutto
+        // funziona, si manda il momento in cui non ha funzionato - subito dopo
+        // che e' successo.
+        TextButton(
+            onClick = {
+                val intent = FlightRecordFiles.shareIntent(context, ServiceLocator.flightRecorder)
+                if (intent == null) {
+                    Toast.makeText(context, R.string.flight_empty, Toast.LENGTH_LONG).show()
+                } else {
+                    context.startActivity(
+                        Intent.createChooser(intent, context.getString(R.string.flight_send))
+                    )
+                }
+            },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.flight_send))
+        }
 
         problem?.let { guasto ->
             ProblemCard(

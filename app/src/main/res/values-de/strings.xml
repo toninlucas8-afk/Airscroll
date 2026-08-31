@@ -389,4 +389,9 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="profile_import_done">Profil importiert</string>
     <string name="profile_import_failed">Diese Datei ist kein AirScroll-Profil: Es wurde nichts geändert</string>
     <string name="profile_export_failed">Das Profil konnte nicht geschrieben werden</string>
+
+    <!-- La scatola nera: gli ultimi due minuti, mandati a mano. -->
+    <string name="flight_send">Etwas hat nicht funktioniert? Sende die letzten 2 Minuten</string>
+    <string name="flight_file_subject">AirScroll - letzte %1$d Sekunden</string>
+    <string name="flight_empty">Noch nichts aufgezeichnet: benutze AirScroll kurz</string>
 </resources>

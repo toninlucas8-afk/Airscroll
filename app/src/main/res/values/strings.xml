@@ -440,4 +440,9 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="profile_import_done">Profile imported</string>
     <string name="profile_import_failed">That file is not an AirScroll profile: nothing was changed</string>
     <string name="profile_export_failed">Could not write the profile</string>
+
+    <!-- La scatola nera: gli ultimi due minuti, mandati a mano. -->
+    <string name="flight_send">Something went wrong? Send the last 2 minutes</string>
+    <string name="flight_file_subject">AirScroll — last %1$d seconds</string>
+    <string name="flight_empty">Nothing recorded yet: use AirScroll for a moment first</string>
 </resources>

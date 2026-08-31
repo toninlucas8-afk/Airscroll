@@ -101,6 +101,9 @@ class VisionForegroundService : LifecycleService() {
      */
     private var stoppingByUser = false
 
+    /** L'ultima velocita' comandata, per la scatola nera. */
+    private var lastScrollVelocity = 0f
+
     /**
      * Uno scope che sopravvive alla morte del servizio.
      *
@@ -253,6 +256,13 @@ class VisionForegroundService : LifecycleService() {
             current.frames.collect { frame ->
                 engine.onFrame(frame)
                 onVoiceFrame(frame)
+                // Nella scatola nera va quello che il motore ha appena deciso,
+                // non quello che decidera': si registra dopo `onFrame`.
+                ServiceLocator.flightRecorder.record(
+                    frame = frame,
+                    state = lastStatus.state,
+                    scrollVelocity = lastScrollVelocity,
+                )
             }
         }
     }
@@ -301,6 +311,7 @@ class VisionForegroundService : LifecycleService() {
         }
 
         override fun onScroll(command: ScrollCommand) {
+            lastScrollVelocity = command.velocityPxPerSec
             AirScrollBus.publishScroll(command)
         }
 

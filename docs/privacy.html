@@ -122,7 +122,33 @@ armarsi o restare spento. Quel nome viene usato e basta: non viene registrato n�
 </ul>
 <p>Disinstallando l'app, tutto questo viene rimosso dal sistema.</p>
 
-<h2>7. Il laboratorio: l'unico caso in cui dei dati possono uscire</h2>
+<h2>7. La scatola nera: gli ultimi due minuti</h2>
+<p>AirScroll tiene in memoria gli ultimi <strong>due minuti</strong> di quello che vede, mentre
+lo usi. Serve a una cosa sola, e va detta chiaramente perché è l'unico modo per giudicare se ne
+vale la pena: le soglie di riconoscimento sono scelte ragionate e non misurate, e per misurarle
+servono movimenti veri. Chiedere una sessione di laboratorio <em>prima</em>, quando tutto
+funziona, per un problema che si presenta <em>dopo</em>, non funziona: nessuno la fa.</p>
+
+<h3>Cosa c'è dentro, e cosa non c'è</h3>
+<p>Per ogni fotogramma: l'istante, se una mano era visibile, il gesto riconosciuto e quanto ne
+era sicuro il modello, la posizione del palmo, la sua dimensione apparente, lo stato del motore e
+la velocità comandata. <strong>Nessuna immagine, mai.</strong> Sono le stesse informazioni che il
+motore usa per decidere, e nient'altro.</p>
+
+<h3>Tre garanzie, che si possono verificare nel codice</h3>
+<ul>
+  <li><strong>Non tocca il disco.</strong> È un anello in memoria che si sovrascrive da solo: due
+  minuti restano due minuti anche dopo un'ora d'uso. Diventa un file solo quando premi
+  «Manda gli ultimi 2 minuti».</li>
+  <li><strong>Non parte da sola e non manda niente da sola.</strong> Non potrebbe nemmeno
+  volendo — senza il permesso INTERNET non esiste nessuna strada verso la rete — ma la decisione
+  di condividere resta di chi preme, e sceglie lui a chi mandarla.</li>
+  <li><strong>Sparisce spegnendo.</strong> Vive nella memoria del servizio: quando AirScroll si
+  spegne, non resta niente.</li>
+</ul>
+<p>Il file è un CSV: puoi aprirlo e leggerlo prima di mandarlo, riga per riga.</p>
+
+<h2>8. Il laboratorio: l'unico caso in cui dei dati possono uscire</h2>
 <p>Il laboratorio è una funzione facoltativa che registra come la tua mano appare al modello, per
 poter migliorare il riconoscimento su dati veri.</p>
 <ul>
@@ -135,30 +161,30 @@ poter migliorare il riconoscimento su dati veri.</p>
 </ul>
 <p>Se non apri mai il laboratorio, non viene creato nessun file.</p>
 
-<h2>8. Il misuratore di consumo</h2>
+<h2>9. Il misuratore di consumo</h2>
 <p>Legge la corrente assorbita dal telefono, che è un dato del dispositivo e non riguarda te:
 non dice cosa stai facendo, non identifica nessuno e non viene salvato da nessuna parte. Il
 risultato resta a schermo e sparisce chiudendo la schermata.</p>
 
-<h2>9. Il modello di riconoscimento</h2>
+<h2>10. Il modello di riconoscimento</h2>
 <p>Il modello che riconosce la mano è incluso nell'APK e funziona interamente sul telefono.
 Non viene scaricato all'uso e non contatta nessun servizio. Viene prelevato una sola volta
 <strong>durante la compilazione</strong>, dai server pubblici di MediaPipe, e finisce dentro il
 pacchetto: sul tuo telefono è un file come un altro.</p>
 
-<h2>10. Minori, dati particolari, decisioni automatizzate</h2>
+<h2>11. Minori, dati particolari, decisioni automatizzate</h2>
 <p>AirScroll non raccoglie dati e non profila nessuno, quindi non tratta dati di minori né
 categorie particolari di dati, e non prende decisioni automatizzate sulle persone. L'app
 interpreta un movimento della mano per muovere una pagina: non deduce, non memorizza e non
 trasmette nulla che riguardi chi la usa.</p>
 
-<h2>11. Perché Play Protect può segnalare l'app</h2>
+<h2>12. Perché Play Protect può segnalare l'app</h2>
 <p>Fotocamera più accessibilità è la combinazione tipica dei programmi spia, e i sistemi
 automatici segnalano la <strong>forma</strong>, non le intenzioni. È una segnalazione ragionevole
 e va presa sul serio: proprio per questo il progetto è open source e il permesso di rete è stato
 tolto. Non ti si chiede di credere sulla parola.</p>
 
-<h2>12. Come verificare tutto quanto</h2>
+<h2>13. Come verificare tutto quanto</h2>
 <table>
   <tr><th style="width:52mm">Affermazione</th><th>Come la controlli</th></tr>
   <tr><td>Non può usare la rete</td>
@@ -171,14 +197,14 @@ tolto. Non ti si chiede di credere sulla parola.</p>
       <td>L'indicatore verde di sistema di Android, che l'app non può nascondere.</td></tr>
 </table>
 
-<h2>13. I tuoi diritti</h2>
+<h2>14. I tuoi diritti</h2>
 <p>Il Regolamento europeo sulla protezione dei dati riconosce diritti di accesso, rettifica,
 cancellazione, limitazione, opposizione e portabilità. Qui si esercitano da soli: <strong>i dati
 non escono mai dal tuo dispositivo</strong>, sono unicamente tuoi, e disinstallando l'app
 scompaiono. Non c'è nessun titolare a cui rivolgere una richiesta, perché non c'è nessuna
 raccolta.</p>
 
-<h2>14. Se qualcosa cambierà</h2>
+<h2>15. Se qualcosa cambierà</h2>
 <p>Le funzioni future già discusse — per esempio i comandi vocali — sono pensate per funzionare
 anch'esse interamente sul telefono. Se una funzione dovesse mai richiedere una connessione, sarà
 <strong>facoltativa, spenta di partenza e dichiarata esplicitamente</strong> in questo documento,

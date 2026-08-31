@@ -420,4 +420,9 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="profile_import_done">Profilo importato</string>
     <string name="profile_import_failed">Quel file non è un profilo AirScroll: non è stato cambiato niente</string>
     <string name="profile_export_failed">Non sono riuscito a scrivere il profilo</string>
+
+    <!-- La scatola nera: gli ultimi due minuti, mandati a mano. -->
+    <string name="flight_send">Qualcosa non ha funzionato? Manda gli ultimi 2 minuti</string>
+    <string name="flight_file_subject">AirScroll — ultimi %1$d secondi</string>
+    <string name="flight_empty">Non c\'è ancora niente da mandare: usa AirScroll un momento</string>
 </resources>

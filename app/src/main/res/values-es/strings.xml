@@ -389,4 +389,9 @@ Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y 
     <string name="profile_import_done">Perfil importado</string>
     <string name="profile_import_failed">Ese archivo no es un perfil de AirScroll: no se ha cambiado nada</string>
     <string name="profile_export_failed">No he podido escribir el perfil</string>
+
+    <!-- La scatola nera: gli ultimi due minuti, mandati a mano. -->
+    <string name="flight_send">¿Algo no ha funcionado? Envía los últimos 2 minutos</string>
+    <string name="flight_file_subject">AirScroll — últimos %1$d segundos</string>
+    <string name="flight_empty">Todavía no hay nada que enviar: usa AirScroll un momento</string>
 </resources>

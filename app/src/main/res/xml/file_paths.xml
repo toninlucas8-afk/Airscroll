@@ -12,4 +12,5 @@
     <external-files-path name="lab" path="lab/" />
     <cache-path name="documenti" path="documenti/" />
     <cache-path name="profilo" path="profilo/" />
+    <cache-path name="volo" path="volo/" />
 </paths>
