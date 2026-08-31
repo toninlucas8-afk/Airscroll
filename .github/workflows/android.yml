@@ -25,6 +25,16 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      # Prima di tutto, un controllo che costa un decimo di secondo.
+      #
+      # Prende una famiglia di errori sola: quelli che nascono dalle modifiche
+      # fatte con sostituzioni automatiche di testo, quando l'aggancio cade a
+      # meta' di una dichiarazione. Un'annotazione finita due volte sulla stessa
+      # funzione ha gia' fatto fallire la build dopo cinque minuti di
+      # compilazione, per una cosa visibile subito.
+      - name: Kotlin sanity check
+        run: python3 tools/check_kotlin_sanity.py
+
       - name: Unit tests
         run: ./gradlew --no-daemon test
 

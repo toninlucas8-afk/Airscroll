@@ -402,7 +402,6 @@ private fun horizontalLabel(action: HorizontalAction): Int = when (action) {
 }
 
 @androidx.annotation.StringRes
-@androidx.annotation.StringRes
 private fun scrollModeLabel(mode: ScrollMode): Int = when (mode) {
     ScrollMode.FOLLOW -> R.string.scroll_mode_follow
     ScrollMode.SPEED -> R.string.scroll_mode_speed
@@ -414,6 +413,7 @@ private fun scrollModeDescription(mode: ScrollMode): Int = when (mode) {
     ScrollMode.SPEED -> R.string.scroll_mode_speed_body
 }
 
+@androidx.annotation.StringRes
 private fun cornerLabel(corner: IndicatorCorner): Int = when (corner) {
     IndicatorCorner.TOP_CENTER -> R.string.corner_top_center
     IndicatorCorner.TOP_START -> R.string.corner_top_start
