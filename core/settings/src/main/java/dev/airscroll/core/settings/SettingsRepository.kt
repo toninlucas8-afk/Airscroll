@@ -17,6 +17,7 @@ import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.model.ScrollMode
+import dev.airscroll.core.common.model.SituationMode
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
@@ -60,7 +61,7 @@ class SettingsRepository(context: Context) {
 
     suspend fun setInvertScroll(value: Boolean) = edit { it[Keys.INVERT_SCROLL] = value }
 
-    suspend fun setKitchenMode(value: Boolean) = edit { it[Keys.KITCHEN_MODE] = value }
+    suspend fun setSituationMode(mode: SituationMode) = edit { it[Keys.SITUATION_MODE] = mode.name }
 
     suspend fun setHorizontalAction(action: HorizontalAction) =
         edit { it[Keys.HORIZONTAL_ACTION] = action.name }
@@ -70,7 +71,7 @@ class SettingsRepository(context: Context) {
 
     suspend fun setScrollMode(mode: ScrollMode) = edit { it[Keys.SCROLL_MODE] = mode.name }
 
-    suspend fun setSkipStillFrames(value: Boolean) = edit { it[Keys.SKIP_STILL_FRAMES] = value }
+    suspend fun setPowerSaving(value: Boolean) = edit { it[Keys.POWER_SAVING] = value }
 
     suspend fun setIndicatorEnabled(value: Boolean) = edit { it[Keys.INDICATOR_ENABLED] = value }
 
@@ -134,10 +135,15 @@ class SettingsRepository(context: Context) {
             maxScrollSpeedPxPerSec = this[Keys.MAX_SCROLL_SPEED] ?: defaults.maxScrollSpeedPxPerSec,
             neutralZoneScale = this[Keys.NEUTRAL_ZONE_SCALE] ?: defaults.neutralZoneScale,
             invertScroll = this[Keys.INVERT_SCROLL] ?: defaults.invertScroll,
-            kitchenMode = this[Keys.KITCHEN_MODE] ?: defaults.kitchenMode,
+            // Migrazione: chi aveva la Modalita' Cucina accesa se la ritrova
+            // come preset, invece di perderla in silenzio.
+            situationMode = enumOrDefault(
+                this[Keys.SITUATION_MODE],
+                if (this[Keys.KITCHEN_MODE] == true) SituationMode.KITCHEN else defaults.situationMode,
+            ),
             horizontalAction = enumOrDefault(this[Keys.HORIZONTAL_ACTION], defaults.horizontalAction),
             maxVolumeStepsPerSec = this[Keys.MAX_VOLUME_STEPS] ?: defaults.maxVolumeStepsPerSec,
-            skipStillFrames = this[Keys.SKIP_STILL_FRAMES] ?: defaults.skipStillFrames,
+            powerSaving = this[Keys.POWER_SAVING] ?: defaults.powerSaving,
             indicatorEnabled = this[Keys.INDICATOR_ENABLED] ?: defaults.indicatorEnabled,
             indicatorCorner = enumOrDefault(this[Keys.INDICATOR_CORNER], defaults.indicatorCorner),
             hapticsEnabled = this[Keys.HAPTICS_ENABLED] ?: defaults.hapticsEnabled,
@@ -183,9 +189,10 @@ class SettingsRepository(context: Context) {
         val NEUTRAL_ZONE_SCALE = floatPreferencesKey("neutral_zone_scale")
         val INVERT_SCROLL = booleanPreferencesKey("invert_scroll")
         val KITCHEN_MODE = booleanPreferencesKey("kitchen_mode")
+        val SITUATION_MODE = stringPreferencesKey("situation_mode")
         val HORIZONTAL_ACTION = stringPreferencesKey("horizontal_action")
         val MAX_VOLUME_STEPS = floatPreferencesKey("max_volume_steps")
-        val SKIP_STILL_FRAMES = booleanPreferencesKey("skip_still_frames")
+        val POWER_SAVING = booleanPreferencesKey("power_saving")
         val INDICATOR_ENABLED = booleanPreferencesKey("indicator_enabled")
         val SCROLL_MODE = stringPreferencesKey("scroll_mode")
         val INDICATOR_CORNER = stringPreferencesKey("indicator_corner")

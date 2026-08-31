@@ -12,6 +12,7 @@ import dev.airscroll.core.common.model.EngineStatus
 import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.ScrollMode
+import dev.airscroll.core.common.model.SituationMode
 import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.runtime.AirScrollBus
 import dev.airscroll.core.settings.AirScrollSettings
@@ -70,10 +71,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     fun setMaxScrollSpeed(value: Float) = launchEdit { repository.setMaxScrollSpeed(value) }
     fun setNeutralZoneScale(value: Float) = launchEdit { repository.setNeutralZoneScale(value) }
     fun setInvertScroll(value: Boolean) = launchEdit { repository.setInvertScroll(value) }
-    fun setKitchenMode(value: Boolean) = launchEdit { repository.setKitchenMode(value) }
+    fun setSituationMode(mode: SituationMode) = launchEdit { repository.setSituationMode(mode) }
     fun setHorizontalAction(action: HorizontalAction) = launchEdit { repository.setHorizontalAction(action) }
     fun setMaxVolumeSteps(value: Float) = launchEdit { repository.setMaxVolumeStepsPerSec(value) }
-    fun setSkipStillFrames(value: Boolean) = launchEdit { repository.setSkipStillFrames(value) }
+    fun setPowerSaving(value: Boolean) = launchEdit { repository.setPowerSaving(value) }
     fun setIndicatorEnabled(value: Boolean) = launchEdit { repository.setIndicatorEnabled(value) }
     fun setScrollMode(mode: ScrollMode) = launchEdit { repository.setScrollMode(mode) }
 

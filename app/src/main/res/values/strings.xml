@@ -219,8 +219,6 @@
     <string name="signal_love">I love you</string>
 
     <!-- Kitchen mode and legend -->
-    <string name="kitchen_mode_title">Kitchen mode</string>
-    <string name="kitchen_mode_body">Busy hands? Wider dead zone and calmer scrolling, for recipes.</string>
     <string name="home_legend_title">How to read the dot</string>
     <string name="legend_red">Red · camera closed, nothing running</string>
     <string name="legend_yellow">Yellow · waiting for a thumbs up</string>
@@ -324,6 +322,17 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="power_implausible">These numbers do not add up: the phone may not report current reliably, or something else was running. Try again with nothing else open.</string>
     <string name="power_unsupported">This phone does not report the current being drawn, so the meter cannot work here. It is a limit of the device, not of the app.</string>
     <string name="power_charging">The phone is charging: current is flowing in, not out, and the measurement would be meaningless. Unplug it first.</string>
-    <string name="settings_skip_still">Skip identical frames</string>
-    <string name="settings_skip_still_hint">While waiting, frames that have not changed are not analysed at all: the scene is a shelf or a wall, and analysing it again only spends current to reconfirm that nothing is happening. It switches itself off the moment a hand appears. Turn it off to see, with the battery meter, how much it is actually worth.</string>
+    <string name="settings_power_saving">Extra battery saving</string>
+    <string name="settings_power_saving_hint">Two savings under one switch: the camera is asked to capture more slowly instead of running flat out and throwing frames away, and while waiting, frames that have not changed are not analysed at all. The second one switches itself off the moment a hand appears. Turn the whole thing off to see, with the battery meter, how much it is actually worth.</string>
+    <string name="settings_situation">Where you are</string>
+    <string name="situation_none">Normal</string>
+    <string name="situation_none_body">No preset: your own sliders decide.</string>
+    <string name="situation_kitchen">Kitchen</string>
+    <string name="situation_kitchen_body">Hands busy, phone on the counter. Wider neutral zone and calmer scrolling, because floury hands move badly and you are following a recipe, not a feed.</string>
+    <string name="situation_shower">Shower</string>
+    <string name="situation_shower_body">Phone outside on a shelf, further away. Everything more forgiving, and a much longer amber window: under running water nobody reacts in six seconds. Expect steam and distance to make recognition harder.</string>
+    <string name="situation_bathroom">Bathroom</string>
+    <string name="situation_bathroom_body">Phone on a shelf, close, one hand busy. Like the kitchen but nearer and calmer: here you are usually reading.</string>
+    <string name="situation_car">Car</string>
+    <string name="situation_car_body">Phone in its mount. The strictest preset, for a different reason from the others: here a false positive is not an inconvenience. Very wide neutral zone, a longer thumbs up to activate, slow scrolling. Volume stays, but needs a wide, deliberate movement. Do not read while driving.</string>
 </resources>

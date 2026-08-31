@@ -201,8 +201,6 @@
     <string name="signal_pointing">Indice in su</string>
     <string name="signal_love">Ti amo</string>
 
-    <string name="kitchen_mode_title">Modalità Cucina</string>
-    <string name="kitchen_mode_body">Mani occupate? Zona neutra più ampia e scorrimento più calmo, per le ricette.</string>
     <string name="home_legend_title">Come leggere il pallino</string>
     <string name="legend_red">Rosso · fotocamera chiusa, non gira niente</string>
     <string name="legend_yellow">Giallo · in attesa del pollice in su</string>
@@ -304,6 +302,17 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="power_implausible">Questi numeri non stanno in piedi: il telefono potrebbe non riportare la corrente in modo affidabile, oppure c\'era altro in esecuzione. Riprova senza nient\'altro aperto.</string>
     <string name="power_unsupported">Questo telefono non riporta la corrente assorbita, quindi il misuratore non può funzionare. È un limite del dispositivo, non dell\'app.</string>
     <string name="power_charging">Il telefono è in carica: la corrente entra invece di uscire e la misura non direbbe niente. Stacca prima il cavo.</string>
-    <string name="settings_skip_still">Salta i fotogrammi identici</string>
-    <string name="settings_skip_still_hint">In attesa, i fotogrammi che non sono cambiati non vengono proprio analizzati: la scena è un ripiano o un muro, e riguardarla spende corrente solo per riconfermare che non succede niente. Si spegne da solo appena compare una mano. Disattivalo per vedere, col misuratore di consumo, quanto vale davvero.</string>
+    <string name="settings_power_saving">Risparmio energetico aggiuntivo</string>
+    <string name="settings_power_saving_hint">Due risparmi sotto un interruttore solo: alla fotocamera viene chiesto di acquisire più lentamente invece di andare a pieno regime e buttare via i fotogrammi, e in attesa i fotogrammi che non sono cambiati non vengono proprio analizzati. Il secondo si spegne da solo appena compare una mano. Disattiva tutto per vedere, col misuratore di consumo, quanto vale davvero.</string>
+    <string name="settings_situation">Dove ti trovi</string>
+    <string name="situation_none">Normale</string>
+    <string name="situation_none_body">Nessun preset: comandano i tuoi cursori.</string>
+    <string name="situation_kitchen">Cucina</string>
+    <string name="situation_kitchen_body">Mani occupate, telefono sul ripiano. Zona neutra più larga e scorrimento più calmo, perché le mani infarinate si muovono male e stai seguendo una ricetta, non un feed.</string>
+    <string name="situation_shower">Doccia</string>
+    <string name="situation_shower_body">Telefono fuori, su un ripiano, più lontano. Tutto più tollerante e finestra gialla molto più lunga: sotto l\'acqua nessuno reagisce in sei secondi. Aspettati che vapore e distanza rendano il riconoscimento più difficile.</string>
+    <string name="situation_bathroom">Bagno</string>
+    <string name="situation_bathroom_body">Telefono su una mensola, vicino, una mano occupata. Come la cucina ma più vicino e più calmo: qui di solito si legge.</string>
+    <string name="situation_car">Auto</string>
+    <string name="situation_car_body">Telefono nel supporto. È il preset più severo, e per un motivo diverso dagli altri: qui un falso positivo non è una scomodità. Zona neutra molto larga, pollice in su più lungo da tenere, scorrimento lento. Il volume resta, ma richiede un movimento ampio e deliberato. Non leggere mentre guidi.</string>
 </resources>

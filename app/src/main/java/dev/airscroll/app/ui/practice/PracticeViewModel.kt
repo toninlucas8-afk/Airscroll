@@ -16,6 +16,7 @@ import dev.airscroll.core.common.model.EngineState
 import dev.airscroll.core.common.model.EngineStatus
 import dev.airscroll.core.common.model.HandFrame
 import dev.airscroll.core.common.model.HandSignal
+import dev.airscroll.core.common.model.SituationMode
 import dev.airscroll.core.common.model.ScrollCommand
 import dev.airscroll.core.common.model.VolumeCommand
 import dev.airscroll.core.gesture.GestureEngine
@@ -150,7 +151,8 @@ class PracticeViewModel(application: Application) : AndroidViewModel(application
 
     fun setSensitivity(value: Float) = viewModelScope.launch { repository.setSensitivity(value) }
     fun setNeutralZone(value: Float) = viewModelScope.launch { repository.setNeutralZoneScale(value) }
-    fun setKitchenMode(value: Boolean) = viewModelScope.launch { repository.setKitchenMode(value) }
+    fun setSituationMode(mode: SituationMode) =
+        viewModelScope.launch { repository.setSituationMode(mode) }
 
     override fun onCleared() {
         camera.release()

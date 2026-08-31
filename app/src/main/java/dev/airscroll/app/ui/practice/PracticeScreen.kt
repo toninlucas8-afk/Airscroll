@@ -23,7 +23,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.Restaurant
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -50,13 +49,14 @@ import dev.airscroll.app.R
 import dev.airscroll.app.ui.components.LabeledSlider
 import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.SectionCard
+import dev.airscroll.app.ui.components.SituationPicker
 import dev.airscroll.app.ui.components.StatusDot
-import dev.airscroll.app.ui.components.SwitchRow
 import dev.airscroll.app.ui.components.VisionFailureCard
 import dev.airscroll.app.ui.components.colorForState
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.core.common.model.EngineState
 import dev.airscroll.core.common.model.HandSignal
+import dev.airscroll.core.common.model.SituationMode
 import kotlinx.coroutines.isActive
 import kotlin.math.abs
 import kotlin.math.roundToInt
@@ -184,10 +184,10 @@ fun PracticeScreen(
         TuningBar(
             sensitivity = settings.sensitivity,
             neutralZone = settings.neutralZoneScale,
-            kitchenMode = settings.kitchenMode,
+            situation = settings.situationMode,
             onSensitivity = viewModel::setSensitivity,
             onNeutralZone = viewModel::setNeutralZone,
-            onKitchenMode = viewModel::setKitchenMode,
+            onSituation = viewModel::setSituationMode,
         )
     }
 }
@@ -299,10 +299,10 @@ private fun DiagnosticsRow(state: PracticeUiState) {
 private fun TuningBar(
     sensitivity: Float,
     neutralZone: Float,
-    kitchenMode: Boolean,
+    situation: SituationMode,
     onSensitivity: (Float) -> Unit,
     onNeutralZone: (Float) -> Unit,
-    onKitchenMode: (Boolean) -> Unit,
+    onSituation: (SituationMode) -> Unit,
 ) {
     SectionCard(modifier = Modifier.padding(16.dp)) {
         Text(
@@ -324,23 +324,10 @@ private fun TuningBar(
             range = 0.5f..3.0f,
             onValueChange = onNeutralZone,
         )
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(
-                imageVector = Icons.Filled.Restaurant,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp),
-            )
-            Spacer(Modifier.width(12.dp))
-            Box(Modifier.weight(1f)) {
-                SwitchRow(
-                    title = stringResource(R.string.kitchen_mode_title),
-                    subtitle = stringResource(R.string.kitchen_mode_body),
-                    checked = kitchenMode,
-                    onCheckedChange = onKitchenMode,
-                )
-            }
-        }
+        // La situazione si cambia da qui, non solo dalle impostazioni: chi
+        // passa dalla cucina all'auto non vuole rimettere mano ai cursori, e
+        // la palestra e' il posto in cui si prova l'effetto di un preset.
+        SituationPicker(selected = situation, onSelect = onSituation)
     }
 }
 

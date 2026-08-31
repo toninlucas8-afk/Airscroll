@@ -173,8 +173,6 @@
     <string name="signal_victory">Victory</string>
     <string name="signal_pointing">Zeigefinger hoch</string>
     <string name="signal_love">Ich liebe dich</string>
-    <string name="kitchen_mode_title">Küchenmodus</string>
-    <string name="kitchen_mode_body">Hände voll? Größere neutrale Zone und ruhigeres Scrollen, für Rezepte.</string>
     <string name="home_legend_title">Den Punkt lesen</string>
     <string name="legend_red">Rot · Kamera geschlossen, nichts läuft</string>
     <string name="legend_yellow">Gelb · wartet auf einen Daumen hoch</string>
@@ -273,6 +271,17 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="power_implausible">Diese Zahlen ergeben keinen Sinn: das Telefon meldet den Strom vielleicht nicht zuverlässig, oder es lief noch etwas anderes. Versuch es noch einmal, ohne dass sonst etwas offen ist.</string>
     <string name="power_unsupported">Dieses Telefon meldet den aufgenommenen Strom nicht, der Messer kann hier also nicht arbeiten. Das ist eine Grenze des Geräts, nicht der App.</string>
     <string name="power_charging">Das Telefon lädt: der Strom fließt hinein statt hinaus, und die Messung wäre bedeutungslos. Zieh zuerst das Kabel.</string>
-    <string name="settings_skip_still">Gleiche Bilder überspringen</string>
-    <string name="settings_skip_still_hint">Im Wartezustand werden unveränderte Bilder gar nicht erst ausgewertet: die Szene ist eine Ablage oder eine Wand, und sie erneut anzusehen kostet nur Strom, um zu bestätigen, dass nichts passiert. Sobald eine Hand auftaucht, schaltet es sich selbst ab. Schalte es aus, um mit dem Verbrauchsmesser zu sehen, wie viel es wirklich bringt.</string>
+    <string name="settings_power_saving">Zusätzliches Energiesparen</string>
+    <string name="settings_power_saving_hint">Zwei Einsparungen unter einem Schalter: die Kamera wird gebeten, langsamer aufzunehmen, statt voll zu laufen und Bilder wegzuwerfen, und im Wartezustand werden unveränderte Bilder gar nicht ausgewertet. Das Zweite schaltet sich ab, sobald eine Hand auftaucht. Schalte alles aus, um mit dem Verbrauchsmesser zu sehen, wie viel es wirklich bringt.</string>
+    <string name="settings_situation">Wo du bist</string>
+    <string name="situation_none">Normal</string>
+    <string name="situation_none_body">Keine Voreinstellung: deine eigenen Regler entscheiden.</string>
+    <string name="situation_kitchen">Küche</string>
+    <string name="situation_kitchen_body">Hände beschäftigt, Telefon auf der Arbeitsplatte. Breitere neutrale Zone und ruhigeres Scrollen, denn mehlige Hände bewegen sich schlecht, und du folgst einem Rezept, keinem Feed.</string>
+    <string name="situation_shower">Dusche</string>
+    <string name="situation_shower_body">Telefon draußen auf einer Ablage, weiter weg. Alles nachsichtiger und ein viel längeres gelbes Fenster: unter fließendem Wasser reagiert niemand in sechs Sekunden. Rechne damit, dass Dampf und Abstand die Erkennung erschweren.</string>
+    <string name="situation_bathroom">Bad</string>
+    <string name="situation_bathroom_body">Telefon auf einer Ablage, nah, eine Hand beschäftigt. Wie die Küche, aber näher und ruhiger: hier wird meist gelesen.</string>
+    <string name="situation_car">Auto</string>
+    <string name="situation_car_body">Telefon in der Halterung. Die strengste Voreinstellung, und zwar aus einem anderen Grund als die übrigen: hier ist ein Fehlauslöser keine Unbequemlichkeit. Sehr breite neutrale Zone, längeres Halten des Daumens, langsames Scrollen. Die Lautstärke bleibt, verlangt aber eine weite, bewusste Bewegung. Lies nicht beim Fahren.</string>
 </resources>

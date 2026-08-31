@@ -173,8 +173,6 @@
     <string name="signal_victory">Victoria</string>
     <string name="signal_pointing">Índice arriba</string>
     <string name="signal_love">Te quiero</string>
-    <string name="kitchen_mode_title">Modo Cocina</string>
-    <string name="kitchen_mode_body">¿Manos ocupadas? Zona neutra más amplia y desplazamiento más calmado, para recetas.</string>
     <string name="home_legend_title">Cómo leer el punto</string>
     <string name="legend_red">Rojo · cámara cerrada, nada en marcha</string>
     <string name="legend_yellow">Ámbar · esperando un pulgar arriba</string>
@@ -273,6 +271,17 @@ Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y 
     <string name="power_implausible">Estos números no cuadran: puede que el teléfono no informe bien de la corriente, o que hubiera algo más en marcha. Inténtalo de nuevo sin nada más abierto.</string>
     <string name="power_unsupported">Este teléfono no informa de la corriente consumida, así que el medidor no puede funcionar. Es un límite del dispositivo, no de la app.</string>
     <string name="power_charging">El teléfono está cargando: la corriente entra en vez de salir y la medida no diría nada. Desenchúfalo primero.</string>
-    <string name="settings_skip_still">Saltar los fotogramas idénticos</string>
-    <string name="settings_skip_still_hint">En espera, los fotogramas que no han cambiado no se analizan: la escena es una encimera o una pared, y volver a mirarla solo gasta corriente para reconfirmar que no pasa nada. Se apaga solo en cuanto aparece una mano. Desactívalo para ver, con el medidor de consumo, cuánto vale de verdad.</string>
+    <string name="settings_power_saving">Ahorro de batería adicional</string>
+    <string name="settings_power_saving_hint">Dos ahorros bajo un solo interruptor: se pide a la cámara que capture más despacio en vez de ir a pleno rendimiento y tirar fotogramas, y en espera los fotogramas que no han cambiado no se analizan. El segundo se apaga solo en cuanto aparece una mano. Desactívalo todo para ver, con el medidor de consumo, cuánto vale de verdad.</string>
+    <string name="settings_situation">Dónde estás</string>
+    <string name="situation_none">Normal</string>
+    <string name="situation_none_body">Sin preajuste: mandan tus controles.</string>
+    <string name="situation_kitchen">Cocina</string>
+    <string name="situation_kitchen_body">Manos ocupadas, teléfono en la encimera. Zona neutra más amplia y desplazamiento más tranquilo, porque las manos enharinadas se mueven mal y estás siguiendo una receta, no un feed.</string>
+    <string name="situation_shower">Ducha</string>
+    <string name="situation_shower_body">Teléfono fuera, en una repisa, más lejos. Todo más tolerante y ventana ámbar mucho más larga: bajo el agua nadie reacciona en seis segundos. Espera que el vapor y la distancia compliquen el reconocimiento.</string>
+    <string name="situation_bathroom">Baño</string>
+    <string name="situation_bathroom_body">Teléfono en un estante, cerca, una mano ocupada. Como la cocina pero más cerca y más tranquilo: aquí normalmente se lee.</string>
+    <string name="situation_car">Coche</string>
+    <string name="situation_car_body">Teléfono en su soporte. Es el preajuste más estricto, y por un motivo distinto a los demás: aquí un falso positivo no es una molestia. Zona neutra muy amplia, pulgar arriba más largo, desplazamiento lento. El volumen se mantiene, pero exige un movimiento amplio y deliberado. No leas mientras conduces.</string>
 </resources>

@@ -5,6 +5,7 @@ import dev.airscroll.core.common.model.HorizontalAction
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.model.ScrollMode
+import dev.airscroll.core.common.model.SituationMode
 
 /**
  * Risultato della calibrazione iniziale, quella "stile Face ID".
@@ -97,27 +98,36 @@ data class AirScrollSettings(
     val invertScroll: Boolean = false,
 
     /**
-     * Preset "mani occupate": allarga la zona neutra e rallenta lo scorrimento.
+     * Dove ti trovi, come preset.
      *
-     * E' un interruttore solo perche' chiedere a qualcuno con le mani nell'impasto
-     * di ragionare su "guadagno" e "zona neutra" non ha senso. Sotto, muove i
-     * parametri veri (vedi `effective`).
+     * Cucina, doccia, bagno, auto: ognuna piega gli stessi parametri che si
+     * potrebbero regolare a mano, ma chiedere a qualcuno con le mani
+     * nell'impasto - o al volante - di ragionare su "guadagno" e "zona neutra"
+     * non ha senso. Vedi `effective`.
      */
-    val kitchenMode: Boolean = false,
+    val situationMode: SituationMode = SituationMode.NONE,
 
     val horizontalAction: HorizontalAction = HorizontalAction.VOLUME,
     /** Gradini di volume al secondo alla massima escursione laterale. */
     val maxVolumeStepsPerSec: Float = 6f,
 
     /**
-     * Salta l'analisi dei fotogrammi identici al precedente.
+     * I due risparmi misurabili, sotto un interruttore solo.
      *
-     * Acceso di partenza: nello stato di attesa la scena non cambia quasi mai,
-     * e ogni fotogramma analizzato e' corrente spesa per riconfermare che non
-     * succede niente. Resta spegnibile perche' il misuratore di consumo possa
-     * mostrare quanto vale davvero, invece di doverci credere.
+     * 1. **Cadenza vera del sensore**: si chiede alla fotocamera di acquisire
+     *    piu' lentamente, invece di lasciarla andare a pieno regime e scartare
+     *    i fotogrammi in eccesso - che significa pagarne il conto senza usarne
+     *    il risultato.
+     * 2. **Salto dei fotogrammi immobili**: in attesa la scena non cambia quasi
+     *    mai, e rianalizzarla spende corrente solo per riconfermare che non
+     *    succede niente.
+     *
+     * Acceso di partenza, ma spegnibile: e' l'unico modo perche' il misuratore
+     * di consumo possa dire quanto valgono davvero, invece di doverci credere.
+     * Sono sotto un interruttore solo perche' la domanda a cui serve rispondere
+     * e' una sola.
      */
-    val skipStillFrames: Boolean = true,
+    val powerSaving: Boolean = true,
 
     val indicatorEnabled: Boolean = true,
     val indicatorCorner: IndicatorCorner = IndicatorCorner.TOP_CENTER,
@@ -150,9 +160,16 @@ data class AirScrollSettings(
  * attivi.
  */
 val AirScrollSettings.effective: AirScrollSettings
-    get() = if (!kitchenMode) this else copy(
-        neutralZoneScale = (neutralZoneScale * 1.7f).coerceAtMost(3f),
-        maxScrollSpeedPxPerSec = maxScrollSpeedPxPerSec * 0.6f,
-        sensitivity = (sensitivity * 0.85f).coerceAtLeast(0.4f),
-        stopHoldMs = stopHoldMs + 300L,
-    )
+    get() {
+        val mode = situationMode
+        if (mode == SituationMode.NONE) return this
+        return copy(
+            neutralZoneScale = (neutralZoneScale * mode.neutralZone).coerceAtMost(4f),
+            maxScrollSpeedPxPerSec = maxScrollSpeedPxPerSec * mode.scrollSpeed,
+            sensitivity = (sensitivity * mode.sensitivity).coerceAtLeast(0.4f),
+            stopHoldMs = stopHoldMs + mode.extraStopHoldMs,
+            activationHoldMs = activationHoldMs + mode.extraActivationHoldMs,
+            waitingWindowMs = waitingWindowMs + mode.extraWaitingWindowMs,
+            horizontalAction = if (mode.volumeAllowed) horizontalAction else HorizontalAction.NONE,
+        )
+    }

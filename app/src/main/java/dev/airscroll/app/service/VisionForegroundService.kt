@@ -214,7 +214,13 @@ class VisionForegroundService : LifecycleService() {
      * significherebbe non riconoscere proprio cio' che si sta aspettando.
      */
     private fun updateStillnessSkip(status: EngineStatus) {
-        val allowed = settings.skipStillFrames &&
+        // La cadenza del sensore vale in ogni stato: rallentare l'acquisizione
+        // conviene sempre, non solo quando non succede niente.
+        cameraController.setSensorFrameRate(settings.powerSaving)
+
+        // Il salto dei fotogrammi immobili invece no. Solo in attesa, e solo
+        // finche' nessuna mano e' in vista.
+        val allowed = settings.powerSaving &&
             status.state == EngineState.WAITING &&
             !status.handPresent
         cameraController.setSkipStillFrames(allowed)

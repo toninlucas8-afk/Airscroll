@@ -5,7 +5,13 @@ import android.graphics.Bitmap
 import android.graphics.Matrix
 import android.os.SystemClock
 import android.util.Log
+import android.hardware.camera2.CaptureRequest
+import android.util.Range
 import android.util.Size
+import androidx.camera.camera2.interop.Camera2CameraControl
+import androidx.camera.camera2.interop.CaptureRequestOptions
+import androidx.camera.camera2.interop.ExperimentalCamera2Interop
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.ImageProxy
@@ -41,6 +47,9 @@ class CameraController(context: Context) {
     private var reusableMatrix = Matrix()
 
     private val stillness = StillnessDetector()
+    private var camera: Camera? = null
+    private val targetFps = AtomicInteger(15)
+    private val sensorFrameRate = AtomicBoolean(true)
 
     /**
      * Se true, i fotogrammi identici al precedente non vengono nemmeno
@@ -98,13 +107,14 @@ class CameraController(context: Context) {
                     preview?.let { add(it) }
                 }.toTypedArray()
 
-                cameraProvider.bindToLifecycle(
+                analysis = imageAnalysis
+                camera = cameraProvider.bindToLifecycle(
                     lifecycleOwner,
                     CameraSelector.DEFAULT_FRONT_CAMERA,
                     *useCases,
                 )
-                analysis = imageAnalysis
                 isBound = true
+                applySensorFrameRate()
             } catch (t: Throwable) {
                 Log.e(TAG, "Impossibile aprire la fotocamera", t)
                 isBound = false
@@ -127,6 +137,57 @@ class CameraController(context: Context) {
     fun setTargetFps(fps: Int) {
         val safeFps = fps.coerceIn(2, 60)
         minIntervalMs.set(1000 / safeFps)
+        targetFps.set(safeFps)
+        applySensorFrameRate()
+    }
+
+    /**
+     * Chiede al **sensore** di andare piano, invece di scartare i fotogrammi in
+     * eccesso.
+     *
+     * Fino alla 0.5.1 rallentare voleva dire soltanto ignorare i fotogrammi di
+     * troppo: il sensore e l'elaborazione dell'immagine continuavano a lavorare
+     * a pieno regime, e ne pagavamo il conto senza usarne il risultato.
+     *
+     * `Camera2CameraControl` permette di cambiare l'intervallo di acquisizione
+     * sulla sessione **gia' aperta**. E' la differenza fra questa correzione e
+     * quella che temevo: nessun riavvio della fotocamera, quindi nessuno scatto
+     * al momento dell'attivazione, che e' proprio l'istante in cui la prontezza
+     * conta di piu'.
+     *
+     * Se il telefono non accetta l'intervallo richiesto, non succede niente di
+     * male: resta il filtro software di prima.
+     */
+    @OptIn(ExperimentalCamera2Interop::class)
+    private fun applySensorFrameRate() {
+        if (!sensorFrameRate.get()) return
+        val control = camera?.cameraControl ?: return
+        val fps = targetFps.get()
+        runCatching {
+            Camera2CameraControl.from(control).setCaptureRequestOptions(
+                CaptureRequestOptions.Builder()
+                    .setCaptureRequestOption(
+                        CaptureRequest.CONTROL_AE_TARGET_FPS_RANGE,
+                        Range(fps, fps),
+                    )
+                    .build()
+            )
+        }.onFailure { Log.i(TAG, "Cadenza del sensore non applicabile: resta il filtro software", it) }
+    }
+
+    /** Abilita o disabilita il controllo della cadenza del sensore. */
+    fun setSensorFrameRate(enabled: Boolean) {
+        if (sensorFrameRate.getAndSet(enabled) == enabled) return
+        if (enabled) applySensorFrameRate() else clearSensorFrameRate()
+    }
+
+    @OptIn(ExperimentalCamera2Interop::class)
+    private fun clearSensorFrameRate() {
+        val control = camera?.cameraControl ?: return
+        runCatching {
+            Camera2CameraControl.from(control)
+                .setCaptureRequestOptions(CaptureRequestOptions.Builder().build())
+        }
     }
 
     fun unbind() {
@@ -136,6 +197,7 @@ class CameraController(context: Context) {
             provider?.unbindAll()
         }
         analysis = null
+        camera = null
         isBound = false
         lastFrameAt = 0L
     }
@@ -157,7 +219,7 @@ class CameraController(context: Context) {
             // Il confronto va fatto **prima** di `toBitmap()`: anche solo
             // convertire un fotogramma da YUV a RGB costa piu' di leggere
             // qualche centinaio di byte di luminosita'.
-            if (skipStillFrames.get() && !stillness.shouldAnalyse(sampleLuminance(proxy))) return
+            if (skipStillFrames.get() && !stillness.shouldAnalyse(sampleScene(proxy))) return
 
             val source = proxy.toBitmap()
             val rotation = proxy.imageInfo.rotationDegrees
@@ -177,13 +239,17 @@ class CameraController(context: Context) {
     }
 
     /**
-     * Campiona la luminosita' su una griglia grossolana.
+     * Campiona la scena su una griglia grossolana, per capire se e' cambiata.
      *
-     * Si legge solo il piano Y - la luminanza - che nei formati della fotocamera
-     * e' il primo e non richiede nessuna conversione. Poche centinaia di byte
-     * contro i milioni di un fotogramma intero.
+     * L'analisi e' configurata in RGBA, quindi c'e' un piano solo e si legge il
+     * **canale rosso** di 256 punti: non e' la luminanza vera, ma per la
+     * domanda a cui deve rispondere - "si e' mosso qualcosa?" - va benissimo, e
+     * costa un byte per punto invece di quattro.
+     *
+     * Duecentocinquantasei letture contro i milioni di byte di un fotogramma
+     * intero, e soprattutto contro la conversione che verrebbe dopo.
      */
-    private fun sampleLuminance(proxy: ImageProxy): IntArray {
+    private fun sampleScene(proxy: ImageProxy): IntArray {
         val plane = proxy.planes.firstOrNull() ?: return IntArray(0)
         val buffer = plane.buffer
         val rowStride = plane.rowStride

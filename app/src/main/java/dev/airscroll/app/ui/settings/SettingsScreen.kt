@@ -52,6 +52,7 @@ import dev.airscroll.app.util.BundledDocument
 import dev.airscroll.app.util.BundledDocuments
 import dev.airscroll.core.common.model.IndicatorCorner
 import dev.airscroll.core.common.model.ScrollMode
+import dev.airscroll.core.common.model.SituationMode
 import dev.airscroll.core.common.model.PerformanceMode
 import kotlin.math.roundToInt
 
@@ -132,12 +133,18 @@ fun SettingsScreen(
                 range = 0.5f..3.0f,
                 onValueChange = viewModel::setNeutralZoneScale,
             )
-            SwitchRow(
-                title = stringResource(R.string.kitchen_mode_title),
-                subtitle = stringResource(R.string.kitchen_mode_body),
-                checked = settings.kitchenMode,
-                onCheckedChange = viewModel::setKitchenMode,
+            Text(
+                text = stringResource(R.string.settings_situation),
+                style = MaterialTheme.typography.bodyLarge,
             )
+            SituationMode.entries.forEach { mode ->
+                DistanceOption(
+                    title = stringResource(situationLabel(mode)),
+                    body = stringResource(situationDescription(mode)),
+                    selected = settings.situationMode == mode,
+                    onSelect = { viewModel.setSituationMode(mode) },
+                )
+            }
             SwitchRow(
                 title = stringResource(R.string.settings_invert),
                 subtitle = stringResource(R.string.settings_invert_hint),
@@ -164,10 +171,10 @@ fun SettingsScreen(
 
         SectionCard(title = stringResource(R.string.settings_performance)) {
             SwitchRow(
-                title = stringResource(R.string.settings_skip_still),
-                subtitle = stringResource(R.string.settings_skip_still_hint),
-                checked = settings.skipStillFrames,
-                onCheckedChange = viewModel::setSkipStillFrames,
+                title = stringResource(R.string.settings_power_saving),
+                subtitle = stringResource(R.string.settings_power_saving_hint),
+                checked = settings.powerSaving,
+                onCheckedChange = viewModel::setPowerSaving,
             )
             ChoiceChips(
                 options = PerformanceMode.entries.toList(),
@@ -434,6 +441,24 @@ private fun performanceLabel(mode: PerformanceMode): Int = when (mode) {
 private fun horizontalLabel(action: HorizontalAction): Int = when (action) {
     HorizontalAction.NONE -> R.string.horizontal_none
     HorizontalAction.VOLUME -> R.string.horizontal_volume
+}
+
+@androidx.annotation.StringRes
+private fun situationLabel(mode: SituationMode): Int = when (mode) {
+    SituationMode.NONE -> R.string.situation_none
+    SituationMode.KITCHEN -> R.string.situation_kitchen
+    SituationMode.SHOWER -> R.string.situation_shower
+    SituationMode.BATHROOM -> R.string.situation_bathroom
+    SituationMode.CAR -> R.string.situation_car
+}
+
+@androidx.annotation.StringRes
+private fun situationDescription(mode: SituationMode): Int = when (mode) {
+    SituationMode.NONE -> R.string.situation_none_body
+    SituationMode.KITCHEN -> R.string.situation_kitchen_body
+    SituationMode.SHOWER -> R.string.situation_shower_body
+    SituationMode.BATHROOM -> R.string.situation_bathroom_body
+    SituationMode.CAR -> R.string.situation_car_body
 }
 
 @androidx.annotation.StringRes

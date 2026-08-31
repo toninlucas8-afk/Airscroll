@@ -58,6 +58,7 @@ import dev.airscroll.app.ui.components.Pill
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.GestureLegend
 import dev.airscroll.app.ui.components.SectionCard
+import dev.airscroll.app.ui.components.SituationPicker
 import dev.airscroll.app.ui.components.StatusDot
 import dev.airscroll.app.ui.components.SwitchRow
 import dev.airscroll.app.ui.components.Wordmark
@@ -148,14 +149,16 @@ fun HomeScreen(
                 }
                 Spacer(Modifier.width(14.dp))
                 Box(Modifier.weight(1f)) {
-                    SwitchRow(
-                        title = stringResource(R.string.kitchen_mode_title),
-                        subtitle = stringResource(R.string.kitchen_mode_body),
-                        checked = settings.kitchenMode,
-                        onCheckedChange = viewModel::setKitchenMode,
+                    Text(
+                        text = stringResource(R.string.settings_situation),
+                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
             }
+            SituationPicker(
+                selected = settings.situationMode,
+                onSelect = viewModel::setSituationMode,
+            )
         }
 
         // Da Android 13 i permessi "sensibili" delle app installate a mano sono
