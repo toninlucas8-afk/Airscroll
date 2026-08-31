@@ -377,6 +377,14 @@ Tieni lo schermo acceso e la luminosità invariata per tutte e tre le fasi, e no
     <string name="settings_voice_hint">Nessuna parola di attivazione, e nessun ascolto in sottofondo. Il microfono si apre solo dopo la V con due dita, resta aperto sei secondi e si chiude da solo. Il riconoscimento avviene sul telefono: AirScroll non ha il permesso di rete, quindi l\'audio non potrebbe uscire nemmeno volendo.</string>
     <string name="settings_voice_enable">Attiva i comandi vocali</string>
     <string name="settings_voice_enable_hint">Serve il permesso del microfono. Tutto il resto continua a funzionare anche senza.</string>
-    <string name="settings_voice_commands">Prova con: “apri Spotify”, “fai partire le mie canzoni preferite”, “prossima canzone”, “alza il volume”, “metti in pausa”, “spegni”.</string>
     <string name="settings_voice_unavailable">Questo telefono non ha il riconoscimento vocale sul dispositivo (serve Android 12 o più recente, con il modello vocale di sistema installato). La voce resta spenta: l\'unica alternativa sarebbe mandare l\'audio a un server, e non è un\'alternativa.</string>
+
+    <!-- L'elenco dei comandi vocali: i titoli dei gruppi. Le frasi
+         arrivano dal codice, non da qui. -->
+    <string name="voice_commands_language_note">I comandi si dicono in italiano. Questo elenco è tutto ciò che AirScroll capisce: qualunque altra cosa non fa niente.</string>
+    <string name="voice_group_spotify">Musica</string>
+    <string name="voice_group_apps">Aprire un\'app</string>
+    <string name="voice_group_player">Quello che sta suonando</string>
+    <string name="voice_group_volume">Volume</string>
+    <string name="voice_group_airscroll">AirScroll stesso</string>
 </resources>

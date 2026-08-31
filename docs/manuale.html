@@ -318,21 +318,34 @@ Android mostra da solo il suo indicatore del microfono in alto, come fa per qual
 registri.</p>
 
 <h3>Cosa puoi dire</h3>
+<p>Questa e' la tabella completa: <strong>tutto quello che AirScroll capisce, e
+nient'altro</strong>. La trovi identica dentro l'app, in
+<code>Impostazioni &rarr; Comandi vocali</code>, perche' nascono tutte e due
+dallo stesso elenco nel codice - e un test verifica che ogni frase faccia
+davvero quello che qui c'e' scritto.</p>
+
+<!-- TABELLA COMANDI: generata da tools/genera_tabella_comandi.py -->
 <table>
-  <tr><th style="width:56mm">Esempi</th><th>Cosa succede</th></tr>
-  <tr><td>«apri Spotify», «apri YouTube», «apri il navigatore»</td>
-      <td>Apre l'app. L'elenco è chiuso: Spotify, YouTube, Instagram, WhatsApp, browser, Mappe.</td></tr>
-  <tr><td>«fai partire le mie canzoni preferite»</td>
-      <td>Su Spotify apre la raccolta dei brani salvati e, un paio di secondi dopo, manda il
-      comando di riproduzione.</td></tr>
-  <tr><td>«prossima canzone», «canzone precedente», «metti in pausa», «riprendi»</td>
-      <td>Comanda il lettore in corso, qualunque sia.</td></tr>
-  <tr><td>«alza il volume», «abbassa il volume»</td>
-      <td>Tre gradini per volta: uno solo costringerebbe a ripeterlo cinque volte.</td></tr>
-  <tr><td>«spegni», «ferma tutto»</td>
-      <td>Spegne AirScroll. Attenzione: «ferma la musica» invece mette in pausa il lettore, non
-      spegne AirScroll.</td></tr>
+  <tr><th style="width:62mm">Cosa dire</th><th>Cosa succede</th></tr>
+  <tr><td colspan="2" style="background:#eef4f0;"><strong>Musica (Spotify)</strong></td></tr>
+  <tr><td>«apri Spotify»</td><td>Apre l'app. Vanno bene anche: «avvia Spotify», «lancia Spotify».</td></tr>
+  <tr><td>«riproduci i miei brani preferiti»</td><td>Apre i brani salvati e manda il comando di riproduzione. Vanno bene anche: «fai partire le mie canzoni preferite», «metti le mie canzoni preferite», «apri Spotify e riproduci i miei brani preferiti».</td></tr>
+  <tr><td>«riproduci musica <em>genere</em>»</td><td>Cerca quel genere nell'app di musica e manda il comando di riproduzione. Quello che parte dipende da cosa l'app mette in cima ai risultati, non da una scelta di AirScroll. I generi riconosciuti sono nove: mista, jazz, rock, pop, rap, classica, elettronica, italiana, relax.</td></tr>
+  <tr><td colspan="2" style="background:#eef4f0;"><strong>Aprire un'app</strong></td></tr>
+  <tr><td>«apri <em>app</em>»</td><td>Apre l'app. Le app riconosciute sono: youtube, instagram, whatsapp, browser, mappe.</td></tr>
+  <tr><td colspan="2" style="background:#eef4f0;"><strong>Quello che sta suonando, qualunque app sia</strong></td></tr>
+  <tr><td>«prossima canzone»</td><td>Passa al brano successivo. Vanno bene anche: «canzone successiva», «salta».</td></tr>
+  <tr><td>«canzone precedente»</td><td>Torna al brano precedente. Vanno bene anche: «torna indietro».</td></tr>
+  <tr><td>«metti in pausa»</td><td>Mette in pausa. Vanno bene anche: «ferma la musica», «pausa».</td></tr>
+  <tr><td>«riprendi»</td><td>Riprende la riproduzione. Vanno bene anche: «play».</td></tr>
+  <tr><td colspan="2" style="background:#eef4f0;"><strong>Volume</strong></td></tr>
+  <tr><td>«alza il volume»</td><td>Alza il volume di tre gradini. Vanno bene anche: «aumenta il volume».</td></tr>
+  <tr><td>«abbassa il volume»</td><td>Abbassa il volume di tre gradini. Vanno bene anche: «diminuisci il volume».</td></tr>
+  <tr><td colspan="2" style="background:#eef4f0;"><strong>AirScroll stesso</strong></td></tr>
+  <tr><td>«spegni»</td><td>Spegne AirScroll. Vanno bene anche: «ferma tutto», «basta».</td></tr>
 </table>
+<!-- FINE TABELLA COMANDI -->
+
 <p>Non serve dire una formula esatta: le frasi vengono normalizzate e si cercano le parole
 chiave, così «apri Spotify» e «senti, aprimi Spotify per favore» finiscono nello stesso posto. Se
 non si riconosce un comando <strong>non succede niente</strong>, ed è voluto: il microfono sente

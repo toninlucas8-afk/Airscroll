@@ -346,6 +346,14 @@
     <string name="settings_voice_hint">没有唤醒词，也不会在后台一直听。只有当你用两根手指比出 V 之后，麦克风才会打开，保持六秒后自动关闭。识别在手机本地完成：AirScroll 没有网络权限，音频即便想出去也出不去。</string>
     <string name="settings_voice_enable">启用语音命令</string>
     <string name="settings_voice_enable_hint">需要麦克风权限。没有它，其余功能照常工作。</string>
-    <string name="settings_voice_commands">试试：“打开 Spotify”“播放我喜欢的歌”“下一首”“调大音量”“暂停”“关闭”。</string>
     <string name="settings_voice_unavailable">这台手机没有设备端语音识别（需要 Android 12 或更高版本，并已安装系统语音模型）。语音将保持关闭：唯一的替代方式是把你的音频发到服务器，而那不算替代方式。</string>
+
+    <!-- L'elenco dei comandi vocali: i titoli dei gruppi. Le frasi
+         arrivano dal codice, non da qui. -->
+    <string name="voice_commands_language_note">命令用意大利语说出。这份清单就是 AirScroll 能听懂的全部内容：其他任何话都不会有反应。</string>
+    <string name="voice_group_spotify">音乐</string>
+    <string name="voice_group_apps">打开应用</string>
+    <string name="voice_group_player">正在播放的内容</string>
+    <string name="voice_group_volume">音量</string>
+    <string name="voice_group_airscroll">AirScroll 本身</string>
 </resources>

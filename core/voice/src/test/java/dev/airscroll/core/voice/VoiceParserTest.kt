@@ -108,6 +108,19 @@ class VoiceParserTest {
     }
 
     @Test
+    fun `un verbo di riproduzione fuori contesto non fa partire niente`() {
+        // Trovato da un test, non a tavolino: dopo aver accettato "metti" e
+        // "manda" come verbi di riproduzione, "manda un messaggio a Marco"
+        // faceva partire la musica. Ora quei verbi contano solo se nella frase
+        // si parla anche di musica.
+        assertNull(VoiceParser.parse("manda un messaggio a Marco"))
+        assertNull(VoiceParser.parse("metti a posto la stanza"))
+
+        assertEquals(VoiceCommand.Media(MediaAction.PLAY), VoiceParser.parse("metti la musica"))
+        assertEquals(VoiceCommand.Media(MediaAction.PLAY), VoiceParser.parse("riprendi"))
+    }
+
+    @Test
     fun `nominare un'app senza chiedere di aprirla non basta`() {
         // "ieri su spotify c'era una canzone bellissima" non e' un ordine.
         assertNull(VoiceParser.parse("ieri su spotify ho sentito una cosa bella"))

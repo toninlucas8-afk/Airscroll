@@ -47,6 +47,7 @@ import dev.airscroll.app.ui.components.LabeledSlider
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.SwitchRow
+import dev.airscroll.app.ui.components.VoiceCommandList
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.app.util.AppLanguage
 import dev.airscroll.app.util.BundledDocument
@@ -262,11 +263,9 @@ fun SettingsScreen(
                         }
                     },
                 )
-                Text(
-                    text = stringResource(R.string.settings_voice_commands),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                )
+                // L'elenco completo, non tre esempi: chi accende un microfono
+                // ha diritto di sapere esattamente cosa ascolta.
+                VoiceCommandList()
             } else {
                 // Detto chiaramente invece di mostrare un interruttore che non
                 // farebbe niente: senza riconoscitore su dispositivo l'unica

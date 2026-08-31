@@ -36,6 +36,7 @@ object VoiceParser {
         // piu' specifica va riconosciuta per prima, altrimenti aprirebbe
         // soltanto l'app e si fermerebbe li'.
         parseFavourites(frase)?.let { return it }
+        parseGenre(frase)?.let { return it }
         parseStop(frase)?.let { return it }
         parseMedia(frase)?.let { return it }
         parseVolume(frase)?.let { return it }
@@ -54,6 +55,25 @@ object VoiceParser {
         return VoiceCommand.PlayFavourites(app)
     }
 
+    /**
+     * Un genere dall'elenco chiuso.
+     *
+     * Viene dopo le preferite perche' e' meno specifico: "le mie canzoni
+     * preferite" e' una richiesta precisa, "musica rock" e' una categoria.
+     *
+     * Serve sia una parola che parli di musica sia un genere noto. Il nome del
+     * genere da solo non basta: "il concerto rock di ieri" non e' un ordine.
+     */
+    private fun parseGenre(frase: String): VoiceCommand? {
+        val parlaDiMusica = MUSIC_WORDS.any { frase.contains(it) } ||
+            PLAY_WORDS_STRONG.any { frase.contains(it) } ||
+            PLAY_WORDS_WEAK.any { frase.contains(it) }
+        if (!parlaDiMusica) return null
+        val genere = findGenre(frase) ?: return null
+        val app = findApp(frase) ?: AppTarget.SPOTIFY
+        return VoiceCommand.PlayGenre(app, genere)
+    }
+
     private fun parseStop(frase: String): VoiceCommand? {
         val fermati = STOP_WORDS.any { frase.contains(it) }
         if (!fermati) return null
@@ -68,7 +88,9 @@ object VoiceParser {
         frase.containsAny(NEXT_WORDS) -> VoiceCommand.Media(MediaAction.NEXT)
         frase.containsAny(PREVIOUS_WORDS) -> VoiceCommand.Media(MediaAction.PREVIOUS)
         frase.containsAny(PAUSE_WORDS) -> VoiceCommand.Media(MediaAction.PAUSE)
-        frase.containsAny(PLAY_WORDS) -> VoiceCommand.Media(MediaAction.PLAY)
+        frase.containsAny(PLAY_WORDS_STRONG) -> VoiceCommand.Media(MediaAction.PLAY)
+        frase.containsAny(PLAY_WORDS_WEAK) && frase.containsAny(MEDIA_CONTEXT_WORDS) ->
+            VoiceCommand.Media(MediaAction.PLAY)
         else -> null
     }
 
@@ -91,6 +113,10 @@ object VoiceParser {
 
     private fun findApp(frase: String): AppTarget? = AppTarget.entries.firstOrNull { target ->
         target.spokenNames.any { frase.contains(it) }
+    }
+
+    private fun findGenre(frase: String): Genre? = Genre.entries.firstOrNull { genere ->
+        genere.spokenNames.any { frase.contains(it) }
     }
 
     /**
@@ -120,7 +146,22 @@ object VoiceParser {
     private val MUSIC_WORDS = listOf("musica", "canzon", "brani", "playlist", "album")
     private val FAVOURITE_WORDS = listOf("preferit", "piaciut", "salvat", "mie ", "miei ")
     private val OPEN_WORDS = listOf("apri", "apre", "lancia", "avvia", "vai su", "aprire")
-    private val PLAY_WORDS = listOf("play", "riprendi", "fai partire", "parti", "suona", "riproduci")
+    /**
+     * Verbi che da soli vogliono dire "fai partire la musica".
+     *
+     * "riprendi" non ha altri significati plausibili davanti a un telefono.
+     */
+    private val PLAY_WORDS_STRONG = listOf("play", "riprendi", "riproduci", "fai partire")
+
+    /**
+     * Verbi che vogliono dire "fai partire" **solo** se si parla di musica.
+     *
+     * "manda un messaggio a Marco" e "metti a posto la stanza" contengono un
+     * verbo di riproduzione e non c'entrano niente: e' esattamente il tipo di
+     * falso positivo che fa fare all'app cose che nessuno ha chiesto, e che
+     * insegna a non fidarsi dei comandi vocali.
+     */
+    private val PLAY_WORDS_WEAK = listOf("metti", "manda", "suona", "parti")
     private val PAUSE_WORDS = listOf("pausa", "ferma la musica", "ferma musica", "stoppa", "silenzio")
     private val NEXT_WORDS = listOf("prossima", "prossimo", "successiv", "avanti", "salta")
     private val PREVIOUS_WORDS = listOf("precedent", "indietro", "torna indietro")

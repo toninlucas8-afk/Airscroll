@@ -17,6 +17,15 @@ sealed interface VoiceCommand {
     /** Fa partire la musica preferita dell'utente. */
     data class PlayFavourites(val target: AppTarget) : VoiceCommand
 
+    /**
+     * Fa partire un genere, scelto da un elenco chiuso.
+     *
+     * Chiuso e non libero di proposito: "metti qualcosa di quel gruppo che mi
+     * piaceva" non e' un comando, e un riconoscitore offline su testo libero
+     * sbaglia molto piu' spesso di uno che deve scegliere fra nove parole note.
+     */
+    data class PlayGenre(val target: AppTarget, val genre: Genre) : VoiceCommand
+
     /** Comandi del lettore in corso, qualunque esso sia. */
     data class Media(val action: MediaAction) : VoiceCommand
 
@@ -64,6 +73,31 @@ enum class AppTarget(
         spokenNames = listOf("mappe", "maps", "google maps", "navigatore"),
         packages = listOf("com.google.android.apps.maps"),
     ),
+}
+
+/**
+ * I generi che si possono chiedere a voce.
+ *
+ * Ognuno diventa una ricerca dentro l'app di musica. AirScroll non ha accesso
+ * alla libreria di nessuno e non sa cosa ti piace: apre la ricerca di quel
+ * genere e manda il comando di riproduzione. E' quello che si puo' fare
+ * onestamente senza chiedere di collegare un account.
+ */
+enum class Genre(
+    /** Come lo si chiama parlando. */
+    val spokenNames: List<String>,
+    /** Cosa si cerca dentro l'app. */
+    val query: String,
+) {
+    MISTA(listOf("mista", "misto", "mix", "casuale", "a caso", "varia"), "mix"),
+    JAZZ(listOf("jazz"), "jazz"),
+    ROCK(listOf("rock"), "rock"),
+    POP(listOf("pop"), "pop"),
+    RAP(listOf("rap", "hip hop", "trap"), "rap"),
+    CLASSICA(listOf("classica", "classico"), "musica classica"),
+    ELETTRONICA(listOf("elettronica", "techno", "house", "dance"), "elettronica"),
+    ITALIANA(listOf("italiana", "italiano"), "musica italiana"),
+    RELAX(listOf("relax", "rilassante", "chill", "tranquilla"), "relax"),
 }
 
 enum class MediaAction { PLAY, PAUSE, NEXT, PREVIOUS }

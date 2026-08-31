@@ -38,6 +38,12 @@ jobs:
       - name: Verify every module with tests can run them
         run: python3 tools/check_test_wiring.py
 
+      # La tabella dei comandi vocali nel manuale viene generata dal codice.
+      # Un elenco ricopiato a mano invecchia in silenzio, e questo riguarda un
+      # microfono: non e' il posto dove permettersi di essere approssimativi.
+      - name: Verify the voice command table matches the code
+        run: python3 tools/genera_tabella_comandi.py
+
       - name: Unit tests
         run: ./gradlew --no-daemon test
 

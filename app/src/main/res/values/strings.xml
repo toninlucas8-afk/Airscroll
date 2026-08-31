@@ -397,6 +397,14 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="settings_voice_hint">No wake word, and no listening in the background. The microphone opens only after you hold up a V with two fingers, stays open for six seconds, and closes on its own. Recognition happens on the phone: AirScroll has no internet permission, so the audio could not leave even if it wanted to.</string>
     <string name="settings_voice_enable">Enable voice commands</string>
     <string name="settings_voice_enable_hint">Needs the microphone permission. Everything else keeps working without it.</string>
-    <string name="settings_voice_commands">Try: “open Spotify”, “play my favourite songs”, “next track”, “turn the volume up”, “pause”, “stop”.</string>
     <string name="settings_voice_unavailable">This phone has no on-device speech recognition (it needs Android 12 or newer, with the system speech model installed). Voice stays off: the only alternative would be sending your audio to a server, and that is not an alternative.</string>
+
+    <!-- L'elenco dei comandi vocali: i titoli dei gruppi. Le frasi
+         arrivano dal codice, non da qui. -->
+    <string name="voice_commands_language_note">Commands are spoken in Italian. This list is everything AirScroll understands: anything else does nothing.</string>
+    <string name="voice_group_spotify">Music</string>
+    <string name="voice_group_apps">Open an app</string>
+    <string name="voice_group_player">Whatever is playing</string>
+    <string name="voice_group_volume">Volume</string>
+    <string name="voice_group_airscroll">AirScroll itself</string>
 </resources>

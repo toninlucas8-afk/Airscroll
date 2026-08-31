@@ -346,6 +346,14 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="settings_voice_hint">Kein Aktivierungswort und kein Mithören im Hintergrund. Das Mikrofon öffnet sich nur nach dem V-Zeichen mit zwei Fingern, bleibt sechs Sekunden offen und schließt sich von selbst. Die Erkennung läuft auf dem Telefon: AirScroll hat keine Netzwerkberechtigung, das Audio könnte also gar nicht hinaus.</string>
     <string name="settings_voice_enable">Sprachbefehle einschalten</string>
     <string name="settings_voice_enable_hint">Benötigt die Mikrofon-Berechtigung. Alles andere funktioniert auch ohne.</string>
-    <string name="settings_voice_commands">Probier: „öffne Spotify“, „spiel meine Lieblingslieder“, „nächstes Lied“, „lauter“, „pause“, „aus“.</string>
     <string name="settings_voice_unavailable">Dieses Telefon hat keine Spracherkennung auf dem Gerät (nötig sind Android 12 oder neuer und das installierte System-Sprachmodell). Die Sprache bleibt aus: Die einzige Alternative wäre, dein Audio an einen Server zu schicken - und das ist keine Alternative.</string>
+
+    <!-- L'elenco dei comandi vocali: i titoli dei gruppi. Le frasi
+         arrivano dal codice, non da qui. -->
+    <string name="voice_commands_language_note">Die Befehle werden auf Italienisch gesprochen. Diese Liste ist alles, was AirScroll versteht: alles andere bewirkt nichts.</string>
+    <string name="voice_group_spotify">Musik</string>
+    <string name="voice_group_apps">Eine App öffnen</string>
+    <string name="voice_group_player">Was gerade läuft</string>
+    <string name="voice_group_volume">Lautstärke</string>
+    <string name="voice_group_airscroll">AirScroll selbst</string>
 </resources>

@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.KeyEvent
 import androidx.core.content.getSystemService
 import dev.airscroll.core.voice.AppTarget
+import dev.airscroll.core.voice.Genre
 import dev.airscroll.core.voice.MediaAction
 import dev.airscroll.core.voice.VoiceCommand
 
@@ -32,6 +33,7 @@ class VoiceExecutor(context: Context) {
     fun execute(command: VoiceCommand): Boolean = when (command) {
         is VoiceCommand.OpenApp -> openApp(command.target)
         is VoiceCommand.PlayFavourites -> playFavourites(command.target)
+        is VoiceCommand.PlayGenre -> playGenre(command.target, command.genre)
         is VoiceCommand.Media -> sendMediaKey(command.action)
         is VoiceCommand.Volume -> changeVolume(command.up, command.steps)
         VoiceCommand.Stop -> false // lo gestisce chi ci chiama: spegne il servizio
@@ -72,13 +74,49 @@ class VoiceExecutor(context: Context) {
         }
         if (!aperta) return false
 
-        // Il lettore ha bisogno di un attimo per essere pronto a ricevere il
-        // tasto: mandarlo subito lo perde e basta.
+        playAfterOpening()
+        return true
+    }
+
+    /**
+     * Fa partire un genere.
+     *
+     * Su Spotify si apre la ricerca di quel genere con `spotify:search:`, poi
+     * si manda il comando di riproduzione. AirScroll non ha accesso alla
+     * libreria di nessuno e non sa cosa ti piace: apre una ricerca, come
+     * faresti tu, e preme play.
+     *
+     * Va detto chiaramente perche' non e' ovvio: **quello che parte dipende da
+     * cosa l'app di musica mette in cima ai risultati**, non da una scelta di
+     * AirScroll. Con "mista" si cerca "mix", che di solito porta alle raccolte
+     * generate dall'app.
+     */
+    private fun playGenre(target: AppTarget, genre: Genre): Boolean {
+        val aperta = when (target) {
+            AppTarget.SPOTIFY -> start(
+                Intent(Intent.ACTION_VIEW, Uri.parse(SPOTIFY_SEARCH + Uri.encode(genre.query)))
+                    .setPackage(AppTarget.SPOTIFY.packages.first())
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ) || openApp(target)
+
+            else -> openApp(target)
+        }
+        if (!aperta) return false
+        playAfterOpening()
+        return true
+    }
+
+    /**
+     * Manda il comando di riproduzione a un'app appena aperta.
+     *
+     * Con un attimo di attesa: il lettore deve essere pronto a riceverlo, e
+     * mandarlo subito lo perde e basta.
+     */
+    private fun playAfterOpening() {
         Handler(Looper.getMainLooper()).postDelayed(
             { sendMediaKey(MediaAction.PLAY) },
             PLAY_DELAY_MS,
         )
-        return true
     }
 
     /**
@@ -131,6 +169,9 @@ class VoiceExecutor(context: Context) {
 
         /** La raccolta dei brani salvati su Spotify. */
         const val SPOTIFY_LIKED_SONGS = "spotify:collection:tracks"
+
+        /** La ricerca dentro Spotify. Il termine cercato va accodato. */
+        const val SPOTIFY_SEARCH = "spotify:search:"
 
         /** Quanto si aspetta prima di mandare il play a un'app appena aperta. */
         const val PLAY_DELAY_MS = 2_500L
