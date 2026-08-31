@@ -71,12 +71,11 @@
     <string name="calibration_show_hand">Show your hand to the camera.</string>
     <string name="calibration_hand_visible">Hand detected, keep going.</string>
     <string name="calibration_use_defaults">Skip, use defaults</string>
-    <string name="calibration_summary">Hand size %1$d · vertical range %2$d · tremor %3$d</string>
 
-    <string name="calibration_intro_title">Four short steps</string>
-    <string name="calibration_intro_body">Two steps, about twenty seconds. First hold your hand still in the middle, then complete the circle by moving outwards in every direction. Watch the animation: that is exactly the movement.</string>
-    <string name="calibration_done_title">Done</string>
-    <string name="calibration_done_body">Your profile is ready. You can always fine-tune it in settings.</string>
+    <string name="calibration_intro_title">Five steps, about a minute</string>
+    <string name="calibration_intro_body">Get in frame, hold still, complete the circle, then try the two commands. At the end you get a report of what was measured, and you can redo just the weak part instead of starting over. Watch the animation: that is exactly the movement.</string>
+    <string name="calibration_done_title">What was measured</string>
+    <string name="calibration_done_body">Numbers are in hundredths of the frame — what matters is comparing them with each other, not their absolute value.</string>
 
     <!-- Settings -->
     <string name="settings_title">Settings</string>
@@ -275,7 +274,6 @@
     <string name="calibration_ring_body">Move your hand outwards in every direction, as if drawing a circle in the air. Each segment lights up when you reach it. Move as far as is comfortable — not as far as you possibly can.</string>
     <string name="calibration_ring_left">%1$d directions to go</string>
     <string name="calibration_accept_partial">This is far enough for me</string>
-    <string name="calibration_summary_reach">Reach measured: %1$d up, %2$d down, %3$d left, %4$d right. They are different, and that is the point: scrolling now asks each direction only what your hand can actually do.</string>
     <string name="calibration_tips_title">How to move your hand</string>
     <string name="calibration_tip_open_hand">Open hand, palm towards the screen, 20 to 40 cm away — the distance you will actually use.</string>
     <string name="calibration_tip_forearm">Move your whole forearm, not just your fingers: recognition follows the middle of your palm.</string>
@@ -359,4 +357,35 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="problem_action_overlay">Grant permission</string>
     <string name="problem_action_done">I fixed it</string>
     <string name="problem_action_open_app">Open AirScroll</string>
+
+    <!-- Calibrazione: inquadratura, prova dei gesti, pagella. -->
+    <string name="calibration_framing_title">Get in frame</string>
+    <string name="calibration_framing_body">Before measuring anything, AirScroll checks that it can measure: hand in frame, at the right distance, near the middle. Hold it steady for a moment and it moves on by itself.</string>
+    <string name="calibration_framing_no_hand">Show your open hand to the camera</string>
+    <string name="calibration_framing_too_far">Come closer — your hand is too far away</string>
+    <string name="calibration_framing_too_close">Move back a little — your hand is too close</string>
+    <string name="calibration_framing_off_centre">Move towards the middle of the frame</string>
+    <string name="calibration_framing_ok">Perfect — hold it there</string>
+    <string name="calibration_framing_anyway">Continue anyway</string>
+    <string name="calibration_gestures_title">The two commands</string>
+    <string name="calibration_gestures_body">Nothing is measured here. It checks that the two gestures that start and stop everything are recognised on your hand — the one check that was missing, and without it you would only find out during real use.</string>
+    <string name="calibration_gesture_thumb">Thumbs up, and hold it</string>
+    <string name="calibration_gesture_fist">Now a closed fist, and hold it</string>
+    <string name="calibration_gesture_done">Both recognised</string>
+    <string name="calibration_gesture_stuck">This gesture is not being recognised. It may be the light, the angle, or this particular hand. You can move on: the report will say it was not recognised, instead of pretending otherwise.</string>
+    <string name="calibration_report_good">Solid calibration</string>
+    <string name="calibration_report_fair">Usable calibration, with a weak spot</string>
+    <string name="calibration_report_poor">One part is too weak to keep</string>
+    <string name="calibration_report_value">%1$d</string>
+    <string name="calibration_report_gestures_ok">both</string>
+    <string name="calibration_report_gestures_partial">incomplete</string>
+    <string name="calibration_report_lopsided">One direction reaches much further than its opposite. That is normal — arms are built that way — and it is exactly why one direction will feel different from the other. AirScroll now knows, and compensates.</string>
+    <string name="calibration_redo_aspect">Redo: %1$s</string>
+    <string name="calibration_aspect_framing">Distance from the camera</string>
+    <string name="calibration_aspect_stillness">Steadiness when still</string>
+    <string name="calibration_aspect_reach_up">Reach upwards</string>
+    <string name="calibration_aspect_reach_down">Reach downwards</string>
+    <string name="calibration_aspect_reach_left">Reach to the left</string>
+    <string name="calibration_aspect_reach_right">Reach to the right</string>
+    <string name="calibration_aspect_gestures">The two commands</string>
 </resources>

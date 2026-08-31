@@ -38,6 +38,7 @@ import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.SectionCard
 import dev.airscroll.app.ui.components.VisionFailureCard
 import dev.airscroll.app.util.AirScrollPermissions
+import dev.airscroll.core.gesture.FramingHint
 
 @Composable
 fun CalibrationScreen(
@@ -113,8 +114,64 @@ fun CalibrationScreen(
             // Il movimento si mostra prima di chiederlo. Durante il cerchio
             // vero l'animazione sparisce: due cerchi insieme, uno finto e uno
             // vivo, si darebbero solo fastidio.
-            if (state.step == CalibrationStep.INTRO || state.step == CalibrationStep.CENTER) {
+            if (state.step == CalibrationStep.INTRO ||
+                state.step == CalibrationStep.CENTER ||
+                state.step == CalibrationStep.FRAMING
+            ) {
                 CalibrationDemo(step = state.step)
+            }
+
+            // L'inquadratura parla in continuazione, ed e' l'unico passo in
+            // cui il consiglio cambia da un istante all'altro: avvicinati,
+            // allontanati, portati al centro. Un messaggio solo che dice
+            // "non va bene" non direbbe cosa fare.
+            if (state.step == CalibrationStep.FRAMING) {
+                Text(
+                    text = stringResource(framingHintText(state.framing)),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = if (state.framing == FramingHint.OK) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.tertiary
+                    },
+                )
+                if (state.framingStuck) {
+                    // Se su questo telefono, con questa luce, le condizioni non
+                    // si raggiungono mai, non si tiene nessuno fermo davanti a
+                    // un passo che non finisce: si prosegue, e sara' la pagella
+                    // a dire che la distanza non era buona.
+                    OutlinedButton(
+                        onClick = { viewModel.beginNextStep() },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.calibration_framing_anyway))
+                    }
+                }
+            }
+
+            if (state.step == CalibrationStep.GESTURES) {
+                Text(
+                    text = stringResource(gestureText(state.gestureStage)),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary,
+                )
+                if (state.gestureStuck) {
+                    // Puo' essere il gesto, puo' essere la luce, puo' essere
+                    // questa mano. In ogni caso non si resta bloccati qui: si
+                    // va avanti, e la pagella dira' che quel gesto non e'
+                    // stato riconosciuto invece di fingere di si'.
+                    Text(
+                        text = stringResource(R.string.calibration_gesture_stuck),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    OutlinedButton(
+                        onClick = viewModel::skipGesture,
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.action_skip))
+                    }
+                }
             }
 
             if (state.step == CalibrationStep.INTRO) {
@@ -196,38 +253,41 @@ fun CalibrationScreen(
             }
 
             when {
-                state.step == CalibrationStep.DONE -> {
-                    Text(
-                        text = stringResource(
-                            R.string.calibration_summary,
-                            (state.result.referenceHandSpan * 100).toInt(),
-                            (state.result.verticalRange * 100).toInt(),
-                            (state.result.tremor * 1000).toInt(),
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    // Le quattro portate scritte per esteso: sono la ragione
-                    // per cui il cerchio esiste, e vederle diverse fra loro
-                    // spiega da solo perche' una media non poteva bastare.
-                    Text(
-                        text = stringResource(
-                            R.string.calibration_summary_reach,
-                            (state.result.reachUp * 100).toInt(),
-                            (state.result.reachDown * 100).toInt(),
-                            (state.result.reachLeft * 100).toInt(),
-                            (state.result.reachRight * 100).toInt(),
-                        ),
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    )
-                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                        Button(onClick = { viewModel.save(onDone) }) {
-                            Text(stringResource(R.string.action_save))
+                state.step == CalibrationStep.REPORT -> {
+                    state.report?.let { report ->
+                        CalibrationReportCard(report)
+                    }
+
+                    Button(
+                        onClick = { viewModel.save(onDone) },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.action_save))
+                    }
+
+                    // Il pezzo debole si rifa' da solo. Senza questo, l'unica
+                    // scelta davanti a una misura storta sarebbe rifare tutto
+                    // da capo - cosa che nessuno fa, e quindi la misura storta
+                    // resterebbe li'.
+                    state.report?.weakest?.let { debole ->
+                        OutlinedButton(
+                            onClick = { viewModel.redo(debole.aspect) },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Text(
+                                stringResource(
+                                    R.string.calibration_redo_aspect,
+                                    stringResource(aspectLabel(debole.aspect)),
+                                )
+                            )
                         }
-                        OutlinedButton(onClick = { viewModel.restart() }) {
-                            Text(stringResource(R.string.action_redo))
-                        }
+                    }
+
+                    TextButton(
+                        onClick = { viewModel.restart() },
+                        modifier = Modifier.fillMaxWidth(),
+                    ) {
+                        Text(stringResource(R.string.action_redo))
                     }
                 }
 
@@ -263,15 +323,36 @@ fun CalibrationScreen(
 @androidx.annotation.StringRes
 private fun stepTitle(step: CalibrationStep): Int = when (step) {
     CalibrationStep.INTRO -> R.string.calibration_intro_title
+    CalibrationStep.FRAMING -> R.string.calibration_framing_title
     CalibrationStep.CENTER -> R.string.calibration_center_title
     CalibrationStep.RING -> R.string.calibration_ring_title
-    CalibrationStep.DONE -> R.string.calibration_done_title
+    CalibrationStep.GESTURES -> R.string.calibration_gestures_title
+    CalibrationStep.REPORT -> R.string.calibration_done_title
 }
 
 @androidx.annotation.StringRes
 private fun stepBody(step: CalibrationStep): Int = when (step) {
     CalibrationStep.INTRO -> R.string.calibration_intro_body
+    CalibrationStep.FRAMING -> R.string.calibration_framing_body
     CalibrationStep.CENTER -> R.string.calibration_center_body
     CalibrationStep.RING -> R.string.calibration_ring_body
-    CalibrationStep.DONE -> R.string.calibration_done_body
+    CalibrationStep.GESTURES -> R.string.calibration_gestures_body
+    CalibrationStep.REPORT -> R.string.calibration_done_body
+}
+
+/** Il consiglio del momento: cosa fare adesso, non cosa non va. */
+@androidx.annotation.StringRes
+private fun framingHintText(hint: FramingHint): Int = when (hint) {
+    FramingHint.NO_HAND -> R.string.calibration_framing_no_hand
+    FramingHint.TOO_FAR -> R.string.calibration_framing_too_far
+    FramingHint.TOO_CLOSE -> R.string.calibration_framing_too_close
+    FramingHint.OFF_CENTRE -> R.string.calibration_framing_off_centre
+    FramingHint.OK -> R.string.calibration_framing_ok
+}
+
+@androidx.annotation.StringRes
+private fun gestureText(stage: GestureStage): Int = when (stage) {
+    GestureStage.THUMB -> R.string.calibration_gesture_thumb
+    GestureStage.FIST -> R.string.calibration_gesture_fist
+    GestureStage.DONE -> R.string.calibration_gesture_done
 }

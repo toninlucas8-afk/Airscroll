@@ -56,11 +56,10 @@
     <string name="calibration_show_hand">请把手对准摄像头。</string>
     <string name="calibration_hand_visible">已检测到手，请保持。</string>
     <string name="calibration_use_defaults">跳过，使用默认值</string>
-    <string name="calibration_summary">手部尺寸 %1$d · 垂直幅度 %2$d · 抖动 %3$d</string>
-    <string name="calibration_intro_title">四个简短步骤</string>
-    <string name="calibration_intro_body">两个步骤，大约二十秒。先把手稳稳地放在中间，然后朝各个方向向外移动，把圆圈补全。看一下动画：动作就是这样。</string>
-    <string name="calibration_done_title">完成</string>
-    <string name="calibration_done_body">你的配置已就绪。随时可以在设置里微调。</string>
+    <string name="calibration_intro_title">五个步骤，约一分钟</string>
+    <string name="calibration_intro_body">先进入取景范围，保持手不动，画满整个圆，然后测试两个命令手势。最后你会得到一份测量报告，并且可以只重做薄弱的那一项，而不必从头再来。看动画：动作就是那样。</string>
+    <string name="calibration_done_title">测到了什么</string>
+    <string name="calibration_done_body">数字是画面的百分之几：重要的是彼此之间的比较，而不是绝对值。</string>
     <string name="settings_title">设置</string>
     <string name="settings_movement">运动</string>
     <string name="settings_distance">距离配置</string>
@@ -224,7 +223,6 @@
     <string name="calibration_ring_body">朝各个方向把手向外移动，就像在空中画一个圆。每个扇形在你到达时点亮。移动到舒服的位置就好，不用勉强。</string>
     <string name="calibration_ring_left">还差 %1$d 个方向</string>
     <string name="calibration_accept_partial">这样就可以了</string>
-    <string name="calibration_summary_reach">测得的活动范围：上 %1$d，下 %2$d，左 %3$d，右 %4$d。它们并不相同，而这正是重点：现在滚动只会向每个方向要求你的手真正能做到的幅度。</string>
     <string name="calibration_tips_title">手该怎么动</string>
     <string name="calibration_tip_open_hand">张开手，手掌朝向屏幕，距离 20 到 40 厘米——也就是你实际使用的距离。</string>
     <string name="calibration_tip_forearm">整条小臂一起动，不要只动手指：识别跟随的是手掌中心。</string>
@@ -308,4 +306,35 @@
     <string name="problem_action_overlay">授予权限</string>
     <string name="problem_action_done">我已经解决了</string>
     <string name="problem_action_open_app">打开 AirScroll</string>
+
+    <!-- Calibrazione: inquadratura, prova dei gesti, pagella. -->
+    <string name="calibration_framing_title">进入取景范围</string>
+    <string name="calibration_framing_body">在测量任何东西之前，AirScroll 先确认它能测量：手在画面内、距离合适、靠近中央。保持一会儿，它会自动进入下一步。</string>
+    <string name="calibration_framing_no_hand">把张开的手对准摄像头</string>
+    <string name="calibration_framing_too_far">靠近一些：手太远了</string>
+    <string name="calibration_framing_too_close">退后一点：手太近了</string>
+    <string name="calibration_framing_off_centre">请移到画面中央</string>
+    <string name="calibration_framing_ok">很好，保持不动</string>
+    <string name="calibration_framing_anyway">仍然继续</string>
+    <string name="calibration_gestures_title">两个命令手势</string>
+    <string name="calibration_gestures_body">这一步不测量任何东西，而是确认开启和停止用的两个手势能在你的手上被识别出来：这正是过去缺少的检查，没有它你只能在实际使用时才发现。</string>
+    <string name="calibration_gesture_thumb">竖起大拇指，并保持</string>
+    <string name="calibration_gesture_fist">现在握拳，并保持</string>
+    <string name="calibration_gesture_done">两个都已识别</string>
+    <string name="calibration_gesture_stuck">这个手势没有被识别。可能是光线、角度，也可能是这只手。你可以继续：报告会如实写明它没有被识别，而不是假装成功。</string>
+    <string name="calibration_report_good">校准扎实</string>
+    <string name="calibration_report_fair">可用的校准，但有一处薄弱</string>
+    <string name="calibration_report_poor">有一项太弱，不宜保留</string>
+    <string name="calibration_report_value">%1$d</string>
+    <string name="calibration_report_gestures_ok">两个</string>
+    <string name="calibration_report_gestures_partial">不完整</string>
+    <string name="calibration_report_lopsided">一个方向比相反方向伸得远得多。这很正常——手臂本来如此——也正因如此，两个方向的手感会不同。AirScroll 现在知道了，并会据此补偿。</string>
+    <string name="calibration_redo_aspect">重做：%1$s</string>
+    <string name="calibration_aspect_framing">与摄像头的距离</string>
+    <string name="calibration_aspect_stillness">静止时的稳定度</string>
+    <string name="calibration_aspect_reach_up">向上的幅度</string>
+    <string name="calibration_aspect_reach_down">向下的幅度</string>
+    <string name="calibration_aspect_reach_left">向左的幅度</string>
+    <string name="calibration_aspect_reach_right">向右的幅度</string>
+    <string name="calibration_aspect_gestures">两个命令手势</string>
 </resources>

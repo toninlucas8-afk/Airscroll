@@ -6,7 +6,7 @@ plugins {
 
 // Gradle vuole `plugins {}` come prima istruzione dello script, quindi le
 // costanti vanno dopo.
-val fallbackVersion = "0.5.2"
+val fallbackVersion = "0.6.0"
 
 android {
     namespace = "dev.airscroll.app"

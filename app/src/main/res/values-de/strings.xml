@@ -56,11 +56,10 @@
     <string name="calibration_show_hand">Zeig der Kamera deine Hand.</string>
     <string name="calibration_hand_visible">Hand erkannt, weiter so.</string>
     <string name="calibration_use_defaults">Überspringen, Ausgangswerte nutzen</string>
-    <string name="calibration_summary">Handgröße %1$d · vertikaler Weg %2$d · Zittern %3$d</string>
-    <string name="calibration_intro_title">Vier kurze Schritte</string>
-    <string name="calibration_intro_body">Zwei Schritte, etwa zwanzig Sekunden. Halte die Hand zuerst ruhig in der Mitte, dann vervollständige den Kreis, indem du sie in alle Richtungen nach außen bewegst. Sieh dir die Animation an: genau diese Bewegung ist gemeint.</string>
-    <string name="calibration_done_title">Fertig</string>
-    <string name="calibration_done_body">Dein Profil ist bereit. Du kannst es jederzeit in den Einstellungen nachjustieren.</string>
+    <string name="calibration_intro_title">Fünf Schritte, etwa eine Minute</string>
+    <string name="calibration_intro_body">Komm ins Bild, halte die Hand ruhig, schließe den Kreis, dann probiere die zwei Befehle. Am Ende bekommst du einen Bericht über das Gemessene und kannst nur den schwachen Teil wiederholen, statt von vorn anzufangen. Sieh dir die Animation an: genau diese Bewegung ist gemeint.</string>
+    <string name="calibration_done_title">Was gemessen wurde</string>
+    <string name="calibration_done_body">Die Zahlen sind Hundertstel des Bildausschnitts: Wichtig ist der Vergleich untereinander, nicht der absolute Wert.</string>
     <string name="settings_title">Einstellungen</string>
     <string name="settings_movement">Bewegung</string>
     <string name="settings_distance">Abstandsprofil</string>
@@ -224,7 +223,6 @@
     <string name="calibration_ring_body">Bewege die Hand in alle Richtungen nach außen, als würdest du einen Kreis in die Luft zeichnen. Jedes Segment leuchtet auf, sobald du es erreichst. Geh so weit, wie es bequem ist, nicht so weit wie irgend möglich.</string>
     <string name="calibration_ring_left">Noch %1$d Richtungen</string>
     <string name="calibration_accept_partial">So passt es für mich</string>
-    <string name="calibration_summary_reach">Gemessene Reichweite: %1$d oben, %2$d unten, %3$d links, %4$d rechts. Sie sind unterschiedlich, und genau darum geht es: das Scrollen verlangt jetzt von jeder Richtung nur das, was deine Hand wirklich kann.</string>
     <string name="calibration_tips_title">So bewegst du die Hand</string>
     <string name="calibration_tip_open_hand">Offene Hand, Handfläche zum Bildschirm, 20 bis 40 cm entfernt — der Abstand, den du wirklich nutzen wirst.</string>
     <string name="calibration_tip_forearm">Bewege den ganzen Unterarm, nicht nur die Finger: die Erkennung folgt der Mitte der Handfläche.</string>
@@ -308,4 +306,35 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="problem_action_overlay">Berechtigung erteilen</string>
     <string name="problem_action_done">Ich habe es behoben</string>
     <string name="problem_action_open_app">AirScroll öffnen</string>
+
+    <!-- Calibrazione: inquadratura, prova dei gesti, pagella. -->
+    <string name="calibration_framing_title">Ins Bild kommen</string>
+    <string name="calibration_framing_body">Bevor irgendetwas gemessen wird, prüft AirScroll, ob es messen kann: Hand im Bild, im richtigen Abstand, mittig. Halte sie kurz ruhig, dann geht es von selbst weiter.</string>
+    <string name="calibration_framing_no_hand">Zeig der Kamera die offene Hand</string>
+    <string name="calibration_framing_too_far">Komm näher: Die Hand ist zu weit weg</string>
+    <string name="calibration_framing_too_close">Geh etwas zurück: Die Hand ist zu nah</string>
+    <string name="calibration_framing_off_centre">Geh zur Bildmitte</string>
+    <string name="calibration_framing_ok">Perfekt, so halten</string>
+    <string name="calibration_framing_anyway">Trotzdem fortfahren</string>
+    <string name="calibration_gestures_title">Die zwei Befehle</string>
+    <string name="calibration_gestures_body">Hier wird nichts gemessen. Es wird geprüft, ob die beiden Gesten, die alles ein- und ausschalten, auf deiner Hand erkannt werden: die einzige Prüfung, die bisher fehlte - ohne sie merkst du es erst im echten Gebrauch.</string>
+    <string name="calibration_gesture_thumb">Daumen hoch, und halten</string>
+    <string name="calibration_gesture_fist">Jetzt die Faust schließen, und halten</string>
+    <string name="calibration_gesture_done">Beide erkannt</string>
+    <string name="calibration_gesture_stuck">Diese Geste wird nicht erkannt. Es kann am Licht liegen, am Winkel oder an dieser Hand. Du kannst weitergehen: Der Bericht sagt dann, dass sie nicht erkannt wurde, statt so zu tun als ob.</string>
+    <string name="calibration_report_good">Solide Kalibrierung</string>
+    <string name="calibration_report_fair">Brauchbare Kalibrierung, mit einer Schwachstelle</string>
+    <string name="calibration_report_poor">Ein Teil ist zu schwach, um ihn zu behalten</string>
+    <string name="calibration_report_value">%1$d</string>
+    <string name="calibration_report_gestures_ok">beide</string>
+    <string name="calibration_report_gestures_partial">unvollständig</string>
+    <string name="calibration_report_lopsided">Eine Richtung reicht viel weiter als die entgegengesetzte. Das ist normal - Arme sind so gebaut - und genau deshalb wird sich die eine Richtung anders anfühlen als die andere. AirScroll weiß das jetzt und gleicht es aus.</string>
+    <string name="calibration_redo_aspect">Wiederholen: %1$s</string>
+    <string name="calibration_aspect_framing">Abstand zur Kamera</string>
+    <string name="calibration_aspect_stillness">Ruhe der ruhenden Hand</string>
+    <string name="calibration_aspect_reach_up">Reichweite nach oben</string>
+    <string name="calibration_aspect_reach_down">Reichweite nach unten</string>
+    <string name="calibration_aspect_reach_left">Reichweite nach links</string>
+    <string name="calibration_aspect_reach_right">Reichweite nach rechts</string>
+    <string name="calibration_aspect_gestures">Die zwei Befehle</string>
 </resources>

@@ -39,9 +39,11 @@ import kotlin.math.sin
 @Composable
 fun CalibrationDemo(step: CalibrationStep, modifier: Modifier = Modifier) {
     when (step) {
-        CalibrationStep.CENTER -> SteadyHandDemo(modifier)
+        // L'inquadratura e la mano ferma chiedono la stessa cosa - stare fermi
+        // nel posto giusto - quindi mostrano la stessa animazione.
+        CalibrationStep.FRAMING, CalibrationStep.CENTER -> SteadyHandDemo(modifier)
         CalibrationStep.INTRO, CalibrationStep.RING -> CircleHandDemo(modifier)
-        CalibrationStep.DONE -> Unit
+        CalibrationStep.GESTURES, CalibrationStep.REPORT -> Unit
     }
 }
 

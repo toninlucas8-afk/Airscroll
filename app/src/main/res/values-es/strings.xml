@@ -56,11 +56,10 @@
     <string name="calibration_show_hand">Muestra la mano a la cámara.</string>
     <string name="calibration_hand_visible">Mano detectada, sigue así.</string>
     <string name="calibration_use_defaults">Saltar, usar los valores de partida</string>
-    <string name="calibration_summary">Tamaño de mano %1$d · recorrido vertical %2$d · temblor %3$d</string>
-    <string name="calibration_intro_title">Cuatro pasos breves</string>
-    <string name="calibration_intro_body">Dos pasos, unos veinte segundos. Primero mantén la mano quieta en el centro, luego completa el círculo moviéndola hacia fuera en todas las direcciones. Mira la animación: el movimiento es exactamente ese.</string>
-    <string name="calibration_done_title">Hecho</string>
-    <string name="calibration_done_body">Tu perfil está listo. Siempre puedes retocarlo en los ajustes.</string>
+    <string name="calibration_intro_title">Cinco pasos, alrededor de un minuto</string>
+    <string name="calibration_intro_body">Colócate en el encuadre, mantén la mano quieta, completa el círculo y luego prueba los dos comandos. Al final recibes un informe de lo medido y puedes repetir solo la parte débil en vez de empezar de cero. Mira la animación: el movimiento es exactamente ese.</string>
+    <string name="calibration_done_title">Lo que se ha medido</string>
+    <string name="calibration_done_body">Los números están en centésimas del encuadre: lo que importa es compararlos entre sí, no su valor absoluto.</string>
     <string name="settings_title">Ajustes</string>
     <string name="settings_movement">Movimiento</string>
     <string name="settings_distance">Perfil de distancia</string>
@@ -224,7 +223,6 @@
     <string name="calibration_ring_body">Mueve la mano hacia fuera en todas las direcciones, como si dibujaras un círculo en el aire. Cada segmento se enciende cuando llegas. Llega hasta donde te resulte cómodo, no hasta donde puedas forzar.</string>
     <string name="calibration_ring_left">Faltan %1$d direcciones</string>
     <string name="calibration_accept_partial">Así está bien para mí</string>
-    <string name="calibration_summary_reach">Alcance medido: %1$d arriba, %2$d abajo, %3$d a la izquierda, %4$d a la derecha. Son distintos, y ese es el objetivo: ahora el desplazamiento pide a cada dirección solo lo que tu mano puede hacer de verdad.</string>
     <string name="calibration_tips_title">Cómo mover la mano</string>
     <string name="calibration_tip_open_hand">Mano abierta, palma hacia la pantalla, a 20-40 cm: la distancia a la que la usarás de verdad.</string>
     <string name="calibration_tip_forearm">Mueve todo el antebrazo, no solo los dedos: el reconocimiento sigue el centro de la palma.</string>
@@ -308,4 +306,35 @@ Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y 
     <string name="problem_action_overlay">Conceder permiso</string>
     <string name="problem_action_done">Ya lo he solucionado</string>
     <string name="problem_action_open_app">Abrir AirScroll</string>
+
+    <!-- Calibrazione: inquadratura, prova dei gesti, pagella. -->
+    <string name="calibration_framing_title">Colócate en el encuadre</string>
+    <string name="calibration_framing_body">Antes de medir nada, AirScroll comprueba que puede medir: mano encuadrada, a la distancia correcta, hacia el centro. Mantenla quieta un momento y continúa solo.</string>
+    <string name="calibration_framing_no_hand">Muestra la mano abierta a la cámara</string>
+    <string name="calibration_framing_too_far">Acércate: la mano está demasiado lejos</string>
+    <string name="calibration_framing_too_close">Aléjate un poco: la mano está demasiado cerca</string>
+    <string name="calibration_framing_off_centre">Ponte hacia el centro del encuadre</string>
+    <string name="calibration_framing_ok">Perfecto, mantén así</string>
+    <string name="calibration_framing_anyway">Continuar de todos modos</string>
+    <string name="calibration_gestures_title">Los dos comandos</string>
+    <string name="calibration_gestures_body">Aquí no se mide nada. Se comprueba que los dos gestos que encienden y apagan todo se reconocen en tu mano: era la única comprobación que faltaba, y sin ella lo descubrirías solo usando la app.</string>
+    <string name="calibration_gesture_thumb">Pulgar arriba, y mantenlo</string>
+    <string name="calibration_gesture_fist">Ahora cierra el puño, y mantenlo</string>
+    <string name="calibration_gesture_done">Ambos reconocidos</string>
+    <string name="calibration_gesture_stuck">Este gesto no se reconoce. Puede ser la luz, el ángulo o esta mano. Puedes continuar: el informe dirá que no se reconoció, en vez de fingir que sí.</string>
+    <string name="calibration_report_good">Calibración sólida</string>
+    <string name="calibration_report_fair">Calibración utilizable, con un punto débil</string>
+    <string name="calibration_report_poor">Una parte es demasiado débil para conservarla</string>
+    <string name="calibration_report_value">%1$d</string>
+    <string name="calibration_report_gestures_ok">ambos</string>
+    <string name="calibration_report_gestures_partial">incompletos</string>
+    <string name="calibration_report_lopsided">Un sentido llega mucho más lejos que el opuesto. Es normal —los brazos son así— y es justo por eso que un sentido responderá distinto del otro. Ahora AirScroll lo sabe y lo compensa.</string>
+    <string name="calibration_redo_aspect">Repetir: %1$s</string>
+    <string name="calibration_aspect_framing">Distancia a la cámara</string>
+    <string name="calibration_aspect_stillness">Firmeza con la mano quieta</string>
+    <string name="calibration_aspect_reach_up">Alcance hacia arriba</string>
+    <string name="calibration_aspect_reach_down">Alcance hacia abajo</string>
+    <string name="calibration_aspect_reach_left">Alcance a la izquierda</string>
+    <string name="calibration_aspect_reach_right">Alcance a la derecha</string>
+    <string name="calibration_aspect_gestures">Los dos comandos</string>
 </resources>
