@@ -284,4 +284,28 @@ Lass den Bildschirm an und die Helligkeit unverändert, und fass während der dr
     <string name="situation_bathroom_body">Telefon auf einer Ablage, nah, eine Hand beschäftigt. Wie die Küche, aber näher und ruhiger: hier wird meist gelesen.</string>
     <string name="situation_car">Auto</string>
     <string name="situation_car_body">Telefon in der Halterung. Die strengste Voreinstellung, und zwar aus einem anderen Grund als die übrigen: hier ist ein Fehlauslöser keine Unbequemlichkeit. Sehr breite neutrale Zone, längeres Halten des Daumens, langsames Scrollen. Die Lautstärke bleibt, verlangt aber eine weite, bewusste Bewegung. Lies nicht beim Fahren.</string>
+
+    <!-- Guasti: cosa e' successo, e dove si risolve. -->
+    <string name="problem_channel_name">AirScroll-Probleme</string>
+    <string name="problem_channel_description">Meldet, wenn AirScroll nicht mehr funktioniert, und sagt, wie man es behebt.</string>
+    <string name="problem_service_killed_title">AirScroll wurde beendet</string>
+    <string name="problem_service_killed_body">Das Telefon hat den Dienst beendet, um Akku zu sparen: Ab jetzt steuert die Hand nichts mehr. Schalte ihn in der App wieder ein. Damit das nicht wieder passiert, nimm AirScroll aus der Akku-Optimierung heraus.</string>
+    <string name="problem_accessibility_title">Der Bedienungshilfen-Dienst ist aus</string>
+    <string name="problem_accessibility_body">AirScroll sieht die Hand noch, kann den Bildschirm aber nicht mehr berühren. Android schaltet das nach manchen System-Updates von selbst ab. Aktiviere es wieder unter Einstellungen → Bedienungshilfen → AirScroll.</string>
+    <string name="problem_camera_permission_title">Die Kamera-Berechtigung fehlt</string>
+    <string name="problem_camera_permission_body">Ohne Kamera gibt es nichts zu erkennen. Erteile sie unter Einstellungen → Apps → AirScroll → Berechtigungen.</string>
+    <string name="problem_vision_title">Die Erkennung startet nicht</string>
+    <string name="problem_vision_body">MediaPipe ist auf diesem Telefon nicht gestartet. Öffne AirScroll: Dort steht der vollständige technische Bericht, mit einer Schaltfläche zum Kopieren.</string>
+    <string name="problem_camera_busy_title">Eine andere App benutzt die Kamera</string>
+    <string name="problem_camera_busy_body">AirScroll wartet, bis sie frei ist: Beende den Videoanruf oder die App, die sie hält, dann läuft alles von selbst weiter. In den Einstellungen ist nichts zu ändern.</string>
+    <string name="problem_overlay_title">Die Anzeige kann nicht gezeichnet werden</string>
+    <string name="problem_overlay_body">Der Statuspunkt ist in den Einstellungen an, aber die Berechtigung zum Zeichnen über anderen Apps fehlt. Alles andere funktioniert — du siehst nur nicht, in welchem Zustand du bist.</string>
+    <string name="problem_battery_title">Das Telefon kann AirScroll jederzeit beenden</string>
+    <string name="problem_battery_body">Es ist schon mindestens einmal passiert. Solange AirScroll der Akku-Optimierung unterliegt, kann das System es jederzeit ohne Vorwarnung stoppen.</string>
+    <string name="problem_action_battery">Einschränkung aufheben</string>
+    <string name="problem_action_accessibility">Bedienungshilfen öffnen</string>
+    <string name="problem_action_app_settings">Berechtigungen öffnen</string>
+    <string name="problem_action_overlay">Berechtigung erteilen</string>
+    <string name="problem_action_done">Ich habe es behoben</string>
+    <string name="problem_action_open_app">AirScroll öffnen</string>
 </resources>

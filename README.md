@@ -322,7 +322,9 @@ modello perde la mano. Non c'è un modo software per aggirarlo.
 
 **I costruttori uccidono i servizi in background.** Su molti telefoni cinesi
 bisogna disattivare a mano le ottimizzazioni batteria, altrimenti AirScroll
-smette di funzionare dopo qualche minuto senza dire niente.
+viene chiuso dopo qualche minuto. Il vincolo resta, ma dalla 0.5.2 non è più
+silenzioso: quando succede AirScroll se ne accorge, lo dice con una notifica e
+porta dritto alla schermata dove si toglie la restrizione.
 
 **Il consumo non è zero.** Con la fotocamera aperta si consuma: da qui il
 disegno a tre stati, che tiene il sensore spento la maggior parte del tempo. In
@@ -333,10 +335,10 @@ risoluzione.
 riacceso a mano. È una scelta: un'app che si riavvia da sola e apre la
 fotocamera è esattamente ciò che nessuno vuole.
 
-**Non è ancora stato provato su un telefono vero.** Il codice è completo e i
-test unitari del motore passano, ma le costanti (soglie, tempi, velocità) sono
-scelte ragionate, non misurate sul campo. Aspettati di dover ritoccare
-sensibilità e zona neutra dalle impostazioni la prima volta.
+**Le costanti non sono ancora misurate.** L'app gira su telefoni veri dalla
+0.4.3 e il riconoscimento funziona, ma soglie, tempi e velocità restano scelte
+ragionate invece che misurate su registrazioni reali. Aspettati di dover
+ritoccare sensibilità e zona neutra dalle impostazioni la prima volta.
 
 ---
 

@@ -6,7 +6,7 @@ plugins {
 
 // Gradle vuole `plugins {}` come prima istruzione dello script, quindi le
 // costanti vanno dopo.
-val fallbackVersion = "0.5.1"
+val fallbackVersion = "0.5.2"
 
 android {
     namespace = "dev.airscroll.app"
@@ -135,6 +135,7 @@ dependencies {
     implementation(project(":core:control"))
     implementation(project(":core:overlay"))
     implementation(project(":core:power"))
+    implementation(project(":core:health"))
     implementation(project(":core:designsystem"))
 
     // --- Profili applicazione ---------------------------------------------

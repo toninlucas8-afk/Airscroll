@@ -26,6 +26,8 @@ import dev.airscroll.app.R
 import dev.airscroll.app.util.visionFailureHeadline
 import dev.airscroll.app.bootstrap.ProfileResolver
 import dev.airscroll.app.bootstrap.ServiceLocator
+import dev.airscroll.app.health.HealthProbe
+import dev.airscroll.app.health.ProblemNotifier
 import dev.airscroll.core.camera.CameraController
 import dev.airscroll.core.common.model.EngineState
 import dev.airscroll.core.common.model.EngineStatus
@@ -33,14 +35,19 @@ import dev.airscroll.core.common.model.ScrollCommand
 import dev.airscroll.core.common.model.VolumeCommand
 import dev.airscroll.core.common.runtime.AirScrollBus
 import dev.airscroll.core.gesture.GestureEngine
+import dev.airscroll.core.health.Problem
 import dev.airscroll.core.overlay.StatusOverlayController
 import dev.airscroll.core.settings.AirScrollSettings
 import dev.airscroll.core.settings.effective
 import dev.airscroll.core.vision.MediaPipeHandTracker
 import dev.airscroll.core.vision.VisionConfig
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
@@ -69,10 +76,33 @@ class VisionForegroundService : LifecycleService() {
     private var trackerStarted = false
     private var framesJob: Job? = null
 
+    private lateinit var health: HealthProbe
+    private lateinit var problems: ProblemNotifier
+
+    /**
+     * true quando siamo noi a spegnerci, perche' l'utente l'ha chiesto.
+     *
+     * Serve a non scambiare uno spegnimento voluto per una chiusura del
+     * sistema: da fuori `onDestroy` e' identico nei due casi, e sbagliare
+     * significherebbe accusare il telefono ogni volta che qualcuno preme
+     * l'interruttore.
+     */
+    private var stoppingByUser = false
+
+    /**
+     * Uno scope che sopravvive alla morte del servizio.
+     *
+     * `lifecycleScope` viene annullato dentro `onDestroy`, cioe' proprio
+     * quando serve scrivere che siamo stati chiusi. Questo no.
+     */
+    private val farewell = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     override fun onCreate() {
         super.onCreate()
         createNotificationChannel()
 
+        health = HealthProbe(this)
+        problems = ProblemNotifier(this)
         cameraController = CameraController(this)
         overlay = StatusOverlayController(this)
         tracker = MediaPipeHandTracker(
@@ -92,6 +122,7 @@ class VisionForegroundService : LifecycleService() {
         super.onStartCommand(intent, flags, startId)
         when (intent?.action) {
             ACTION_STOP -> {
+                stoppingByUser = true
                 lifecycleScope.launch {
                     ServiceLocator.settings(this@VisionForegroundService).setServiceEnabled(false)
                 }
@@ -108,7 +139,35 @@ class VisionForegroundService : LifecycleService() {
         tracker.stop()
         overlay.hide()
         AirScrollBus.reset()
+        reportIfKilled()
         super.onDestroy()
+    }
+
+    /**
+     * Se non siamo stati noi a spegnerci, qualcuno ci ha chiusi.
+     *
+     * E' il caso piu' comune di tutti - i telefoni di molti costruttori
+     * chiudono i servizi in background per risparmiare batteria - ed e'
+     * anche quello che finora spariva nel silenzio: la notifica di stato se
+     * ne andava insieme al servizio, e non restava niente da leggere.
+     *
+     * La preferenza viene riletta dal disco invece di fidarsi della copia in
+     * memoria: fra la scrittura dell'utente e la nostra chiusura c'e' una
+     * corsa, e perderla significherebbe accusare il telefono di una cosa
+     * che ha fatto l'utente.
+     */
+    private fun reportIfKilled() {
+        if (stoppingByUser) {
+            problems.clear()
+            return
+        }
+        val repository = ServiceLocator.settings(applicationContext)
+        farewell.launch(NonCancellable) {
+            val persisted = repository.settings.first()
+            if (!persisted.serviceEnabled) return@launch
+            repository.recordSystemKill()
+            problems.update(Problem.SERVICE_KILLED)
+        }
     }
 
     // --- osservatori -------------------------------------------------------
@@ -120,6 +179,7 @@ class VisionForegroundService : LifecycleService() {
                 settings = updated
 
                 if (!updated.serviceEnabled) {
+                    stoppingByUser = true
                     stopSelf()
                     return@collect
                 }
@@ -164,11 +224,33 @@ class VisionForegroundService : LifecycleService() {
 
     private fun startTicker() {
         lifecycleScope.launch {
+            var sinceHealthCheck = 0L
             while (isActive) {
                 delay(TICK_INTERVAL_MS)
                 engine.tick()
+
+                // La diagnosi non va fatta dieci volte al secondo: legge
+                // impostazioni di sistema e l'elenco dei servizi, e nessuna di
+                // quelle cose cambia fra un fotogramma e l'altro.
+                sinceHealthCheck += TICK_INTERVAL_MS
+                if (sinceHealthCheck >= HEALTH_INTERVAL_MS) {
+                    sinceHealthCheck = 0L
+                    checkHealth()
+                }
             }
         }
+    }
+
+    /**
+     * Guarda come sta AirScroll e, se qualcosa non va, lo dice.
+     *
+     * Il riconoscitore conta come rotto solo se e' stato avviato: a fotocamera
+     * chiusa non e' rotto, e' spento, e confondere le due cose farebbe comparire
+     * un guasto ogni volta che il motore torna in attesa.
+     */
+    private fun checkHealth() {
+        val visionReady = !trackerStarted || tracker.isReady
+        problems.update(health.diagnose(settings, visionReady))
     }
 
     // --- reazioni del motore ----------------------------------------------
@@ -247,7 +329,12 @@ class VisionForegroundService : LifecycleService() {
             lifecycleOwner = this,
             mode = settings.performanceMode,
             targetFps = targetFps,
-            onError = { error -> engine.reportError(error.message) },
+            onError = { error ->
+                // Serve alla diagnosi per distinguere "un'altra app ha preso la
+                // fotocamera" da un guasto vero e permanente.
+                health.lastCameraErrorAtMs = System.currentTimeMillis()
+                engine.reportError(error.message)
+            },
             onFrame = ::onCameraFrame,
         )
     }
@@ -387,6 +474,9 @@ class VisionForegroundService : LifecycleService() {
         private const val CHANNEL_ID = "airscroll_status"
         private const val NOTIFICATION_ID = 1001
         private const val TICK_INTERVAL_MS = 100L
+
+        /** Ogni quanto si controlla lo stato di salute. */
+        private const val HEALTH_INTERVAL_MS = 2_000L
         private const val HAPTIC_MS = 22L
 
         const val ACTION_STOP = "dev.airscroll.action.STOP"

@@ -284,4 +284,28 @@
     <string name="situation_bathroom_body">手机放在架子上，距离近，一只手占着。和厨房类似，但更近也更平缓：这里通常是在阅读。</string>
     <string name="situation_car">车内</string>
     <string name="situation_car_body">手机在支架上。这是最严格的预设，理由和其他几个不同：在这里误触不只是不方便。中性区很宽，竖拇指要保持更久，滚动更慢。音量保留，但需要幅度大且明确的动作。开车时不要阅读。</string>
+
+    <!-- Guasti: cosa e' successo, e dove si risolve. -->
+    <string name="problem_channel_name">AirScroll 故障</string>
+    <string name="problem_channel_description">AirScroll 停止工作时提醒你，并说明如何修复。</string>
+    <string name="problem_service_killed_title">AirScroll 已被关闭</string>
+    <string name="problem_service_killed_body">手机为了省电关闭了后台服务：从现在起手势不再控制任何东西。请在应用里重新打开。要避免再次发生，请把 AirScroll 移出电池优化名单。</string>
+    <string name="problem_accessibility_title">无障碍服务已关闭</string>
+    <string name="problem_accessibility_body">AirScroll 仍能看见你的手，但已无法触碰屏幕。某些系统更新后 Android 会自行关闭它。请在 设置 → 无障碍 → AirScroll 中重新开启。</string>
+    <string name="problem_camera_permission_title">缺少相机权限</string>
+    <string name="problem_camera_permission_body">没有相机就没有可识别的东西。请在 设置 → 应用 → AirScroll → 权限 中授予。</string>
+    <string name="problem_vision_title">识别无法启动</string>
+    <string name="problem_vision_body">MediaPipe 在这台手机上没有启动。打开 AirScroll：界面里有完整的技术报告，并附有复制按钮。</string>
+    <string name="problem_camera_busy_title">另一个应用正在使用相机</string>
+    <string name="problem_camera_busy_body">AirScroll 正在等待相机空闲：关掉视频通话或占用相机的应用，它会自行恢复。设置里没有需要改动的地方。</string>
+    <string name="problem_overlay_title">无法绘制状态点</string>
+    <string name="problem_overlay_body">设置中开启了状态点，但缺少悬浮窗权限。其余功能正常，只是你看不到当前处于哪个状态。</string>
+    <string name="problem_battery_title">手机随时可能关闭 AirScroll</string>
+    <string name="problem_battery_body">这已经至少发生过一次。只要 AirScroll 仍受电池优化限制，系统就可能随时把它停掉，且不会提示。</string>
+    <string name="problem_action_battery">解除限制</string>
+    <string name="problem_action_accessibility">打开无障碍</string>
+    <string name="problem_action_app_settings">打开权限</string>
+    <string name="problem_action_overlay">授予权限</string>
+    <string name="problem_action_done">我已经解决了</string>
+    <string name="problem_action_open_app">打开 AirScroll</string>
 </resources>

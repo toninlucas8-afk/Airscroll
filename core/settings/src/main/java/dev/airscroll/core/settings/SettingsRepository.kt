@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -40,6 +41,20 @@ class SettingsRepository(context: Context) {
         .map { it.toSettings() }
 
     suspend fun setServiceEnabled(enabled: Boolean) = edit { it[Keys.SERVICE_ENABLED] = enabled }
+
+    /**
+     * Segna che il sistema ha chiuso il servizio da solo.
+     *
+     * Si somma invece di sovrascrivere: un telefono che lo fa dieci volte al
+     * giorno e' un caso diverso da uno che l'ha fatto una volta sola, e la
+     * differenza va vista.
+     */
+    suspend fun recordSystemKill() = edit { prefs ->
+        prefs[Keys.SYSTEM_KILLS] = (prefs[Keys.SYSTEM_KILLS] ?: 0) + 1
+    }
+
+    /** Azzera il conteggio: si usa quando l'utente ha sistemato la causa. */
+    suspend fun clearSystemKills() = edit { it[Keys.SYSTEM_KILLS] = 0 }
 
     suspend fun setOnboardingCompleted(completed: Boolean) =
         edit { it[Keys.ONBOARDING_COMPLETED] = completed }
@@ -128,6 +143,7 @@ class SettingsRepository(context: Context) {
         return AirScrollSettings(
             serviceEnabled = this[Keys.SERVICE_ENABLED] ?: defaults.serviceEnabled,
             onboardingCompleted = this[Keys.ONBOARDING_COMPLETED] ?: defaults.onboardingCompleted,
+            systemKills = this[Keys.SYSTEM_KILLS] ?: defaults.systemKills,
             scrollMode = enumOrDefault(this[Keys.SCROLL_MODE], defaults.scrollMode),
             distanceProfile = enumOrDefault(this[Keys.DISTANCE_PROFILE], defaults.distanceProfile),
             performanceMode = enumOrDefault(this[Keys.PERFORMANCE_MODE], defaults.performanceMode),
@@ -211,5 +227,6 @@ class SettingsRepository(context: Context) {
         val CAL_REACH_LEFT = floatPreferencesKey("cal_reach_left")
         val CAL_REACH_RIGHT = floatPreferencesKey("cal_reach_right")
         val CAL_AT = longPreferencesKey("cal_at")
+        val SYSTEM_KILLS = intPreferencesKey("system_kills")
     }
 }

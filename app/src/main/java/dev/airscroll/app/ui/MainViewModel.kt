@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dev.airscroll.app.bootstrap.ServiceLocator
+import dev.airscroll.app.health.HealthProbe
 import dev.airscroll.app.service.VisionForegroundService
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.app.util.PermissionSnapshot
@@ -15,6 +16,7 @@ import dev.airscroll.core.common.model.ScrollMode
 import dev.airscroll.core.common.model.SituationMode
 import dev.airscroll.core.common.model.PerformanceMode
 import dev.airscroll.core.common.runtime.AirScrollBus
+import dev.airscroll.core.health.Problem
 import dev.airscroll.core.settings.AirScrollSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -38,8 +40,46 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _permissions = MutableStateFlow(PermissionSnapshot())
     val permissions: StateFlow<PermissionSnapshot> = _permissions.asStateFlow()
 
+    private val health = HealthProbe(application)
+
+    /**
+     * Il guasto in corso, o null se non c'e'.
+     *
+     * La stessa diagnosi della notifica, mostrata anche qui: chi apre l'app
+     * dopo aver visto che "non funziona" deve trovare la spiegazione dove
+     * guarda per primo, non dentro una notifica che magari ha gia' scartato.
+     */
+    private val _problem = MutableStateFlow<Problem?>(null)
+    val problem: StateFlow<Problem?> = _problem.asStateFlow()
+
     fun refreshPermissions() {
         _permissions.value = AirScrollPermissions.snapshot(getApplication())
+        refreshHealth()
+    }
+
+    /**
+     * Ricalcola la diagnosi.
+     *
+     * `visionReady = true` perche' da qui non si vede il riconoscitore: quello
+     * lo sa solo il servizio, che ha la sua diagnosi e la sua notifica. Meglio
+     * tacere su cio' che non si sa che tirare a indovinare.
+     */
+    fun refreshHealth() {
+        _problem.value = health.diagnose(settings.value, visionReady = true)
+    }
+
+    /**
+     * L'utente dice di aver sistemato la causa delle chiusure di sistema.
+     *
+     * Azzerare il conteggio fa sparire l'avviso sulla batteria finche' non
+     * succede di nuovo: se il rimedio ha funzionato non torna, se non ha
+     * funzionato torna da solo, ed e' l'unico modo di distinguere le due cose.
+     */
+    fun dismissKillWarning() {
+        viewModelScope.launch {
+            repository.clearSystemKills()
+            refreshHealth()
+        }
     }
 
     /**
@@ -58,10 +98,12 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
             // l'interruttore che lasciarlo acceso su un servizio morto.
             return
         }
+        if (enabled) health.serviceStarting()
         viewModelScope.launch {
             repository.setServiceEnabled(enabled)
             if (enabled) VisionForegroundService.start(context)
             else VisionForegroundService.stop(context)
+            refreshHealth()
         }
     }
 

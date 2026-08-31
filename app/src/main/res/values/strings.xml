@@ -335,4 +335,28 @@ Keep the screen on and the brightness unchanged for all three phases, and do not
     <string name="situation_bathroom_body">Phone on a shelf, close, one hand busy. Like the kitchen but nearer and calmer: here you are usually reading.</string>
     <string name="situation_car">Car</string>
     <string name="situation_car_body">Phone in its mount. The strictest preset, for a different reason from the others: here a false positive is not an inconvenience. Very wide neutral zone, a longer thumbs up to activate, slow scrolling. Volume stays, but needs a wide, deliberate movement. Do not read while driving.</string>
+
+    <!-- Guasti: cosa e' successo, e dove si risolve. -->
+    <string name="problem_channel_name">AirScroll problems</string>
+    <string name="problem_channel_description">Warns you when AirScroll stops working, and says how to fix it.</string>
+    <string name="problem_service_killed_title">AirScroll was shut down</string>
+    <string name="problem_service_killed_body">Your phone closed the service to save battery, so your hand no longer controls anything. Turn it back on from the app. To stop it happening again, remove AirScroll from battery optimisation.</string>
+    <string name="problem_accessibility_title">The accessibility service is off</string>
+    <string name="problem_accessibility_body">AirScroll still sees your hand but can no longer touch the screen. Android sometimes turns this off by itself after a system update. Switch it back on under Settings → Accessibility → AirScroll.</string>
+    <string name="problem_camera_permission_title">Camera permission is missing</string>
+    <string name="problem_camera_permission_body">Without the camera there is nothing to recognise. Grant it under Settings → Apps → AirScroll → Permissions.</string>
+    <string name="problem_vision_title">Recognition will not start</string>
+    <string name="problem_vision_body">MediaPipe failed to start on this phone. Open AirScroll: the screen shows the full technical report, with a button to copy it.</string>
+    <string name="problem_camera_busy_title">Another app is using the camera</string>
+    <string name="problem_camera_busy_body">AirScroll is waiting for it to be free: close the video call or the app holding it and everything resumes on its own. There is nothing to change in the settings.</string>
+    <string name="problem_overlay_title">The indicator cannot be drawn</string>
+    <string name="problem_overlay_body">The status dot is on in the settings but permission to draw over other apps is missing. Everything else works — you just cannot see which state you are in.</string>
+    <string name="problem_battery_title">Your phone can close AirScroll at any time</string>
+    <string name="problem_battery_body">It has already happened at least once. While AirScroll is subject to battery optimisation, the system can stop it whenever it likes, without warning.</string>
+    <string name="problem_action_battery">Remove the restriction</string>
+    <string name="problem_action_accessibility">Open Accessibility</string>
+    <string name="problem_action_app_settings">Open permissions</string>
+    <string name="problem_action_overlay">Grant permission</string>
+    <string name="problem_action_done">I fixed it</string>
+    <string name="problem_action_open_app">Open AirScroll</string>
 </resources>

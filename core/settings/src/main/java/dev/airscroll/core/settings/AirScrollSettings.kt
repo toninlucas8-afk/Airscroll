@@ -145,6 +145,16 @@ data class AirScrollSettings(
     /** Package aggiunti a mano dall'utente. */
     val customPackages: Set<String> = emptySet(),
 
+    /**
+     * Quante volte il sistema ha chiuso il servizio da solo.
+     *
+     * Non e' una preferenza: e' un fatto osservato, e serve a decidere quando
+     * vale la pena parlare delle ottimizzazioni della batteria. Prima che sia
+     * successo almeno una volta, quell'avviso comparirebbe su quasi tutti i
+     * telefoni per un problema che magari non arrivera' mai.
+     */
+    val systemKills: Int = 0,
+
     val calibration: CalibrationProfile = CalibrationProfile.Default,
 ) {
     companion object {

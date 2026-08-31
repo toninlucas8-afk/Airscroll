@@ -55,6 +55,7 @@ import dev.airscroll.app.R
 import dev.airscroll.app.ui.MainViewModel
 import dev.airscroll.app.ui.components.IconRow
 import dev.airscroll.app.ui.components.Pill
+import dev.airscroll.app.ui.components.ProblemCard
 import dev.airscroll.app.ui.components.ScreenPadding
 import dev.airscroll.app.ui.components.GestureLegend
 import dev.airscroll.app.ui.components.SectionCard
@@ -66,6 +67,7 @@ import dev.airscroll.app.ui.components.colorForState
 import dev.airscroll.app.util.AirScrollPermissions
 import dev.airscroll.app.util.PermissionSnapshot
 import dev.airscroll.core.common.model.EngineState
+import dev.airscroll.core.health.Problem
 
 @Composable
 fun HomeScreen(
@@ -79,6 +81,7 @@ fun HomeScreen(
     val settings by viewModel.settings.collectAsStateWithLifecycle()
     val status by viewModel.engineStatus.collectAsStateWithLifecycle()
     val permissions by viewModel.permissions.collectAsStateWithLifecycle()
+    val problem by viewModel.problem.collectAsStateWithLifecycle()
 
     val cameraLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -113,6 +116,19 @@ fun HomeScreen(
             error = status.lastError,
             onToggle = viewModel::setServiceEnabled,
         )
+
+        problem?.let { guasto ->
+            ProblemCard(
+                problem = guasto,
+                // Il "l'ho sistemato" ha senso solo dove c'e' un conteggio da
+                // azzerare: altrove il guasto sparisce da solo appena e' finito.
+                onDismissWarning = if (guasto == Problem.BATTERY_RESTRICTED) {
+                    viewModel::dismissKillWarning
+                } else {
+                    null
+                },
+            )
+        }
 
         SectionCard(title = stringResource(R.string.practice_card_title)) {
             IconRow(

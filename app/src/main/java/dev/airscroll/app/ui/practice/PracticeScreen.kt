@@ -161,22 +161,42 @@ fun PracticeScreen(
         )
 
         // Il contenuto finto: e' qui che si vede se lo scorrimento e' piacevole.
-        Column(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(contentScroll)
-                .padding(horizontal = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp),
-        ) {
-            Spacer(Modifier.height(8.dp))
-            Text(
-                text = stringResource(R.string.practice_article_title),
-                style = MaterialTheme.typography.headlineMedium,
+        //
+        // Sotto c'e' una sfumatura verso il fondo dello schermo. Senza, il testo
+        // veniva tagliato di netto a meta' riga contro il pannello dei numeri, e
+        // sembrava un difetto invece di quello che e': altro testo che continua
+        // piu' giu'.
+        Box(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .verticalScroll(contentScroll)
+                    .padding(horizontal = 20.dp),
+                verticalArrangement = Arrangement.spacedBy(14.dp),
+            ) {
+                Spacer(Modifier.height(8.dp))
+                Text(
+                    text = stringResource(R.string.practice_article_title),
+                    style = MaterialTheme.typography.headlineMedium,
+                )
+                PracticeParagraphs()
+                PracticeGallery()
+                Spacer(Modifier.height(40.dp))
+            }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .height(28.dp)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(
+                                Color.Transparent,
+                                MaterialTheme.colorScheme.background,
+                            ),
+                        ),
+                    ),
             )
-            PracticeParagraphs()
-            PracticeGallery()
-            Spacer(Modifier.height(40.dp))
         }
 
         DiagnosticsRow(state)

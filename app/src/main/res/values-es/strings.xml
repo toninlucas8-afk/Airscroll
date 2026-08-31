@@ -284,4 +284,28 @@ Mantén la pantalla encendida y el brillo sin cambios durante las tres fases, y 
     <string name="situation_bathroom_body">Teléfono en un estante, cerca, una mano ocupada. Como la cocina pero más cerca y más tranquilo: aquí normalmente se lee.</string>
     <string name="situation_car">Coche</string>
     <string name="situation_car_body">Teléfono en su soporte. Es el preajuste más estricto, y por un motivo distinto a los demás: aquí un falso positivo no es una molestia. Zona neutra muy amplia, pulgar arriba más largo, desplazamiento lento. El volumen se mantiene, pero exige un movimiento amplio y deliberado. No leas mientras conduces.</string>
+
+    <!-- Guasti: cosa e' successo, e dove si risolve. -->
+    <string name="problem_channel_name">Problemas de AirScroll</string>
+    <string name="problem_channel_description">Avisa cuando AirScroll deja de funcionar y explica cómo solucionarlo.</string>
+    <string name="problem_service_killed_title">AirScroll se ha cerrado</string>
+    <string name="problem_service_killed_body">El teléfono cerró el servicio para ahorrar batería: desde ahora la mano ya no controla nada. Vuelve a activarlo desde la app. Para que no se repita, quita AirScroll de la optimización de batería.</string>
+    <string name="problem_accessibility_title">El servicio de accesibilidad está apagado</string>
+    <string name="problem_accessibility_body">AirScroll sigue viendo la mano pero ya no puede tocar la pantalla. Android a veces lo desactiva solo tras una actualización. Vuelve a activarlo en Ajustes → Accesibilidad → AirScroll.</string>
+    <string name="problem_camera_permission_title">Falta el permiso de la cámara</string>
+    <string name="problem_camera_permission_body">Sin cámara no hay nada que reconocer. Concédelo en Ajustes → Aplicaciones → AirScroll → Permisos.</string>
+    <string name="problem_vision_title">El reconocimiento no arranca</string>
+    <string name="problem_vision_body">MediaPipe no se ha iniciado en este teléfono. Abre AirScroll: en la pantalla está el informe técnico completo, con un botón para copiarlo.</string>
+    <string name="problem_camera_busy_title">Otra aplicación está usando la cámara</string>
+    <string name="problem_camera_busy_body">AirScroll espera a que se libere: cierra la videollamada o la app que la retiene y todo se reanuda solo. No hay nada que cambiar en los ajustes.</string>
+    <string name="problem_overlay_title">El indicador no se puede dibujar</string>
+    <string name="problem_overlay_body">El punto de estado está activado en los ajustes pero falta el permiso para dibujar sobre otras apps. Lo demás funciona: solo que no ves en qué estado estás.</string>
+    <string name="problem_battery_title">El teléfono puede cerrar AirScroll cuando quiera</string>
+    <string name="problem_battery_body">Ya ha pasado al menos una vez. Mientras AirScroll esté sujeto a la optimización de batería, el sistema puede detenerlo en cualquier momento sin avisar.</string>
+    <string name="problem_action_battery">Quitar la restricción</string>
+    <string name="problem_action_accessibility">Abrir Accesibilidad</string>
+    <string name="problem_action_app_settings">Abrir permisos</string>
+    <string name="problem_action_overlay">Conceder permiso</string>
+    <string name="problem_action_done">Ya lo he solucionado</string>
+    <string name="problem_action_open_app">Abrir AirScroll</string>
 </resources>
